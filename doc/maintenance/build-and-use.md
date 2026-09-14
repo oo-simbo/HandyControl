@@ -18,7 +18,7 @@ Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优�
 - 库：`src/Net_GE45/HandyControl_Net_GE45/bin/Release/net10.0-windows/`
 - Demo：`src/Net_GE45/HandyControlDemo_Net_GE45/bin/Release/net10.0-windows/`
 
-核心文件是 `HandyControl.dll`；同时保留 XML 智能提示文件、需要的 PDB，以及各语言子目录的 `HandyControl.resources.dll`。不要只替换主 DLL 却混用不同批次的语言卫星程序集。保留完整构建输出作为归档最方便。
+核心文件是 `HandyControl.dll`；简体中文内置其中，不产生独立中文语言包。英文包为 `en/HandyControl.resources.dll`。同时保留 XML 智能提示文件及需要的 PDB；主 DLL 与英文包应使用同批构建产物。语言支持及接入细节见下文。
 
 ## 下游直接引用 DLL
 
@@ -53,6 +53,47 @@ Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优�
 ```
 
 控件命名空间：`xmlns:hc="https://handyorg.github.io/handycontrol"`。参考[官方快速开始](https://handyorg.github.io/handycontrol/quick_start/)，但框架支持政策以个人版[维护范围](scope.md)为准。
+
+## 中英文语言包与切换
+
+库只保留 `Lang.resx`（简体中文默认资源）和 `Lang.en.resx`（英文）。产物为：
+
+- 中文及控件本体：`src/Net_GE45/HandyControl_Net_GE45/bin/Release/net10.0-windows/HandyControl.dll`。
+- 英文：`src/Net_GE45/HandyControl_Net_GE45/bin/Release/net10.0-windows/en/HandyControl.resources.dll`。
+- Demo 自身英文文案：`src/Net_GE45/HandyControlDemo_Net_GE45/bin/Release/net10.0-windows/en/HandyControlDemo.resources.dll`，业务项目不需要此文件。
+
+将英文卫星程序集放在应用输出目录的 `en/` 子目录，不能与主 DLL 平铺。卫星程序集通过 ResourceManager 按文化自动加载，无须给它添加普通程序集 Reference。若放到项目的 `lib/HandyControl/en/`，可显式配置复制到构建和发布目录：
+
+```xml
+<ItemGroup>
+  <None Update="lib/HandyControl/en/HandyControl.resources.dll"
+        CopyToOutputDirectory="PreserveNewest"
+        CopyToPublishDirectory="PreserveNewest"
+        TargetPath="en/HandyControl.resources.dll" />
+</ItemGroup>
+```
+
+以上 `Update` 适用于启用默认文件项的 SDK 项目；关闭默认文件项的项目改用 `Include`。主程序集按前文添加 Reference。
+
+先加载 HandyControl 皮肤和主题字典，然后在 UI 线程初始化语言（建议创建首个窗口之前）：
+
+```csharp
+HandyControl.Tools.ConfigHelper.Instance.SetLang("zh-cn"); // 简体中文
+HandyControl.Tools.ConfigHelper.Instance.SetLang("en");    // 英文，二选一
+```
+
+`en-US` 等英文区域会回退使用 `en` 包；没有匹配翻译时回退到内置中文。Demo 仅显示中英文按钮，旧配置中保存的其他语言在启动时归一为 `zh-cn`，英文区域归一为 `en`。
+
+需要运行时更新的业务控件可绑定库的语言提供器：
+
+```csharp
+HandyControl.Properties.Langs.LangProvider.SetLang(
+    confirmButton, System.Windows.Controls.ContentControl.ContentProperty, "Confirm");
+```
+
+再调用 `ConfigHelper.Instance.SetLang` 时此绑定会更新。`x:Static Lang.Confirm` 或一次性赋值的文案不会自动重新求值，需重新创建相关视图或改用动态语言绑定。该接口管理控件库语言，不翻译业务项目自身的文案，也不替代业务日期/数字格式策略。
+
+升级已有部署时移除旧 HandyControl/HandyControlDemo 其他语言卫星 DLL；同目录可能含其他依赖的资源，不能直接删除其他依赖的语言文件。此次 Release 编译前执行了 clean，已确认 WPF 库输出只有英文卫星程序集。
 
 ## 自动运行验证
 

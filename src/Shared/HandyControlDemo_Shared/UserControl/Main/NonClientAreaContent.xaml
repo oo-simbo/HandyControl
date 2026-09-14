@@ -1,4 +1,4 @@
-﻿<Grid x:Class="HandyControlDemo.UserControl.NonClientAreaContent"
+<Grid x:Class="HandyControlDemo.UserControl.NonClientAreaContent"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:langs="clr-namespace:HandyControlDemo.Properties.Langs"
@@ -119,39 +119,6 @@
                     </Button>
                     <Button Tag="en" Style="{StaticResource ButtonCustom}">
                         <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/en.png"/>
-                    </Button>
-                    <Button Tag="fa" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/fa.png"/>
-                    </Button>
-                    <Button Tag="fr" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/fr.png"/>
-                    </Button>
-                    <Button Tag="ca-ES" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/ca-Es.png"/>
-                    </Button>
-                    <Button Tag="ja" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/ja.png"/>
-                    </Button>
-                    <Button Tag="ko-KR" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/ko-KR.png"/>
-                    </Button>
-                    <Button Tag="ru" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/ru.png"/>
-                    </Button>
-                    <Button Tag="tr" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/tr.png"/>
-                    </Button>
-                    <Button Tag="pt-BR" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/pt-BR.png"/>
-                    </Button>
-                    <Button Tag="pl" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/pl.png" />
-                    </Button>
-                    <Button Tag="es" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/es.png"/>
-                    </Button>
-                    <Button Tag="cs" Style="{StaticResource ButtonCustom}">
-                        <Image Width="32" Source="/HandyControlDemo;component/Resources/Img/Flag/cs.png"/>
                     </Button>
                 </hc:UniformSpacingPanel>
                 <hc:Divider LineStrokeDashArray="2,2" Orientation="Vertical" Margin="0,20" LineStrokeThickness="1"/>

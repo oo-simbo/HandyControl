@@ -163,41 +163,8 @@
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\cn.png">
       <Link>Resources\Img\Flag\cn.png</Link>
     </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\ca-Es.png">
-      <Link>Resources\Img\Flag\ca-Es.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\cs.png">
-      <Link>Resources\Img\Flag\cs.png</Link>
-    </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\en.png">
       <Link>Resources\Img\Flag\en.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\es.png">
-      <Link>Resources\Img\Flag\es.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\fa.png">
-      <Link>Resources\Img\Flag\fa.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\fr.png">
-      <Link>Resources\Img\Flag\fr.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\ja.png">
-      <Link>Resources\Img\Flag\ja.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\ko-KR.png">
-      <Link>Resources\Img\Flag\ko-KR.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\pt-BR.png">
-      <Link>Resources\Img\Flag\pt-BR.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\pl.png">
-      <Link>Resources\Img\Flag\pl.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\ru.png">
-      <Link>Resources\Img\Flag\ru.png</Link>
-    </Resource>
-    <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Flag\tr.png">
-      <Link>Resources\Img\Flag\tr.png</Link>
     </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\Resources\Img\Slack.png">
       <Link>Resources\Img\Slack.png</Link>
@@ -246,41 +213,8 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-  <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.tr.resx">
-      <Link>Properties\Langs\Lang.tr.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.ca-ES.resx">
-      <Link>Properties\Langs\Lang.ca-ES.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.cs.resx">
-      <Link>Properties\Langs\Lang.cs.resx</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.en.resx">
       <Link>Properties\Langs\Lang.en.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.es.resx">
-      <Link>Properties\Langs\Lang.es.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.fa.resx">
-      <Link>Properties\Langs\Lang.fa.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.fr.resx">
-      <Link>Properties\Langs\Lang.fr.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.ja.resx">
-      <Link>Properties\Langs\Lang.ja.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.ko-KR.resx">
-      <Link>Properties\Langs\Lang.ko-KR.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.pt-BR.resx">
-      <Link>Properties\Langs\Lang.pt-BR.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.pl.resx">
-      <Link>Properties\Langs\Lang.pl.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.ru.resx">
-      <Link>Properties\Langs\Lang.ru.resx</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\Shared\HandyControlDemo_Shared\Properties\Langs\Lang.resx">
       <Link>Properties\Langs\Lang.resx</Link>

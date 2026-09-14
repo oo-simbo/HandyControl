@@ -23,6 +23,14 @@ internal class GlobalData
         {
             Config = new AppConfig();
         }
+
+        // Normalize saved settings after removing the other language packs.
+        var lang = Config.Lang;
+        Config.Lang = lang != null &&
+            (lang.Equals("en", System.StringComparison.OrdinalIgnoreCase) ||
+             lang.StartsWith("en-", System.StringComparison.OrdinalIgnoreCase))
+            ? "en"
+            : "zh-cn";
     }
 
     public static void Save()

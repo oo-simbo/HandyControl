@@ -27,6 +27,7 @@ internal static class Program
 
                 VerifyNumericUpDown(app);
                 VerifyWindowAndGrowl(app);
+                VerifyLanguages(app);
                 Console.WriteLine($"PASS {skin}: NumericUpDown binding, template replacement, limits, WindowChrome, Growl.");
             }
             Console.WriteLine("PASS all WPF binary smoke checks.");
@@ -110,6 +111,25 @@ internal static class Program
             Hc.Growl.GrowlPanel = null;
             window.Close();
         }
+    }
+
+    private static void VerifyLanguages(Application app)
+    {
+        var button = new Button();
+        HandyControl.Properties.Langs.LangProvider.SetLang(button, ContentControl.ContentProperty, "Confirm");
+        foreach (var (culture, expected) in new[]
+                 { ("zh-cn", "确定"), ("en", "Confirm"), ("en-US", "Confirm"), ("zh-cn", "确定") })
+        {
+            HandyControl.Tools.ConfigHelper.Instance.SetLang(culture);
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            Require(HandyControl.Properties.Langs.Lang.Confirm == expected,
+                $"Resource lookup failed for {culture}.");
+            Require(Equals(button.Content, expected), $"Live language binding failed for {culture}.");
+        }
+        var satellite = typeof(Hc.NumericUpDown).Assembly.GetSatelliteAssembly(
+            System.Globalization.CultureInfo.GetCultureInfo("en"));
+        Require(satellite.GetName().CultureName == "en", "English satellite must be loadable.");
+        Console.WriteLine("PASS Chinese/English lookup, en-US fallback, live binding and English satellite loading.");
     }
 
     private static void Require(bool condition, string message)
