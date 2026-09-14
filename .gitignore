@@ -4,6 +4,7 @@
 *.user
 [Bb]in/
 [Oo]bj/
+artifacts/
 packages/
 build/outputs
 build/tools
