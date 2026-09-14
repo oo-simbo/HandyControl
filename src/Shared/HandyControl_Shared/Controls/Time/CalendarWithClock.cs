@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,7 +29,7 @@ public class CalendarWithClock : Control
 
     private ContentPresenter _calendarPresenter;
 
-    private Clock _clock;
+    private ClockBase _clock;
 
     private Calendar _calendar;
 
@@ -71,6 +71,17 @@ public class CalendarWithClock : Control
     }
 
     #region Public Properties
+
+    public static readonly DependencyProperty ClockTypeProperty = DependencyProperty.Register(
+        nameof(ClockType), typeof(ClockType), typeof(CalendarWithClock),
+        new PropertyMetadata(ClockType.Clock, (d, e) => ((CalendarWithClock) d).InitClock()),
+        value => value is ClockType.Clock or ClockType.ListClock);
+
+    public ClockType ClockType
+    {
+        get => (ClockType) GetValue(ClockTypeProperty);
+        set => SetValue(ClockTypeProperty, value);
+    }
 
     public static readonly DependencyProperty DateTimeFormatProperty = DependencyProperty.Register(
         nameof(DateTimeFormat), typeof(string), typeof(CalendarWithClock), new PropertyMetadata("yyyy-MM-dd HH:mm:ss"));
@@ -214,13 +225,7 @@ public class CalendarWithClock : Control
 
     private void InitCalendarAndClock()
     {
-        _clock = new Clock
-        {
-            BorderThickness = new Thickness(),
-            Background = Brushes.Transparent
-        };
-        TitleElement.SetBackground(_clock, Brushes.Transparent);
-        _clock.DisplayTimeChanged += Clock_DisplayTimeChanged;
+        InitClock();
 
         _calendar = new Calendar
         {
@@ -230,6 +235,22 @@ public class CalendarWithClock : Control
         };
         TitleElement.SetBackground(_calendar, Brushes.Transparent);
         _calendar.SelectedDatesChanged += Calendar_SelectedDatesChanged;
+    }
+
+    private void InitClock()
+    {
+        if (_clock != null)
+        {
+            _clock.DisplayTimeChanged -= Clock_DisplayTimeChanged;
+        }
+
+        _clock = ClockType == ClockType.ListClock ? new ListClock() : new Clock();
+        _clock.BorderThickness = new Thickness();
+        _clock.Background = Brushes.Transparent;
+        TitleElement.SetBackground(_clock, Brushes.Transparent);
+        _clock.SelectedTime = DisplayDateTime;
+        _clock.DisplayTimeChanged += Clock_DisplayTimeChanged;
+        if (_clockPresenter != null) _clockPresenter.Content = _clock;
     }
 
     private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)

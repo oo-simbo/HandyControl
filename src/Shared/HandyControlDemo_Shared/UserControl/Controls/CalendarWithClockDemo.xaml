@@ -1,9 +1,26 @@
-﻿<UserControl x:Class="HandyControlDemo.UserControl.CalendarWithClockDemo"
+<UserControl x:Class="HandyControlDemo.UserControl.CalendarWithClockDemo"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="{DynamicResource RegionBrush}"
              xmlns:hc="https://handyorg.github.io/handycontrol">
     <hc:TransitioningContentControl>
-         <hc:CalendarWithClock Margin="32"/>   
+        <hc:ScrollViewer>
+            <StackPanel Margin="32">
+                <hc:CalendarWithClock/>
+                <CheckBox x:Name="UseListClock" Content="ClockType = ListClock" IsChecked="True" Margin="0,24,0,8"/>
+                <hc:CalendarWithClock x:Name="SwitchableCalendar" ShowConfirmButton="True">
+                    <hc:CalendarWithClock.Style>
+                        <Style TargetType="hc:CalendarWithClock" BasedOn="{StaticResource CalendarWithClockBaseStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsChecked, ElementName=UseListClock}" Value="True">
+                                    <Setter Property="ClockType" Value="ListClock"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </hc:CalendarWithClock.Style>
+                </hc:CalendarWithClock>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedDateTime, ElementName=SwitchableCalendar, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+            </StackPanel>
+        </hc:ScrollViewer>
     </hc:TransitioningContentControl>
 </UserControl>

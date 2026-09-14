@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HandyControlDemo.UserControl.DateTimePickerDemo"
+<UserControl x:Class="HandyControlDemo.UserControl.DateTimePickerDemo"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -8,6 +8,23 @@
     <hc:TransitioningContentControl>
         <hc:ScrollViewer IsInertiaEnabled="True">
             <hc:UniformSpacingPanel  Spacing="32" Margin="32" ChildWrapping="Wrap">
+                <StackPanel Width="380">
+                    <CheckBox x:Name="UseListClock" Content="ClockType = ListClock" IsChecked="True" Margin="0,0,0,12"/>
+                    <hc:DateTimePicker x:Name="SwitchablePicker" hc:InfoElement.ShowClearButton="True">
+                        <hc:DateTimePicker.Style>
+                            <Style TargetType="hc:DateTimePicker" BasedOn="{StaticResource DateTimePickerExtend}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=UseListClock}" Value="True">
+                                        <Setter Property="ClockType" Value="ListClock"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </hc:DateTimePicker.Style>
+                    </hc:DateTimePicker>
+                    <TextBlock Margin="0,8,0,16" Text="{Binding SelectedDateTime, ElementName=SwitchablePicker, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                    <hc:DateTimePicker ClockType="ListClock" Style="{StaticResource DateTimePickerPlus}" hc:InfoElement.ShowClearButton="True"/>
+                    <hc:DateTimePicker ClockType="ListClock" Style="{StaticResource DateTimePickerPlus.Small}" Margin="0,16,0,0"/>
+                </StackPanel>
                 <StackPanel>
                     <hc:DateTimePicker hc:InfoElement.ShowClearButton="True"/>
                     <hc:DateTimePicker Margin="0,16,0,0" IsEnabled="False"/>

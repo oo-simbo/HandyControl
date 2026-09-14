@@ -94,6 +94,16 @@ public class DateTimePicker : Control
 
     #region Public Properties
 
+    public static readonly DependencyProperty ClockTypeProperty = DependencyProperty.Register(
+        nameof(ClockType), typeof(ClockType), typeof(DateTimePicker), new PropertyMetadata(ClockType.Clock),
+        value => value is ClockType.Clock or ClockType.ListClock);
+
+    public ClockType ClockType
+    {
+        get => (ClockType) GetValue(ClockTypeProperty);
+        set => SetValue(ClockTypeProperty, value);
+    }
+
     public static readonly DependencyProperty DateTimeFormatProperty = DependencyProperty.Register(
         nameof(DateTimeFormat), typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy-MM-dd HH:mm:ss"));
 
@@ -406,6 +416,8 @@ public class DateTimePicker : Control
         {
             ShowConfirmButton = true
         };
+        _calendarWithClock.SetBinding(CalendarWithClock.ClockTypeProperty,
+            new Binding(nameof(ClockType)) { Source = this, Mode = BindingMode.OneWay });
         _calendarWithClock.SelectedDateTimeChanged += CalendarWithClock_SelectedDateTimeChanged;
         _calendarWithClock.Confirmed += CalendarWithClock_Confirmed;
     }

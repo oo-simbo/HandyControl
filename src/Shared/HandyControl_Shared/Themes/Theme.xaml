@@ -6069,7 +6069,7 @@
 						</Border>
 					</Decorator>
 				</Popup>
-				<Popup x:Name="PART_Popup_AutoComplete" PlacementTarget="{Binding ElementName=border}" StaysOpen="False" AllowsTransparency="true" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+				<Popup x:Name="PART_Popup_AutoComplete" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
 					<Decorator Margin="8 0">
 						<Border BorderThickness="0,1,0,0" Effect="{StaticResource EffectShadow2}" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder_AutoComplete" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
 							<hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
@@ -6292,7 +6292,7 @@
 						</Border>
 					</Decorator>
 				</Popup>
-				<Popup x:Name="PART_Popup_AutoComplete" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+				<Popup x:Name="PART_Popup_AutoComplete" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
 					<Decorator Margin="8 0">
 						<Border BorderThickness="0,1,0,0" Effect="{StaticResource EffectShadow2}" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder_AutoComplete" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
 							<hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
@@ -12307,9 +12307,17 @@
 							<Border Margin="4" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" Grid.ColumnSpan="2" Height="42" VerticalAlignment="Top" Background="{Binding Path=(hc:TitleElement.Background),RelativeSource={RelativeSource TemplatedParent}}" />
 							<ContentPresenter Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="PART_CalendarPresenter" Margin="-8,-4,-8,-8" />
 							<ContentPresenter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="PART_ClockPresenter" Margin="-8,-4,-8,-8" />
+							<TextBlock x:Name="ListClockTitle" Grid.Column="1" Height="42" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0,8,0,0" FontSize="20" Foreground="{DynamicResource TextIconBrush}" Visibility="Collapsed" Text="{Binding DisplayDateTime, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:HH:mm:ss}}" />
 							<Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Visibility="{TemplateBinding ShowConfirmButton,Converter={StaticResource Boolean2VisibilityConverter}}" Name="PART_ButtonConfirm" Content="{ex:Lang Key={x:Static langs:LangKeys.Confirm}}" HorizontalAlignment="Center" Margin="0,0,0,19" Width="180" VerticalAlignment="Bottom" Style="{StaticResource ButtonPrimary}" />
 						</Grid>
 					</hc:SimplePanel>
+					<ControlTemplate.Triggers>
+						<Trigger Property="ClockType" Value="ListClock">
+							<Setter TargetName="PART_ClockPresenter" Property="Margin" Value="-8,50,-8,0" />
+							<Setter TargetName="PART_ClockPresenter" Property="VerticalAlignment" Value="Top" />
+							<Setter TargetName="ListClockTitle" Property="Visibility" Value="Visible" />
+						</Trigger>
+					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
