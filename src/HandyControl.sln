@@ -38,6 +38,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyControl_Avalonia", "Av
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyControlDemo_Avalonia", "Avalonia\HandyControlDemo_Avalonia\HandyControlDemo_Avalonia.csproj", "{99CCAF7C-F9A1-4C54-A5F0-B231E7F7AE66}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{879D5F63-BE7F-4280-B6A6-E772AA0DB59F}"
+	ProjectSection(SolutionItems) = preProject
+		..\doc\maintenance\architecture.md = ..\doc\maintenance\architecture.md
+		..\doc\maintenance\build-and-use.md = ..\doc\maintenance\build-and-use.md
+		..\doc\maintenance\changes.md = ..\doc\maintenance\changes.md
+		..\doc\README.md = ..\doc\README.md
+		..\doc\maintenance\scope.md = ..\doc\maintenance\scope.md
+		..\doc\maintenance\workflow.md = ..\doc\maintenance\workflow.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug-Avalonia|Any CPU = Debug-Avalonia|Any CPU
