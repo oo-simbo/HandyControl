@@ -337,9 +337,6 @@ public class Growl : Control
     private static void ShowGlobal(GrowlInfo growlInfo)
     {
         Application.Current.Dispatcher?.Invoke(
-#if NET40
-            new Action(
-#endif
                 () =>
                 {
                     if (GrowlWindow == null)
@@ -370,9 +367,6 @@ public class Growl : Control
 
                     ShowInternal(GrowlWindow.GrowlPanel, ctl);
                 }
-#if NET40
-            )
-#endif
         );
     }
 
@@ -383,9 +377,6 @@ public class Growl : Control
     private static void Show(GrowlInfo growlInfo)
     {
         (Application.Current.Dispatcher ?? growlInfo.Dispatcher)?.Invoke(
-#if NET40
-            new Action(
-#endif
                 () =>
                 {
                     var ctl = new Growl
@@ -424,9 +415,6 @@ public class Growl : Control
                             transitionMode is TransitionMode.Bottom2Top or TransitionMode.Bottom2TopWithFade);
                     }
                 }
-#if NET40
-            )
-#endif
         );
     }
 

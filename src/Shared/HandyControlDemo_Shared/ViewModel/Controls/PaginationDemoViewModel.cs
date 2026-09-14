@@ -25,11 +25,7 @@ public class PaginationDemoViewModel : DemoViewModelBase<DemoDataModel>
     public int PageIndex
     {
         get => _pageIndex;
-#if NET40
-            set => Set(nameof(PageIndex), ref _pageIndex, value);
-#else
         set => Set(ref _pageIndex, value);
-#endif
     }
 
     public PaginationDemoViewModel(DataService dataService)

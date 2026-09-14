@@ -17,11 +17,7 @@ public class NotifyIconDemoViewModel : ViewModelBase
     public string Content
     {
         get => _content;
-#if NET40
-            set => Set(nameof(Content), ref _content, value);
-#else
         set => Set(ref _content, value);
-#endif
     }
 
     private bool _contextMenuIsShow;
@@ -31,11 +27,7 @@ public class NotifyIconDemoViewModel : ViewModelBase
         get => _contextMenuIsShow;
         set
         {
-#if NET40
-                Set(nameof(ContextMenuIsShow), ref _contextMenuIsShow, value);
-#else
             Set(ref _contextMenuIsShow, value);
-#endif
             GlobalData.NotifyIconIsShow = ContextMenuIsShow || ContextContentIsShow;
             if (!_isCleanup && !_reversed)
             {
@@ -51,11 +43,7 @@ public class NotifyIconDemoViewModel : ViewModelBase
     public bool ContextMenuIsBlink
     {
         get => _contextMenuIsBlink;
-#if NET40
-            set => Set(nameof(ContextMenuIsBlink), ref _contextMenuIsBlink, value);
-#else
         set => Set(ref _contextMenuIsBlink, value);
-#endif
     }
 
     private bool _contextContentIsShow;
@@ -65,11 +53,7 @@ public class NotifyIconDemoViewModel : ViewModelBase
         get => _contextContentIsShow;
         set
         {
-#if NET40
-                Set(nameof(ContextContentIsShow), ref _contextContentIsShow, value);
-#else
             Set(ref _contextContentIsShow, value);
-#endif
             GlobalData.NotifyIconIsShow = ContextMenuIsShow || ContextContentIsShow;
             if (!_isCleanup && !_reversed)
             {
@@ -85,11 +69,7 @@ public class NotifyIconDemoViewModel : ViewModelBase
     public bool ContextContentIsBlink
     {
         get => _contextContentIsBlink;
-#if NET40
-            set => Set(nameof(ContextContentIsBlink), ref _contextContentIsBlink, value);
-#else
         set => Set(ref _contextContentIsBlink, value);
-#endif
     }
 
     public RelayCommand<object> MouseCmd => new(str => Growl.Info(str.ToString()));

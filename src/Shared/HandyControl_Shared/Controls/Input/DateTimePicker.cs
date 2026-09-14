@@ -260,7 +260,6 @@ public class DateTimePicker : Control
         set => SetValue(SelectionBrushProperty, value);
     }
 
-#if !(NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472)
 
     public static readonly DependencyProperty SelectionTextBrushProperty =
         TextBoxBase.SelectionTextBrushProperty.AddOwner(typeof(DateTimePicker));
@@ -271,7 +270,6 @@ public class DateTimePicker : Control
         set => SetValue(SelectionTextBrushProperty, value);
     }
 
-#endif
 
     public static readonly DependencyProperty SelectionOpacityProperty =
         TextBoxBase.SelectionOpacityProperty.AddOwner(typeof(DateTimePicker));
@@ -340,10 +338,8 @@ public class DateTimePicker : Control
         if (_textBox != null)
         {
             _textBox.SetBinding(SelectionBrushProperty, new Binding(SelectionBrushProperty.Name) { Source = this });
-#if !(NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472)
             _textBox.SetBinding(SelectionTextBrushProperty,
                 new Binding(SelectionTextBrushProperty.Name) { Source = this });
-#endif
             _textBox.SetBinding(SelectionOpacityProperty, new Binding(SelectionOpacityProperty.Name) { Source = this });
             _textBox.SetBinding(CaretBrushProperty, new Binding(CaretBrushProperty.Name) { Source = this });
 

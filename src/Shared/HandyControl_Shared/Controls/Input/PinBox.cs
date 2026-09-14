@@ -314,7 +314,6 @@ public class PinBox : Control
         set => SetValue(SelectionBrushProperty, value);
     }
 
-#if !(NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472)
 
     public static readonly DependencyProperty SelectionTextBrushProperty =
         TextBoxBase.SelectionTextBrushProperty.AddOwner(typeof(PinBox));
@@ -325,7 +324,6 @@ public class PinBox : Control
         set => SetValue(SelectionTextBrushProperty, value);
     }
 
-#endif
 
     public static readonly DependencyProperty SelectionOpacityProperty =
         TextBoxBase.SelectionOpacityProperty.AddOwner(typeof(PinBox));
@@ -428,9 +426,7 @@ public class PinBox : Control
         };
 
         passwordBox.SetBinding(SelectionBrushProperty, new Binding(SelectionBrushProperty.Name) { Source = this });
-#if !(NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472)
         passwordBox.SetBinding(SelectionTextBrushProperty, new Binding(SelectionTextBrushProperty.Name) { Source = this });
-#endif
         passwordBox.SetBinding(SelectionOpacityProperty, new Binding(SelectionOpacityProperty.Name) { Source = this });
         passwordBox.SetBinding(CaretBrushProperty, new Binding(CaretBrushProperty.Name) { Source = this });
 

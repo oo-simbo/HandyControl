@@ -109,7 +109,6 @@ public class PasswordBox : Control
         set => SetValue(SelectionBrushProperty, value);
     }
 
-#if !(NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472)
 
     public static readonly DependencyProperty SelectionTextBrushProperty =
         TextBoxBase.SelectionTextBrushProperty.AddOwner(typeof(PasswordBox));
@@ -120,7 +119,6 @@ public class PasswordBox : Control
         set => SetValue(SelectionTextBrushProperty, value);
     }
 
-#endif
 
     public static readonly DependencyProperty SelectionOpacityProperty =
         TextBoxBase.SelectionOpacityProperty.AddOwner(typeof(PasswordBox));
@@ -140,14 +138,12 @@ public class PasswordBox : Control
         set => SetValue(CaretBrushProperty, value);
     }
 
-#if !NET40
 
     public static readonly DependencyProperty IsSelectionActiveProperty =
         TextBoxBase.IsSelectionActiveProperty.AddOwner(typeof(PasswordBox));
 
     public bool IsSelectionActive => ActualPasswordBox != null && (bool) ActualPasswordBox.GetValue(IsSelectionActiveProperty);
 
-#endif
 
     public PasswordBox() => CommandBindings.Add(new CommandBinding(ControlCommands.Clear, (s, e) => Clear()));
 
@@ -218,9 +214,7 @@ public class PasswordBox : Control
             ActualPasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
             ActualPasswordBox.SetBinding(System.Windows.Controls.PasswordBox.MaxLengthProperty, new Binding(MaxLengthProperty.Name) { Source = this });
             ActualPasswordBox.SetBinding(System.Windows.Controls.PasswordBox.SelectionBrushProperty, new Binding(SelectionBrushProperty.Name) { Source = this });
-#if !(NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472)
             ActualPasswordBox.SetBinding(System.Windows.Controls.PasswordBox.SelectionTextBrushProperty, new Binding(SelectionTextBrushProperty.Name) { Source = this });
-#endif
             ActualPasswordBox.SetBinding(System.Windows.Controls.PasswordBox.SelectionOpacityProperty, new Binding(SelectionOpacityProperty.Name) { Source = this });
             ActualPasswordBox.SetBinding(System.Windows.Controls.PasswordBox.CaretBrushProperty, new Binding(CaretBrushProperty.Name) { Source = this });
 

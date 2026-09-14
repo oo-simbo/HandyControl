@@ -199,10 +199,7 @@ Task("add nuget files")
     {
         var libFolder = $@"lib\{task.OutputsFolder}";
 
-        if (!IsFramework(task.Framework))
-        {
-            AddFile(libDocument, $@"{libFolder}\HandyControl.deps.json");
-        }
+        AddFile(libDocument, $@"{libFolder}\HandyControl.deps.json");
         AddFile(libDocument, $@"{libFolder}\HandyControl.dll");
         AddFile(libDocument, $@"{libFolder}\HandyControl.pdb");
         AddFile(libDocument, $@"{libFolder}\HandyControl.xml");
@@ -371,7 +368,9 @@ Task("create github release")
             Body = ReadAllText(Combine(buildConfig.OutputsFolder, "CHANGELOG.md"), Encoding.UTF8),
             Prerelease = preRelease,
             Overwrite = false,
-            Assets = GetFiles("../build/outputs/installer/net40/*").ToArray(),
+            Assets = buildConfig.BuildTasks
+                .SelectMany(task => GetFiles($"{installerFolder}/{task.OutputsFolder}/*"))
+                .ToArray(),
         }
     );
 });
@@ -513,8 +512,6 @@ private static string GetNextVersion(string versionText, bool canBumpMinor, stri
 
     return version.ToString();
 }
-
-private bool IsFramework(string framework) => !framework.Contains(".");
 
 private IEnumerable<string> GetAllLangs()
 {

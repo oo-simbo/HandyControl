@@ -22,11 +22,7 @@ public class TagDemoViewModel : ViewModelBase
     public string TagName
     {
         get => _tagName;
-#if NET40
-        set => Set(nameof(TagName), ref _tagName, value);
-#else
         set => Set(ref _tagName, value);
-#endif
     }
 
     public RelayCommand AddItemCmd => new(() =>

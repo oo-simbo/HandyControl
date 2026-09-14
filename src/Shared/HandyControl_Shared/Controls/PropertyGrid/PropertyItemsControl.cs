@@ -8,11 +8,7 @@ public class PropertyItemsControl : ListBox
 
     public PropertyItemsControl()
     {
-#if !NET40
         VirtualizingPanel.SetIsVirtualizingWhenGrouping(this, true);
         VirtualizingPanel.SetScrollUnit(this, ScrollUnit.Pixel);
-#else
-        System.Windows.Controls.ScrollViewer.SetCanContentScroll(this, false);
-#endif
     }
 }

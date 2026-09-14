@@ -43,11 +43,7 @@ public class ChatBoxViewModel : ViewModelBase
     public string ChatString
     {
         get => _chatString;
-#if NET40
-        set => Set(nameof(ChatString), ref _chatString, value);
-#else
         set => Set(ref _chatString, value);
-#endif
     }
 
     public ObservableCollection<ChatInfoModel> ChatInfos { get; set; } = new();

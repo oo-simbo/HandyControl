@@ -10,11 +10,7 @@ using HandyControl.Tools.Extension;
 using HandyControl.Tools.Interop;
 using HandyControl.Tools.Helper;
 
-#if NET40
-using Microsoft.Windows.Shell;
-#else
 using System.Windows.Shell;
-#endif
 
 namespace HandyControl.Controls
 {
@@ -54,13 +50,6 @@ namespace HandyControl.Controls
 
         public Window()
         {
-#if NET40
-            var chrome = new WindowChrome
-            {
-                CornerRadius = new CornerRadius(),
-                GlassFrameThickness = new Thickness(0, 0, 0, 1)
-            };
-#else
             var chrome = new WindowChrome
             {
                 UseAeroCaptionButtons = false
@@ -71,7 +60,6 @@ namespace HandyControl.Controls
                 chrome.GlassFrameThickness = new Thickness(0, 0, 0, 1);
                 chrome.CornerRadius = new CornerRadius();
             }
-#endif
             BindingOperations.SetBinding(chrome, WindowChrome.CaptionHeightProperty,
                 new Binding(NonClientAreaHeightProperty.Name) { Source = this });
             WindowChrome.SetWindowChrome(this, chrome);

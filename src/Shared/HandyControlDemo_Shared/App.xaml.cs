@@ -4,9 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Net;
-#if !NET40
 using System.Runtime;
-#endif
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -84,11 +82,7 @@ public partial class App
         ConfigHelper.Instance.SetWindowDefaultStyle();
         ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
 
-#if NET40
-        ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-#else
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-#endif
     }
 
     private static void OpenSplashScreen()
@@ -99,7 +93,6 @@ public partial class App
 
     private static void EnsureProfileOptimization()
     {
-#if !NET40
         var cachePath = $"{AppDomain.CurrentDomain.BaseDirectory}Cache";
         if (!Directory.Exists(cachePath))
         {
@@ -107,7 +100,6 @@ public partial class App
         }
         ProfileOptimization.SetProfileRoot(cachePath);
         ProfileOptimization.StartProfile("Profile");
-#endif
     }
 
     private void EnsureSingleton()

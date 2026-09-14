@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-#if !NET40
 using System.Runtime.CompilerServices;
-#endif
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media.Animation;
@@ -75,15 +73,8 @@ public class ConfigHelper : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-#if NET40
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-#else
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-#endif
 }

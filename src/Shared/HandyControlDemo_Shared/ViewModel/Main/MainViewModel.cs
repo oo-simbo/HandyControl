@@ -39,31 +39,19 @@ public class MainViewModel : DemoViewModelBase<DemoDataModel>
     public object SubContent
     {
         get => _subContent;
-#if NET40
-        set => Set(nameof(SubContent), ref _subContent, value);
-#else
         set => Set(ref _subContent, value);
-#endif
     }
 
     public object ContentTitle
     {
         get => _contentTitle;
-#if NET40
-        set => Set(nameof(ContentTitle), ref _contentTitle, value);
-#else
         set => Set(ref _contentTitle, value);
-#endif
     }
 
     public bool IsCodeOpened
     {
         get => _isCodeOpened;
-#if NET40
-        set => Set(nameof(IsCodeOpened), ref _isCodeOpened, value);
-#else
         set => Set(ref _isCodeOpened, value);
-#endif
     }
 
     public ObservableCollection<DemoInfoModel> DemoInfoCollection { get; set; }
@@ -128,11 +116,7 @@ public class MainViewModel : DemoViewModelBase<DemoDataModel>
 
         //load items
         DemoInfoCollection = new ObservableCollection<DemoInfoModel>();
-#if NET40
-        Task.Factory.StartNew(() =>
-#else
         Task.Run(() =>
-#endif
         {
             DataList = _dataService.GetDemoDataList();
 

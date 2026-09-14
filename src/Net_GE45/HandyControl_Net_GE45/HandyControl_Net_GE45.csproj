@@ -1,13 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>HandyControl</AssemblyName>
     <RootNamespace>HandyControl</RootNamespace>
-    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Description>Contains some simple and commonly used WPF controls</Description>
     <PackageId>HandyControl</PackageId>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NoWarn>0067;0649;1591;MSB3061;SYSLIB0003;SYSLIB0004;SYSLIB0032;CA2022</NoWarn>
-    <MSBuildWarningsAsMessages>NETSDK1138</MSBuildWarningsAsMessages>
     <AssemblyOriginatorKeyFile>..\..\Shared\HandyControl_Shared\key.snk</AssemblyOriginatorKeyFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>WPF C# Control</PackageTags>
@@ -89,12 +88,6 @@
   <Import Project="..\..\Shared\Microsoft.Expression.Drawing\Microsoft.Expression.Drawing.projitems" Label="Shared" />
   <Import Project="..\..\Shared\System.Windows.Interactivity\System.Windows.Interactivity.projitems" Label="Shared" />
   <Import Project="..\..\Shared\Microsoft.Expression.Interactions\Microsoft.Expression.Interactions.projitems" Label="Shared" />
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
   <ItemGroup>
     <Resource Include="..\..\Shared\HandyControl_Shared\Resources\dropper.cur">
       <Link>Resources\dropper.cur</Link>

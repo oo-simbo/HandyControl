@@ -12,11 +12,7 @@ public class DemoInfoModel : ViewModelBase
     public string Title
     {
         get => _title;
-#if NET40
-        set => Set(nameof(Title), ref _title, value);
-#else
         set => Set(ref _title, value);
-#endif
     }
 
     private int _selectedIndex;
@@ -24,11 +20,7 @@ public class DemoInfoModel : ViewModelBase
     public int SelectedIndex
     {
         get => _selectedIndex;
-#if NET40
-        set => Set(nameof(SelectedIndex), ref _selectedIndex, value);
-#else
         set => Set(ref _selectedIndex, value);
-#endif   
     }
 
     public bool IsGroupEnabled { get; set; }

@@ -16,10 +16,6 @@ public class DemoViewModelBase<T> : ViewModelBase
     public IList<T> DataList
     {
         get => _dataList;
-#if NET40
-        set => Set(nameof(DataList), ref _dataList, value);
-#else
         set => Set(ref _dataList, value);
-#endif       
     }
 }

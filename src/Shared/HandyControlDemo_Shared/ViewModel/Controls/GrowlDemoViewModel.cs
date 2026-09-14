@@ -26,19 +26,11 @@ public class GrowlDemoViewModel : ViewModelBase
     public TransitionMode TransitionMode
     {
         get => _transitionMode;
-#if NET40
-        set
-        {
-            Set(nameof(TransitionMode), ref _transitionMode, value);
-            Growl.SetTransitionMode(Application.Current.MainWindow, value);
-        }
-#else
         set
         {
             Set(ref _transitionMode, value);
             Growl.SetTransitionMode(Application.Current.MainWindow, value);
         }
-#endif
     }
 
     #region Window

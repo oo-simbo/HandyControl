@@ -59,9 +59,7 @@ public class NumericUpDown : Control
         if (_textBox != null)
         {
             _textBox.SetBinding(SelectionBrushProperty, new Binding(SelectionBrushProperty.Name) { Source = this });
-#if NET48_OR_GREATER
             _textBox.SetBinding(SelectionTextBrushProperty, new Binding(SelectionTextBrushProperty.Name) { Source = this });
-#endif
             _textBox.SetBinding(SelectionOpacityProperty, new Binding(SelectionOpacityProperty.Name) { Source = this });
             _textBox.SetBinding(CaretBrushProperty, new Binding(CaretBrushProperty.Name) { Source = this });
 
@@ -348,7 +346,6 @@ public class NumericUpDown : Control
         set => SetValue(SelectionBrushProperty, value);
     }
 
-#if NET48_OR_GREATER
 
     public static readonly DependencyProperty SelectionTextBrushProperty =
         TextBoxBase.SelectionTextBrushProperty.AddOwner(typeof(NumericUpDown));
@@ -359,7 +356,6 @@ public class NumericUpDown : Control
         set => SetValue(SelectionTextBrushProperty, value);
     }
 
-#endif
 
     public static readonly DependencyProperty SelectionOpacityProperty =
         TextBoxBase.SelectionOpacityProperty.AddOwner(typeof(NumericUpDown));

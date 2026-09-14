@@ -13,19 +13,11 @@ public class AutoCompleteTextBoxDemoViewModel : ViewModelBase
     public string SearchText
     {
         get => _searchText;
-#if NET40
-        set
-        {
-            Set(nameof(SearchText), ref _searchText, value);
-            FilterItems(value);
-        }
-#else
         set
         {
             Set(ref _searchText, value);
             FilterItems(value);
         }
-#endif
     }
 
     public ManualObservableCollection<DemoDataModel> Items { get; set; } = new();

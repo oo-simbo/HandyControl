@@ -1,23 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <AssemblyName>HandyControlDemo</AssemblyName>
     <RootNamespace>HandyControlDemo</RootNamespace>
-    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <ApplicationIcon>..\..\Shared\HandyControlDemo_Shared\Resources\Img\icon.ico</ApplicationIcon>
     <NoWarn>0108;MSB3026;MSB3061;SYSLIB0014</NoWarn>
-    <MSBuildWarningsAsMessages>NETSDK1138</MSBuildWarningsAsMessages>
     <ApplicationManifest>..\..\Shared\HandyControlDemo_Shared\app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
@@ -319,33 +311,4 @@
     </None>
   </ItemGroup>
   <Import Project="..\..\Shared\HandyControlDemo_Shared\HandyControlDemo_Shared.projitems" Label="Shared" />
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PostBuildEvent>
-      if not exist Langs md Langs
-      rd /s /q Langs\cs
-      rd /s /q Langs\en
-      rd /s /q Langs\es
-      rd /s /q Langs\fa
-      rd /s /q Langs\fr
-      rd /s /q Langs\ja
-      rd /s /q Langs\ko-KR
-      rd /s /q Langs\pt-BR
-      rd /s /q Langs\pl
-      rd /s /q Langs\ru
-      rd /s /q Langs\tr
-      rd /s /q Langs\ca-Es
-      move cs Langs
-      move en Langs
-      move es Langs
-      move fa Langs
-      move fr Langs
-      move ja Langs
-      move ko-KR Langs
-      move pt-BR Langs
-      move pl Langs
-      move ru Langs
-      move tr Langs
-      move ca-Es Langs
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>

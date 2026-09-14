@@ -27,10 +27,6 @@ public class NonClientAreaViewModel : ViewModelBase
     public string VersionInfo
     {
         get => _versionInfo;
-#if NET40
-        set => Set(nameof(VersionInfo), ref _versionInfo, value);
-#else
         set => Set(ref _versionInfo, value);
-#endif
     }
 }
