@@ -141,10 +141,23 @@ public class PropertyGrid : Control
         var properties = CreateOrderMap(PropertyOrder);
         foreach (PropertyItem item in _dataView.SourceCollection)
         {
-            item.CategoryOrder = item.Category != null && categories.TryGetValue(item.Category, out var category)
-                ? category : int.MaxValue;
-            item.PropertyOrder = item.PropertyName != null && properties.TryGetValue(item.PropertyName, out var property)
-                ? property : int.MaxValue;
+            if (categories.TryGetValue(item.Category, out var category))
+            {
+                item.CategoryOrder = category;
+            }
+            else
+            {
+                item.CategoryOrder = item.DefaultCategoryOrder;
+            }
+
+            if (properties.TryGetValue(item.PropertyName, out var property))
+            {
+                item.PropertyOrder = property;
+            }
+            else
+            {
+                item.PropertyOrder = item.DefaultPropertyOrder;
+            }
         }
     }
 
@@ -244,7 +257,11 @@ public class PropertyGrid : Control
     protected virtual PropertyItem CreatePropertyItem(PropertyDescriptor propertyDescriptor) => new()
     {
         Category = PropertyResolver.ResolveCategory(propertyDescriptor),
+        CategoryOrder = PropertyResolver.ResolveCategoryOrder(propertyDescriptor),
+        DefaultCategoryOrder = PropertyResolver.ResolveCategoryOrder(propertyDescriptor),
         DisplayName = PropertyResolver.ResolveDisplayName(propertyDescriptor),
+        PropertyOrder = PropertyResolver.ResolvePropertyOrder(propertyDescriptor),
+        DefaultPropertyOrder = PropertyResolver.ResolvePropertyOrder(propertyDescriptor),
         Description = PropertyResolver.ResolveDescription(propertyDescriptor),
         IsReadOnly = PropertyResolver.ResolveIsReadOnly(propertyDescriptor),
         DefaultValue = PropertyResolver.ResolveDefaultValue(propertyDescriptor),

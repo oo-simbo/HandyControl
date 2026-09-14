@@ -107,6 +107,24 @@ public class PropertyItem : ListBoxItem
         set => SetValue(PropertyOrderProperty, value);
     }
 
+    public static readonly DependencyProperty DefaultCategoryOrderProperty = DependencyProperty.Register(
+        nameof(DefaultCategoryOrder), typeof(int), typeof(PropertyItem), new PropertyMetadata(int.MaxValue));
+
+    public int DefaultCategoryOrder
+    {
+        get => (int) GetValue(DefaultCategoryOrderProperty);
+        set => SetValue(DefaultCategoryOrderProperty, value);
+    }
+
+    public static readonly DependencyProperty DefaultPropertyOrderProperty = DependencyProperty.Register(
+        nameof(DefaultPropertyOrder), typeof(int), typeof(PropertyItem), new PropertyMetadata(int.MaxValue));
+
+    public int DefaultPropertyOrder
+    {
+        get => (int) GetValue(DefaultPropertyOrderProperty);
+        set => SetValue(DefaultPropertyOrderProperty, value);
+    }
+
     public static readonly DependencyProperty EditorProperty = DependencyProperty.Register(
         nameof(Editor), typeof(PropertyEditorBase), typeof(PropertyItem), new PropertyMetadata(default(PropertyEditorBase)));
 

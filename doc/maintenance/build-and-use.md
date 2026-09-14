@@ -11,7 +11,7 @@ dotnet build src/Net_GE45/HandyControlDemo_Net_GE45/HandyControlDemo_Net_GE45.cs
 
 Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优先使用项目入口，避免整套 solution restore 把 Avalonia 的依赖也拉入验证。Visual Studio 中选择 `Release-Net-GE45` / `Debug-Net-GE45`；这些只是保留的配置名称，不表示旧框架支持。
 
-需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.2.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
+需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.3.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
 
 产物目录：
 

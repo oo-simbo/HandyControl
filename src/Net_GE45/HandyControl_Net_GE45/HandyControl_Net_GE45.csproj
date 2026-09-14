@@ -3,6 +3,7 @@
     <AssemblyName>HandyControl</AssemblyName>
     <RootNamespace>HandyControl</RootNamespace>
     <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <Description>Contains some simple and commonly used WPF controls</Description>
     <PackageId>HandyControl</PackageId>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

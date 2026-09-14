@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using HandyControl.Properties.Langs;
@@ -10,6 +12,18 @@ namespace HandyControl.Controls;
 
 public class PropertyResolver
 {
+    private static readonly string[] CategoryOrderAttributeNames =
+    [
+        "JuLink.Common.Model.Attributes.CategoryOrderingAttribute",
+        "CategoryOrderingAttribute"
+    ];
+
+    private static readonly string[] PropertyOrderAttributeNames =
+    [
+        "JuLink.Common.Model.Attributes.DisplayNameOrderingAttribute",
+        "DisplayNameOrderingAttribute"
+    ];
+
     private static readonly Dictionary<Type, EditorTypeCode> TypeCodeDic = new()
     {
         [typeof(string)] = EditorTypeCode.PlainText,
@@ -52,7 +66,44 @@ public class PropertyResolver
         return displayName;
     }
 
+    public virtual int ResolveCategoryOrder(PropertyDescriptor propertyDescriptor) =>
+        ResolveOrder(propertyDescriptor, CategoryOrderAttributeNames);
+
+    public virtual int ResolvePropertyOrder(PropertyDescriptor propertyDescriptor) =>
+        ResolveOrder(propertyDescriptor, PropertyOrderAttributeNames);
+
     public string ResolveDescription(PropertyDescriptor propertyDescriptor) => propertyDescriptor.Description;
+
+    private static int ResolveOrder(PropertyDescriptor propertyDescriptor, IReadOnlyCollection<string> attributeNames)
+    {
+        var attribute = propertyDescriptor.Attributes.Cast<Attribute>().FirstOrDefault(item =>
+            attributeNames.Any(name => string.Equals(item.GetType().Name, name, StringComparison.Ordinal) ||
+                                       string.Equals(item.GetType().FullName, name, StringComparison.Ordinal)));
+
+        if (attribute == null) return int.MaxValue;
+
+        var orderProperty = attribute.GetType().GetProperty(
+            "Order", BindingFlags.Instance | BindingFlags.Public,
+            binder: null, returnType: null, types: Type.EmptyTypes, modifiers: null);
+        if (orderProperty == null) return int.MaxValue;
+
+        var value = orderProperty.GetValue(attribute);
+        if (value is string text)
+        {
+            return int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed)
+                ? parsed : int.MaxValue;
+        }
+
+        try
+        {
+            return value is IConvertible convertible
+                ? Convert.ToInt32(convertible, CultureInfo.InvariantCulture) : int.MaxValue;
+        }
+        catch (Exception exception) when (exception is FormatException or OverflowException or InvalidCastException)
+        {
+            return int.MaxValue;
+        }
+    }
 
     public bool ResolveIsBrowsable(PropertyDescriptor propertyDescriptor) => propertyDescriptor.IsBrowsable;
 

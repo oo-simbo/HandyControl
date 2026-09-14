@@ -141,15 +141,13 @@ internal static class Program
         var grid = new Hc.PropertyGrid
         {
             Style = (Style)app.FindResource(typeof(Hc.PropertyGrid)),
-            SelectedObject = model,
-            CategoryOrder = new[] { "", "b", "B", "Unknown", "A" },
-            PropertyOrder = new[] { "Second", "second", "", "Unknown" }
+            SelectedObject = model
         };
         grid.ApplyTemplate();
         var items = (ItemsControl)grid.Template.FindName("PART_ItemsControl", grid);
         var view = CollectionViewSource.GetDefaultView(items.ItemsSource);
         string Order() => string.Join(",", view.Cast<Hc.PropertyItem>().Select(x => x.PropertyName));
-        Require(Order() == "Second,First,Other,ReadOnly", "Custom category/property order and fallback failed: " + Order());
+        Require(Order() == "Other,ReadOnly,Second,First", "Attribute category/property order failed: " + Order());
         var originalItems = view.Cast<Hc.PropertyItem>().ToDictionary(x => x.PropertyName);
         var editors = originalItems.ToDictionary(x => x.Key, x => x.Value.EditorElement);
         var combo = (ComboBox)editors["First"];
@@ -159,21 +157,30 @@ internal static class Program
         combo.SelectedValue = TestState.Running;
         Require(model.First == TestState.Running, "Enum editor must write the enum value back to the model.");
         Require(!editors["ReadOnly"].IsEnabled, "Read-only enum editor must be disabled.");
-        grid.CategoryOrder = new[] { "A", "B" };
+
+        grid.CategoryOrder = new[] { "B", "A" };
         grid.PropertyOrder = new[] { "First" };
-        Require(Order() == "Other,ReadOnly,First,Second", "Runtime replacement must reorder existing items: " + Order());
+        Require(Order() == "First,Second,Other,ReadOnly", "External priorities must override matching attribute priorities: " + Order());
         foreach (var item in view.Cast<Hc.PropertyItem>())
             Require(ReferenceEquals(originalItems[item.PropertyName], item) && ReferenceEquals(editors[item.PropertyName], item.EditorElement),
                 "Sorting must preserve property items and editor instances.");
+
         HandyControl.Interactivity.ControlCommands.SortByName.Execute(null, grid);
         Require(Order() == "First,Other,ReadOnly,Second" && view.GroupDescriptions.Count == 0, "Alphabetical sort failed.");
-        grid.CategoryOrder = new[] { "B", "A" };
+        grid.CategoryOrder = new[] { "A", "B" };
         Require(Order() == "First,Other,ReadOnly,Second" && view.GroupDescriptions.Count == 0, "Changing priority must preserve alphabetical mode.");
+
         grid.CategoryOrder = null;
         grid.PropertyOrder = null;
         HandyControl.Interactivity.ControlCommands.SortByCategory.Execute(null, grid);
-        Require(Order() == "Other,ReadOnly,First,Second", "Null priorities must restore default category/display-name order.");
-        Console.WriteLine("PASS PropertyGrid priorities, fallback, runtime sorting, editor identity and enum round-trip.");
+        Require(Order() == "Other,ReadOnly,Second,First", "Clearing external priorities must restore attribute order: " + Order());
+        foreach (var descriptor in System.ComponentModel.TypeDescriptor.GetProperties(typeof(OrderEdgeModel)).Cast<System.ComponentModel.PropertyDescriptor>())
+        {
+            var expected = descriptor.Name == nameof(OrderEdgeModel.Padded) ? 10 : int.MaxValue;
+            Require(new Hc.PropertyResolver().ResolvePropertyOrder(descriptor) == expected,
+                "Invalid/missing order must fall back without throwing: " + descriptor.Name);
+        }
+        Console.WriteLine("PASS PropertyGrid attribute priorities, external overrides, runtime sorting, editor identity and enum round-trip.");
     }
 
     private static void VerifyClockSwitching(Application app)
@@ -294,14 +301,36 @@ internal static class Program
 
     public sealed class SortModel
     {
-        [System.ComponentModel.Category("B"), System.ComponentModel.DisplayName("Alpha")]
+        [System.ComponentModel.Category("B"), System.ComponentModel.DisplayName("Alpha"),
+         HandyControl.Data.CategoryOrderingAttribute("B", 20),
+         HandyControl.Data.DisplayNameOrderingAttribute("Alpha", 20)]
         public TestState First { get; set; }
-        [System.ComponentModel.Category("B"), System.ComponentModel.DisplayName("Zulu")]
+        [System.ComponentModel.Category("B"), System.ComponentModel.DisplayName("Zulu"),
+         HandyControl.Data.CategoryOrderingAttribute("B", 20),
+         HandyControl.Data.DisplayNameOrderingAttribute("Zulu", 10)]
         public string Second { get; set; } = "value";
-        [System.ComponentModel.Category("A")]
+        [System.ComponentModel.Category("A"),
+         HandyControl.Data.CategoryOrderingAttribute("A", 10)]
         public string Other { get; set; } = "other";
-        [System.ComponentModel.Category("A")]
+        [System.ComponentModel.Category("A"),
+         HandyControl.Data.CategoryOrderingAttribute("A", 10)]
         public TestState ReadOnly => TestState.Ready;
+    }
+
+    private sealed class DisplayNameOrderingAttribute(object order) : Attribute
+    {
+        public object Order { get; } = order;
+    }
+
+    private sealed class OrderEdgeModel
+    {
+        [DisplayNameOrdering("00000010")]
+        public string Padded { get; set; } = "";
+        [DisplayNameOrdering("invalid")]
+        public string Invalid { get; set; } = "";
+        [DisplayNameOrdering(9223372036854775807L)]
+        public string Overflow { get; set; } = "";
+        public string Plain { get; set; } = "";
     }
 
     private static void VerifyDemoPages(Application app, string demoPath)

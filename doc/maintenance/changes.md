@@ -1,5 +1,18 @@
 # 修改与验证台账
 
+## HC-M006：3.6.3.0 混合排序与 Ultron 兼容修复（2026-09-14）
+
+- 范围：Version/FileVersion/AssemblyVersion 升级为 3.6.3.0；WPF 主项目启用 nullable 分析；纳入 HandyControl.Data 的七个 PropertyGrid 元数据特性。启用 nullable 不代表已清理全库空值警告。
+- 排序契约：PropertyResolver 通过特性名称和公开 Order 读取 JuLink 原有元数据，无 JuLink 二进制依赖；支持整数、补零字符串及可转换值，缺失、非法字符串和溢出回退 int.MaxValue。PropertyItem 保存默认排序，外部 CategoryOrder/PropertyOrder 仅覆盖匹配项，清空恢复模型排序；按 CLR 名称排序模式和编辑器实例保持不变。外部数字索引与模型优先级合并比较，不承诺全部外部项必然排在负数模型优先级之前。
+- 下游修复：Ultron ConfigPropertyGrid 不再向分类/显示名添加数字前缀，改用解析器和默认/有效排序字段；日期、数字格式、文件选择编辑器恢复读取 JuLink.Common.Model.Attributes，避免同名 HandyControl 特性造成静默失效。保留用户已做的 OpenDirectoryPropertyAttribute 迁移及 ErrorCodeAttribute 文件更名；旧 DirectoryPropertyEditor 的注释掉对话框逻辑未在本轮实现。
+- 验证：HandyControl 库/Demo Release 全量构建 2214 警告、0 错误；三皮肤控件 Smoke 和三个编译后 Demo 页面通过，包括非法排序字符串、数值溢出和默认回退。Ultron Common.UI.Wpf Release 全量构建 509 警告、0 错误；WPF Demo Debug 全量构建 509 警告、0 错误，最终 DLL 更新后的增量构建 238 警告、0 错误。
+- 回归：Ultron 新增 PropertyGridCompatibilityTests，使用真实 JuLink 特性验证排序覆盖/清空/名称/编辑器身份及日期模式、数字格式、文件筛选配置，3/3 通过。临时撤销默认排序赋值并切回错误命名空间后 2 失败、1 通过；恢复修复后 3/3 通过。
+- 分发：主 DLL、XML、en 卫星同步到 D:/Sourcecode/JuLink.Ultron/src/JuLink.Common.UI.Wpf/Dlls；不分发 PDB。旧版本备份 D:/Develop/HandyControl/artifacts/deployment-backups/Ultron-before-3.6.3.0-20260914-165639。回退需整批恢复 DLL/en 并配套回退依赖新版排序 API 的 Ultron 修改后重建。
+- 最终主 DLL SHA256：49E6FFA95EBD211183B9D91353566BDD7B8F80B61CAA4A19B459A9CF24CFCB62；英文卫星：1D05652A46BB92634C1F9862C9985410B3C954C78A694BA1874E1F56A22E3D8E；XML：07707260D02BC71A7F3CB4B89EB6546B54442435438B3796A9BF4883C00AAA28。
+- 日志：artifacts/hc-3.6.3-build.log、hc-3.6.3-smoke.log、ultron-hc-3.6.3-release.log、ultron-hc-3.6.3-debug.log、ultron-hc-3.6.3-debug-final.log、ultron-hc-3.6.3-tests.log、ultron-hc-3.6.3-regression-negative.log。
+- 审查限制：独立 code-review 子代理调用返回 403 Insufficient account balance，未完成独立审查；主代理完成差异复核和回归验证。未运行完整 Ultron/JAX 解决方案、业务人工交互、多 DPI、真实设备或历史图形测试。
+- 交付：本地 main 提交，未推送远程或创建公开 Release；提交号见 Git 历史及 JAX 总台账。
+
 ## HC-M005：发布 3.6.2.0 DLL 并部署到 JuLink.Ultron（2026-09-14）
 
 - 版本：Version、FileVersion、AssemblyVersion 从 3.6.1.0 更新为 3.6.2.0，包含 HC-M004 的两个 PR 适配和 Demo。发布指本地 Release 二进制交付，未创建 NuGet/GitHub Release。
