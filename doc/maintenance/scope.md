@@ -6,7 +6,7 @@
 
 | 角色 | 地址 | 本地位置 |
 | --- | --- | --- |
-| 官方仓库 | https://github.com/handyorg/HandyControl | `D:\Develop\HandyControl-master` |
+| 官方仓库 | https://github.com/HandyOrg/HandyControl | `D:\Develop\HandyControl-master`（含 `.git` 的本地 Git 副本） |
 | 个人仓库 | https://github.com/oo-simbo/HandyControl | `D:\Develop\HandyControl` |
 | 官方使用文档 | https://handyorg.github.io/handycontrol/quick_start/ | 本库 `doc/source/handycontrol/` 保留历史副本 |
 
