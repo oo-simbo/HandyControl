@@ -16,6 +16,12 @@ internal static class Program
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
         try
         {
+            foreach (var name in new[] { "CategoryOrderingAttribute", "DisplayNameOrderingAttribute",
+                         "DateTimePickerAttribute", "DateTimePickType", "DecimalRoundAttribute",
+                         "FilePathSelectorAttribute", "FormatAttribute", "OpenDirectoryPropertyAttribute" })
+                Require(typeof(Hc.PropertyGrid).Assembly.GetType("HandyControl.Data." + name) is null,
+                    "HandyControl must not export business metadata: " + name);
+            Console.WriteLine("PASS removed metadata types are absent from HandyControl DLL.");
             foreach (var skin in new[] { "SkinDefault", "SkinDark", "SkinViolet" })
             {
                 app.Resources.MergedDictionaries.Clear();
@@ -302,18 +308,18 @@ internal static class Program
     public sealed class SortModel
     {
         [System.ComponentModel.Category("B"), System.ComponentModel.DisplayName("Alpha"),
-         HandyControl.Data.CategoryOrderingAttribute("B", 20),
-         HandyControl.Data.DisplayNameOrderingAttribute("Alpha", 20)]
+         SmokeFixtures.CategoryOrderingAttribute("B", 20),
+         SmokeFixtures.DisplayNameOrderingAttribute("Alpha", 20)]
         public TestState First { get; set; }
         [System.ComponentModel.Category("B"), System.ComponentModel.DisplayName("Zulu"),
-         HandyControl.Data.CategoryOrderingAttribute("B", 20),
-         HandyControl.Data.DisplayNameOrderingAttribute("Zulu", 10)]
+         SmokeFixtures.CategoryOrderingAttribute("B", 20),
+         SmokeFixtures.DisplayNameOrderingAttribute("Zulu", 10)]
         public string Second { get; set; } = "value";
         [System.ComponentModel.Category("A"),
-         HandyControl.Data.CategoryOrderingAttribute("A", 10)]
+         SmokeFixtures.CategoryOrderingAttribute("A", 10)]
         public string Other { get; set; } = "other";
         [System.ComponentModel.Category("A"),
-         HandyControl.Data.CategoryOrderingAttribute("A", 10)]
+         SmokeFixtures.CategoryOrderingAttribute("A", 10)]
         public TestState ReadOnly => TestState.Ready;
     }
 

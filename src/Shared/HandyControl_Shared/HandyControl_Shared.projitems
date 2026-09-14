@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -8,15 +8,6 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>HandyControl</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\CategoryOrderingAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\DateTimePickerAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\DecimalRoundAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\DisplayNameOrderingAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\FilePathSelectorAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\FormatAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PropertyGrid\OpenDirectoryPropertyAttribute.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Collections\ManualObservableCollection`1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Attach\BackgroundSwitchElement.cs" />

@@ -1,5 +1,14 @@
 # 修改与验证台账
 
+## HC-M007：移除新增 PropertyGrid Attribute（2026-09-14）
+
+- 按用户要求移除 HandyControl.Data 下新增的七个元数据 Attribute 及 DateTimePickType，删除对应共享项目编译项。版本维持 3.6.3.0，nullable 和 PropertyResolver 外部特性解析、混合排序逻辑保持。
+- 冒烟模型改用独立 SmokeFixtures 测试类型，不进入运行库；增加二进制断言确认八个类型均不存在。Ultron OpenDirectoryPropertyAttribute 恢复至 Common.Model.Attributes，DirectoryPropertyEditor 同步使用模型层类型。
+- 验证：库/Demo Release 全量构建 2206 警告、0 错误；SkinDefault/SkinDark/SkinViolet 冒烟及三个编译后 Demo 页面全部通过；Ultron Common.UI.Wpf Release 全量构建 509 警告、0 错误，PropertyGridCompatibilityTests 3/3 通过。
+- 同步主 DLL、XML、en 卫星到 D:/Sourcecode/JuLink.Ultron/src/JuLink.Common.UI.Wpf/Dlls，逐文件 SHA256 与构建源一致；Ultron Release 主 DLL/en 亦一致，无 PDB 分发。主 DLL SHA256：7606E6D004C9710A7D35F2A7FF784EAC07FAB6A8CCE3C8020B14327D560D5204。
+- 旧包备份：artifacts/deployment-backups/Ultron-before-remove-attributes-20260914-172046。日志：artifacts/hc-remove-attributes-build.log、hc-remove-attributes-smoke.log、ultron-remove-attributes-build.log、ultron-remove-attributes-tests.log。
+- 未执行完整解决方案、Debug 输出更新、人工 UI/DPI 或真实设备验证。提交前再次运行三皮肤/三个 Demo 冒烟和 Ultron 兼容回归，全部通过；代码与本条记录一并提交，远程交付状态记录于 JAX 总台账。
+
 ## HC-M006：3.6.3.0 混合排序与 Ultron 兼容修复（2026-09-14）
 
 - 范围：Version/FileVersion/AssemblyVersion 升级为 3.6.3.0；WPF 主项目启用 nullable 分析；纳入 HandyControl.Data 的七个 PropertyGrid 元数据特性。启用 nullable 不代表已清理全库空值警告。
