@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -102,6 +103,62 @@ public class PropertyGrid : Control
         set => SetValue(ShowSortButtonProperty, ValueBoxes.BooleanBox(value));
     }
 
+    /// <summary>Category names in priority order. Replace the sequence to refresh sorting.</summary>
+    public static readonly DependencyProperty CategoryOrderProperty = DependencyProperty.Register(
+        nameof(CategoryOrder), typeof(IEnumerable<string>), typeof(PropertyGrid),
+        new PropertyMetadata(null, OnOrderChanged));
+
+    public IEnumerable<string> CategoryOrder
+    {
+        get => (IEnumerable<string>) GetValue(CategoryOrderProperty);
+        set => SetValue(CategoryOrderProperty, value);
+    }
+
+    /// <summary>CLR property names in priority order within each category.</summary>
+    public static readonly DependencyProperty PropertyOrderProperty = DependencyProperty.Register(
+        nameof(PropertyOrder), typeof(IEnumerable<string>), typeof(PropertyGrid),
+        new PropertyMetadata(null, OnOrderChanged));
+
+    public IEnumerable<string> PropertyOrder
+    {
+        get => (IEnumerable<string>) GetValue(PropertyOrderProperty);
+        set => SetValue(PropertyOrderProperty, value);
+    }
+
+    private static void OnOrderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var grid = (PropertyGrid) d;
+        if (grid._dataView == null) return;
+
+        grid.UpdateOrder();
+        // Refresh existing sort descriptions without leaving alphabetical mode.
+        grid._dataView.Refresh();
+    }
+
+    private void UpdateOrder()
+    {
+        var categories = CreateOrderMap(CategoryOrder);
+        var properties = CreateOrderMap(PropertyOrder);
+        foreach (PropertyItem item in _dataView.SourceCollection)
+        {
+            item.CategoryOrder = item.Category != null && categories.TryGetValue(item.Category, out var category)
+                ? category : int.MaxValue;
+            item.PropertyOrder = item.PropertyName != null && properties.TryGetValue(item.PropertyName, out var property)
+                ? property : int.MaxValue;
+        }
+    }
+
+    private static Dictionary<string, int> CreateOrderMap(IEnumerable<string> names)
+    {
+        var result = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        if (names == null) return result;
+        foreach (var name in names)
+        {
+            if (!string.IsNullOrWhiteSpace(name)) result.TryAdd(name, result.Count);
+        }
+        return result;
+    }
+
     public override void OnApplyTemplate()
     {
         if (_searchBar != null)
@@ -130,6 +187,7 @@ public class PropertyGrid : Control
             .Where(item => PropertyResolver.ResolveIsBrowsable(item)).Select(CreatePropertyItem)
             .Do(item => item.InitElement()));
 
+        UpdateOrder();
         SortByCategory(null, null);
         _itemsControl.ItemsSource = _dataView;
     }
@@ -142,7 +200,9 @@ public class PropertyGrid : Control
         {
             _dataView.GroupDescriptions.Clear();
             _dataView.SortDescriptions.Clear();
+            _dataView.SortDescriptions.Add(new SortDescription(nameof(PropertyItem.CategoryOrder), ListSortDirection.Ascending));
             _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.CategoryProperty.Name, ListSortDirection.Ascending));
+            _dataView.SortDescriptions.Add(new SortDescription(nameof(PropertyItem.PropertyOrder), ListSortDirection.Ascending));
             _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.DisplayNameProperty.Name, ListSortDirection.Ascending));
             _dataView.GroupDescriptions.Add(new PropertyGroupDescription(PropertyItem.CategoryProperty.Name));
         }

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -27,6 +27,9 @@ public class PropertyGridDemoModel
 
 public enum Gender
 {
+    [Description("Male (Description)")]
     Male,
-    Female
+    [Description("Female (Description)")]
+    Female,
+    Unspecified
 }
