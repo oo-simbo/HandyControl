@@ -1,0 +1,10 @@
+﻿.vs
+.config
+.idea
+*.user
+[Bb]in/
+[Oo]bj/
+packages/
+build/outputs
+build/tools
+.DS_Store

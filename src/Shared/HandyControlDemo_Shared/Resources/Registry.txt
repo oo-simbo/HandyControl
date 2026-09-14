@@ -1,0 +1,16 @@
+﻿Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\HandyControlDemo]
+@="HandyControlDemo"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\HandyControlDemo\DefaultIcon]
+@="#"
+
+[HKEY_CLASSES_ROOT\HandyControlDemo\shell]
+
+[HKEY_CLASSES_ROOT\HandyControlDemo\shell\open]
+
+[HKEY_CLASSES_ROOT\HandyControlDemo\shell\open\command]
+@="#"
+

@@ -1,0 +1,41 @@
+name: Bump up version
+
+on:
+  workflow_dispatch:
+    inputs:
+      pre_release:
+        description: 'is preview'
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  bump-up-version:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish
+        working-directory: ./build
+        run: |
+            git config --local user.name "${{ github.actor }}"
+            git config --local user.email "836904362@qq.com"
+            dotnet new tool-manifest
+            dotnet tool install cake.tool --version 5.0.0
+            dotnet cake --target publish --username="${{ github.actor }}" --email="836904362@qq.com" --pre-release=${{ inputs.pre_release }} --nuget-token=${{ secrets.NUGETTOKEN }} --github-token=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push git changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true

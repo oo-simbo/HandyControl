@@ -1,0 +1,19 @@
+﻿<Window x:Class="HandyControlDemo.Window.DialogDemoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:langs="clr-namespace:HandyControlDemo.Properties.Langs"
+        xmlns:ex="clr-namespace:HandyControlDemo.Tools.Extension"
+        xmlns:data="clr-namespace:HandyControlDemo.Data"
+        DataContext="{Binding DialogDemo,Source={StaticResource Locator}}"
+        Title="{ex:Lang Key={x:Static langs:LangKeys.DialogDemo}}"
+        Width="800"
+        Height="500">
+    <hc:TransitioningContentControl>
+        <hc:UniformSpacingPanel Margin="32" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Orientation="Vertical">
+            <Button Content="{ex:Lang Key={x:Static langs:LangKeys.ShowInCurrentWindow}}" Command="{Binding ShowWithTokenCmd}" CommandParameter="{Binding DialogToken,RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <Button Content="{ex:Lang Key={x:Static langs:LangKeys.ShowInMainWindow}}" Command="{Binding ShowWithTokenCmd}" CommandParameter="{x:Static data:MessageToken.MainWindow}"/>
+            <Button Content="{ex:Lang Key={x:Static langs:LangKeys.CloseMainWindowDialog}}" Command="{Binding CloseMainWindowDialogCmd}" CommandParameter="{x:Static data:MessageToken.MainWindow}" />
+        </hc:UniformSpacingPanel>
+    </hc:TransitioningContentControl>
+</Window>
