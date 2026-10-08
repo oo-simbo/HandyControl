@@ -58,9 +58,9 @@
     <Style x:Key="InputElementBaseStyle" TargetType="Control">
         <Setter Property="hc:TitleElement.MarginOnTheLeft" Value="0,7,6,0" />
         <Setter Property="hc:TitleElement.MarginOnTheTop" Value="8,0,0,5" />
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
-        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
-        <Setter Property="Padding" Value="{StaticResource DefaultInputPadding}" />
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
+        <Setter Property="Padding" Value="{DynamicResource DefaultInputPadding}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
@@ -78,7 +78,8 @@
 
     <Style x:Key="BaseStyle" TargetType="Control">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-        <Setter Property="FontSize" Value="{StaticResource TextFontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource TextFontSize}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
     </Style>
 

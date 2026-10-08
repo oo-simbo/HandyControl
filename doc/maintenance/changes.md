@@ -1,5 +1,95 @@
 # 修改与验证台账
 
+## HC-M012：统一按钮组项动态尺寸并修正 PropertyGrid 工具栏排序按钮与搜索框不等高（2026-10-08）
+
+- 现象（用户反馈）：Ultron 原生 PropertyGrid 的 2 个排序按钮与 SearchBar 不等高，而 HC 默认 Demo 等高。框架把 `DefaultControlHeight` 运行时覆盖为 36（另有 `DefaultControlPadding` 12,6、`DefaultInputPadding` 8,0）。
+- 根因：按钮组三类项样式不统一。`ButtonGroupItemBaseStyle`（Button）在 HC-M009 已改为动态 `MinHeight`，但 `RadioGroupItemBaseStyle`、`ToggleButtonGroupItemBaseStyle` 仍写死 `Height = {StaticResource DefaultControlHeight}`（StaticResource 解析为 28，不随运行时覆盖）；PropertyGrid 工具栏的排序按钮正是 ButtonGroup 里的 RadioButton。搜索框 `SearchBarPlus` 的 `hc:InfoElement.MinContentHeight` 同样写死 StaticResource 28。于是令牌 36 下搜索框 36、排序按钮 28（反向验证实测 `sort button 28 must match the search bar 36`）；令牌 28 时两者都是 28，所以默认 Demo 看不出问题。
+- 修复（`src/Shared/HandyControl_Shared/Themes`）：
+  - `Styles/Base/RadioButtonBaseStyle.xaml`：`RadioGroupItemBaseStyle` 的静态 `Height` 改为 `MinHeight={DynamicResource DefaultControlHeight}`；`VerticalAlignment` 由 `Center` 改为 `Stretch`（按钮组按内容定高时与 Center 等价，只有组被拉高时才填充）。
+  - `Styles/Base/ToggleButtonBaseStyle.xaml`：`ToggleButtonGroupItemBaseStyle` 同样改为动态 `MinHeight` + `Stretch`，与 `ButtonGroupItemBaseStyle`/`RadioGroupItemBaseStyle` 三者统一。
+  - `Styles/Base/SearchBarBaseStyle.xaml`：`SearchBarExtendBaseStyle` 的 `hc:InfoElement.MinContentHeight` 由 StaticResource 改为 DynamicResource。
+  - `Styles/Base/PropertyGridBaseStyle.xaml`：工具栏 `hc:ButtonGroup` 增加 `VerticalAlignment="Stretch"`，让排序按钮跟随同一行里更高的搜索框；默认等高时该对齐不产生视觉差异。
+  - 未设置任何固定高度：`Height` 保持 Auto、令牌只是下限，字号高于令牌时由内容撑高，因此不是“用固定高度掩盖大字体裁切”。`Padding` 保持与 `ButtonGroupItemBaseStyle` 相同的 `10,0`，16px 排序图标由 `VerticalContentAlignment=Center` 居中，无需额外垂直内边距。
+  - 未采用“PropertyGrid 局部把按钮高度绑定到 SearchBar 实际高度”：那是单向的“高跟矮”，缩小字号时会卡住不回落；本轮用共享动态令牌 + 拉伸对齐解决。
+- 验证：库/Demo Release 全量重编译均 2206 警告、0 错误（与 HC-M009~M011 基线一致，无 XAML 警告）。WpfSmoke 三皮肤退出码 0：
+  - 新增「PropertyGrid 工具栏高度」10 组规格（DefaultControlHeight 28/36/48/21/42/27/54 × 宿主字号 12/24/9/18），逐组断言搜索框 ≥ 令牌、字号自然高度高于令牌时必须长于令牌、两个排序按钮与搜索框实际高度差 ≤ 0.5。实测 `(28,12)=28/28`、`(36,12)=36/36`、`(36,24)=36/36`、`(48,12)=48/48`、`(48,24)=48/48`、`(28,24)=30.667/30.667`、`(21,9)=21.333`、`(42,18)=42`、`(27,12)=26.667`、`(54,12)=54`（本机 DPI 150% 且启用布局取整，故出现 2/3 的整数倍）。
+  - 新增「按钮组项尺寸」检查：同一按钮组内 RadioButton/Button/ToggleButton 三类项在令牌 28/36/48 下均实际等于令牌。
+  - 上述两项与并行工作流新增的「图标裁剪」检查（24 种图标样式）同批通过，完整套件三皮肤退出码 0。
+- 反向验证：把 `RadioGroupItemBaseStyle` 改回 `Height={StaticResource DefaultControlHeight}` 并重建，冒烟在 `DefaultControlHeight=36 font=12: sort button 28 must match the search bar 36` 失败（退出码 1），精确复现用户报告；恢复后复验通过。
+- 下游：本轮不改 Ultron 业务源码，只同步二进制；按授权更新 `test/JuLink.Test.Service/Common/NativePropertyGridStyleTests.cs`，新增 `PropertyGridToolbar_SortButtonsMatchSearchBarHeight`（DataRow 14/1、24/1、14/0.75、14/1.5、24/0.75、24/1.5），断言排序按钮 ≥ 动态令牌且与搜索框实际同高。实测 `dotnet test --filter NativePropertyGridStyleTests` **9/9 通过**（含既有 3 项）。经验：PropertyGrid 必须放进面板/树中再取模板内的 SearchBar，只对控件自身 Measure/Arrange 时视觉树里取不到。
+- 并行工作流合并说明：同期的「图标按钮裁剪修复」（`ButtonIcon`/`RepeatButtonIcon` Padding=4、Small=2、圆形=4 及其冒烟检查与文档条目）未被本轮回退，已包含在本次构建与同步的二进制中——该条目此前记录“未复制下游 DLL”，本轮 3.6.7.0 一并分发。
+- 分发：版本 `3.6.6.0` → `3.6.7.0`。主 DLL `30EAD4BFE45848CB0363D7B90908563DF45AD258A6932D5AE97766F522DFAFF6`；英文卫星 `01FADDE5CDC474894BCB036A51509503C01D6FE6BBDF396064ED18EF7B073DF6`；XML `F23540A8CE51E623C4EE7B7469B15946E33E6D4B68F006FAF3A61F5B4D11C420`。替换前 3.6.6.0 三件套归档 `artifacts/deployment-backups/Ultron-dlls-before-3.6.7.0-20261008-144135`（主 DLL `15F202418278E283E72D9C8EF57E2FE911A8944F1FD54973779C9EB1B85438FC`）。未分发 PDB，复制无文件占用，未停用任何进程。
+- 卫星哈希结论更正：HC-M011 写的“英文卫星在源码未变下哈希仍随构建变化，说明非确定性”不准确。实测同一版本（3.6.7.0）两次构建的英文卫星哈希一致，3.6.5.0→3.6.6.0 的差异对应程序集版本变化，即卫星哈希随版本与资源内容确定，不是随机；XML 未嵌版本故跨版本不变。判版本仍以主 DLL 版本号/哈希为准。
+- 仍写死 `StaticResource DefaultControlHeight` 的既有消费点（不在本轮范围）：`SplitButtonBaseStyle`（`Height`，其模板无默认图标框，直接改 Auto 有 HC-M010 的图标撑开风险，需单独评估）、`CheckComboBoxBaseStyle`、`ChatBubbleBaseStyle`、`DataGridBaseStyle`、`ExpanderBaseStyle`、`GroupBoxBaseStyle`、`LabelBaseStyle`、`MenuBaseStyle`、`PasswordBoxBaseStyle`、`PinBoxBaseStyle`、`TabControlBaseStyle`、`TagBaseStyle`、`TimePicker/DatePicker/DateTimePickerBaseStyle`、`TransferBaseStyle`、`TreeViewBaseStyle`、`ListView`、`Pagination`、`PropertyGrid.xaml`、`Ribbon` 等；需要时按同一方式逐项迁移。
+- 源码基线：`main` @ `42a6cc5`（`refactor(property-grid): remove business attributes from HandyControl`）；本轮为**未提交工作区构建**，HC-M010/HC-M011 及更早的既有未提交改动（含 `DialogExtension.cs`）全部保留，未提交、未推送。
+- 未验证项：JuLink.Ultron 全量构建与业务界面人工验收（由主代理统一构建）；100%/150%/200% DPI 切换、真实宿主鼠标键盘交互；Ultron 其他输出目录（`Release/`、`Debug/`、`src/*/bin`）仍是旧 DLL。
+- 状态：源码修改、库/Demo 构建、三皮肤自动冒烟、根因反向验证、下游二进制同步与目标测试类回归全部完成；仓库未提交。日志：`artifacts/hc-3.6.7-build.log`、`artifacts/hc-3.6.7-demo-build.log`、`artifacts/hc-3.6.7-smoke.log`、`artifacts/ultron-native-grid-3.6.7.log`。
+- 注意：本轮构建后若并行工作流继续修改 XAML 样式，需重新构建并重新同步 DLL 才会生效。
+
+## 图标按钮裁剪修复（2026-10-08）
+
+- 原因：图标按钮固定为 28/20 DIP 后，继承的文字按钮横向内边距及圆形按钮的 6 DIP 内边距挤占图标空间，Path 发生布局裁剪；仅核验控件宽高无法发现该问题。
+- 修复：ButtonIcon / RepeatButtonIcon 使用 Padding=4；对应 Small 使用 Padding=2；ButtonIconCircular / RepeatButtonIconCircular 使用 Padding=4。保留其余现有尺寸、几何与样式改动。
+- Demo 侧栏 ButtonShiftOut / ButtonShiftIn 的局部 Padding 从 `8 8 0 8` 改为 `8 4 0 4`，保留横向偏移和半圆把手布局，使 16 DIP 箭头有足够高度。
+- 回归：WpfSmoke 新增 24 种图标样式的 Path 及祖先实际裁剪检查，覆盖普通/Small、启用/禁用、切换选中状态。修复前 ButtonIcon 的图标框 11.33×16 被裁至 5.33×15.33，检查失败；修复后当时完整冒烟在 SkinDefault/SkinDark/SkinViolet 下全部通过。
+- 最终验证：正式 Demo Release 增量构建 0 警告、0 错误；实际启动正式 Demo，在当前 150% 缩放桌面确认侧栏左右箭头完整且展开/收起有效。最终复跑时图标检查仍通过，但同期新增的 PropertyGrid 工具栏检查在 DefaultControlHeight=36 时报告排序按钮 28、搜索框 36，导致完整套件退出码 1；该并行修改未由本次修复调整。日志位于 artifacts/icon-clipping-before.log、artifacts/icon-clipping-after.log、artifacts/icon-clipping-build.log。
+- 交付状态：本地未提交工作区；未推送、未复制下游 DLL。下一步由工具栏修改任务解决上述高度检查失败。
+
+## HC-M011：修正 NumericUpDown 内嵌上下按钮撑高数字框（2026-10-08）
+
+- 现象（用户反馈）：数字框（NumericUpDown）高度是普通输入框的两倍。上一轮 HC-M009 给 `ButtonBaseBaseStyle` 加的动态 `MinHeight = DefaultControlHeight` 通过 `RepeatButtonIcon` 继承到了数字框模板里的上下按钮。
+- 根因：`NumericUpDownBaseStyle.xaml` 的 5 个模板里，`UpButton`/`DownButton` 是半高子按钮（各自占一行，`Height="Auto"` + `VerticalAlignment="Stretch"`）。模板内联写的 `Height="Auto"` 按依赖属性优先级压过了样式里的 `Height`，但**压不过 `MinHeight`**：两个 `RepeatButtonIcon` 各保住一份 `MinHeight=28`，两行相加把数字框撑到 56。反向验证实测：去掉清零后 `NumericUpDown=56 vs TextBox=28`。
+- 修复：在 5 个模板共 10 处 `UpButton`/`DownButton` 上显式 `MinHeight="0"`（`Styles/Base/NumericUpDownBaseStyle.xaml`），并在文件内加注释说明为什么必须逐个清零。未给数字框本身设固定高度，也没有改动其余属性，因此 24 号字时数字框仍随内容增高、不被裁切。
+- PropertyGrid 原生样式核查（按要求只核查、不改外观）：
+  - 分组容器 `PropertyGroupItemBaseStyle` 已是 `Expander`（Header 绑定分组名、`IsExpanded=True`）+ 内容 `Border BorderThickness="1,0,1,1" CornerRadius="0,0,4,4"`，上缘由 Expander 头、下缘圆角由该 Border 分工，切分正确，未改模板。
+  - `Themes/Styles` 全目录（含 `Styles/Base`）没有任何 `FontSize="{StaticResource ...}"` 或 `CornerRadius="{StaticResource ...}"`（检索 0 命中），PropertyGrid 相关文件也未设 `FontSize`，即不存在“静态资源挡住动态字号”的点，故未做任何 Static→Dynamic 改写。
+  - 实测结论：`PropertyGridBaseStyle`、`PropertyItemBaseStyle`、以及 `Window`/`WindowWin10` 隐式样式都不设 `FontSize`，所以 PropertyGrid 与 TextBox/ComboBox/NumericUpDown 一样**按继承取字体**；`TextFontSize` 只直接作用于以 `BaseStyle` 为基的控件。下游若要用令牌驱动输入类/PropertyGrid 字号，需在宿主（窗口或 App）层给字号，而不是依赖控件样式。
+  - 已知但本轮未改（超出「静态资源挡动态字号」范围，改动会影响全应用或超出 PropertyGrid 边界）：`ToolTipBaseStyle` 硬编码 `FontSize="12"`（PropertyItem 描述气泡用它）；`PropertyGrid.xaml` 的 `ComboBoxItemCapsuleSingle` 用 `{StaticResource DefaultCornerRadius}`（是圆角不是字号）。需要时各改一行即可，本轮保持原外观。
+- 验证：库与 Demo Release 全量重编译（`--no-incremental`）均 2206 警告、0 错误（与 HC-M009/HC-M010 基线一致，无新增、无 XAML 警告）。WpfSmoke 三皮肤全部通过（退出码 0），新增「数字框高度」检查：默认字号 `TextBox=28`、`ComboBox=28`、三种模板的 NumericUpDown 均 `28`；上下按钮 `MinHeight=0` 且实际高度不超过数字框一半；把宿主窗口字号改为 24 后四者同时为 `30.666666666666668`，数字框既未裁切也未翻倍；恢复字号后回到 28，且数字框始终不超过 TextBox 的 1.5 倍。
+- 反向验证：临时去掉 10 处 `MinHeight="0"` 重新构建，冒烟在 `default font: NumericUpDown must match the TextBox height: 56 vs 28` 失败（退出码 1），确认该断言正是覆盖本次根因；恢复后复验通过。
+- 分发：版本由 `3.6.5.0` 升为 `3.6.6.0`（沿用每轮 `X.Y.Z.0` 递增，便于按二进制版本追溯）。主 DLL、英文卫星、XML 同批复制到 `D:/Sourcecode/JuLink.Ultron/src/JuLink.Common.UI.Wpf/Dlls`（含 `en/`），逐文件 SHA256 与库 Release 输出一致，不分发 PDB。主 DLL `15F202418278E283E72D9C8EF57E2FE911A8944F1FD54973779C9EB1B85438FC`；英文卫星 `D65B12AC0396472F5F1B794F1E1B379C9012A839397160CE111C08E94C30C386`；XML `F23540A8CE51E623C4EE7B7469B15946E33E6D4B68F006FAF3A61F5B4D11C420`（无 API/注释变化，与 3.6.4.0/3.6.5.0 相同）。英文卫星哈希随程序集版本变化（同版本重复构建一致），判版本须用主 DLL 版本号或哈希。替换前的 3.6.5.0 三件套先归档到 `artifacts/deployment-backups/Ultron-dlls-before-3.6.6.0-20261008-140437`（主 DLL SHA256 `7696E664...`，与 HC-M010 记录一致），复制过程无文件占用，未停用任何用户进程。
+- 源码基线：`main` @ `42a6cc5`；本轮为**未提交工作区构建**，保留 HC-M010 及更早的既有未提交改动（含 `DialogExtension.cs`），未回退、未提交、未推送。
+- 未验证项：JuLink.Ultron 侧下游编译、属性网格原生样式替换后的人工界面验收、排序/搜索交互（本轮只改 HC 库并同步二进制）；100%/150%/200% DPI、真实宿主鼠标键盘与输入法；Ultron 其他输出目录（`Release/`、`Debug/`、`src/*/bin`）仍是旧 DLL，需其重建后生效。
+- 状态：源码修改、库/Demo 构建、三皮肤冒烟、根因反向验证与下游二进制同步已完成；仓库未提交。日志：`artifacts/hc-3.6.6-build.log`、`artifacts/hc-3.6.6-demo-build.log`、`artifacts/hc-3.6.6-smoke.log`。
+
+## HC-M010：修正图标几何撑开按钮与 Small 按钮被 MinHeight 覆盖（2026-10-08）
+
+- 现象（下游反馈）：图标按钮尺寸巨大。上一轮 HC-M009 把 `ButtonBaseBaseStyle` 从固定 `Height` 改为 `Height=Auto` + 动态 `MinHeight` 后，按钮模板里 `Stretch=Uniform` 的图标 `Path` 失去了可依附的有限高度。
+- 根因：模板中图标 `Path` 的 `Width`/`Height` 绑定 `hc:IconElement.Width`/`Height`，两者默认都是 `double.NaN`。`Height` 固定时该 Path 被按钮高度夹住并按比例缩放；改成 `Height=Auto` 后可用高度变为无限，Path 退化为按几何原始坐标测量。HandyControl 的几何是 1024 级大坐标（如 `DeleteGeometry`），因此把按钮直接撑开——实测“图标+文字”按钮被撑到 **781.33px** 高。第二个缺陷：`.Small` 样式显式 `Height=20` 时，继承来的 `MinHeight=28` 在 WPF 布局中优先于 `Height`，导致所有 Small 按钮实际仍是 28 高，圆形小按钮的 `Width=20` 也失去 1:1。
+- 修复（`src/Shared/HandyControl_Shared/Themes`）：
+  - `Basic/Sizes.xaml` 新增设计令牌 `DefaultIconSize`（16）。
+  - `Styles/Base/ButtonBaseBaseStyle.xaml` 新增 `hc:IconElement.Width`/`Height = {DynamicResource DefaultIconSize}`：图标 Path 始终有有限方框，大坐标几何不再参与 `Height=Auto` 下的定尺寸，且调用方仍可逐个覆盖。文本按钮继续保留 `Height=Auto` + 动态 `MinHeight`，随字号增高。
+  - `Styles/Button.xaml`、`Styles/RepeatButton.xaml`：纯图标按钮 `ButtonIcon`/`RepeatButtonIcon` 显式给方形尺寸（`Width`/`Height` = `DefaultControlHeight`）；`ButtonIconCircular`/`RepeatButtonIconCircular` 的 `Width` 由 `StaticResource` 改为 `DynamicResource` 并显式补 `Height`，保证运行时改 `DefaultControlHeight` 时仍为 1:1。
+  - `Styles/Button.xaml`、`Styles/RepeatButton.xaml`、`Styles/ToggleButton.xaml`、`Styles/RadioButton.xaml`：41 个继承 `ButtonBaseBaseStyle` 的 `.Small` 样式补 `MinHeight=20`（Button 14、RepeatButton 14、ToggleButton 普通色 6、RadioButton 7，含 `ButtonIcon.Small`/`ButtonIconCircular.Small`/`RepeatButtonIcon*.Small`/`RadioButtonIcon.Small`），并把 `hc:IconElement.Width` 与既有 `Height=12` 对齐，保持小按钮图标框尺寸不变。
+  - 边界：`ToggleButtonIcon*`、`ToggleButtonSwitch*`、`ToggleButtonFlip*`、`SplitButton*`、`RadioGroupItem*` 的基类不继承 `ButtonBaseBaseStyle`（或仍固定 `Height`），本轮无回归，也未做无谓修改。Avalonia 未改动。
+- 验证：库 Release 全量重编译（`--no-incremental`）2206 警告、0 错误；Demo Release 全量重编译 2206 警告、0 错误（与 HC-M009 基线一致，无新增、无 XAML 编译警告）。WpfSmoke 在 SkinDefault/SkinDark/SkinViolet 三种皮肤下全部通过（退出码 0），新增“按钮尺寸（实际布局）”检查：1024 级 `DeleteGeometry` 与宽比例 `DownGeometry` 的“图标+文字”按钮高度 ≤40、宽度 ≤120、图标框 ≤20；`ButtonIcon` 28×28；`ButtonIconCircular` 28×28（1:1）；`ButtonIconCircular.Small` 20×20；`ButtonDefault.Small` 恰好 20；运行时追加 `DefaultControlHeight=44` 覆盖后文本按钮与图标按钮随动为 44、圆形仍 1:1、Small 保持 20，移除覆盖后恢复 28。
+- 回归测试有效性反向验证：临时注释掉 `ButtonBaseBaseStyle` 的两条图标框 Setter 并重新构建，同一冒烟在 `icon+text button must keep the control height instead of the geometry: 781.3333333333334` 处失败（退出码 1），证明新增断言确实覆盖本次根因；随后恢复并复验通过。
+- 分发：主 DLL、英文卫星、XML 同批复制到 `D:/Sourcecode/JuLink.Ultron/src/JuLink.Common.UI.Wpf/Dlls`（含 `en/` 子目录），逐文件 SHA256 与库 Release 输出一致，不分发 PDB。版本由 `3.6.4.0` 升为 `3.6.5.0`。主 DLL `7696E6645973C1550C8DB63248205862B01DA9F225EE84F3025F1989C6F0FEFF`；英文卫星 `6E155C672568DCA7C5538AE95899761840C4C9035290CEFD6872BB92EE3EAD31`；XML `F23540A8CE51E623C4EE7B7469B15946E33E6D4B68F006FAF3A61F5B4D11C420`（本轮无 API 与文档注释变化，与 3.6.4.0 的 XML 哈希相同，不能只凭 XML 判版本）。同一源码的增量构建与全量重编译主 DLL 哈希不同，故以最终全量重编译产物为准并重新同步。
+- 回退：替换前的 3.6.4.0 三件套从 `JuLink.Ultron/Release` 回收并归档到 `artifacts/deployment-backups/Ultron-dlls-before-3.6.5.0-20261008-135528`（主 DLL 3.6.4.0、SHA256 `444DAC51527C2C06FAC70853E02494C1DECE7743449EF927057047787240149D`，与 HC-M009 记录一致）。未停用或结束任何用户进程，复制过程未遇到目标文件占用。
+- 源码基线：`main` @ `42a6cc5`（`refactor(property-grid): remove business attributes from HandyControl`）；本轮为**未提交工作区构建**，保留了工作区既有未提交改动（含 `DialogExtension.cs`），未回退、未提交、未推送。
+- 未验证项：JuLink.Ultron 侧的下游编译、回归与人工界面验收（按要求本轮只构建 HandyControl 仓）；100%/150%/200% DPI、真实宿主鼠标键盘交互、输入法与多屏弹窗边界；Ultron 其他输出目录（`Release/`、`Debug/`、`src/*/bin`）仍是旧 DLL，需其自行重建后生效。
+- 状态：源码修改、库/Demo 构建、三皮肤自动冒烟、根因反向验证与下游二进制同步已完成；仓库未提交。日志：`artifacts/hc-3.6.5-build.log`、`artifacts/hc-3.6.5-demo-build.log`、`artifacts/hc-3.6.5-smoke.log`。
+
+## HC-M009：基础样式动态设计令牌与 3.6.4.0 二进制交付（2026-10-08）
+
+- 范围：仅为下游框架样式系统（JuLink.Ultron `JuLink.Common.UI.Wpf`）打通运行时字体/尺寸/颜色的动态消费；不改控件 API、不新增模板属性、不引入 JuLink 依赖。版本 `Version`/`FileVersion`/`AssemblyVersion` 由 `3.6.3.0` 升为 `3.6.4.0`。工作区中已存在的 `DialogExtension.cs` BOM 调整由用户此前会话产生，不计入本轮改动，也未回退。
+- 字体：`Themes/Basic/Fonts.xaml` 新增 `DefaultFontFamily`（默认 `Microsoft YaHei UI`）；`BaseStyle` 的 `FontSize` 由 `TextFontSize` 静态改为动态，并新增动态 `FontFamily`。
+- 尺寸：`BaseStyle` 的 `InputElementBaseStyle`（`CornerRadius`/`MinHeight`/`Padding`）改为动态；`ButtonBaseBaseStyle` 去掉固定 `Height`，改为 `Height=Auto` + 动态 `MinHeight`，`Padding` 改为动态；`ButtonBaseStyle` 的 `CornerRadius`、`ButtonGroupItemBaseStyle` 的 `Height`→动态 `MinHeight`、`CardBaseStyle` 的 `CornerRadius` 改为动态；`ComboBoxBaseStyle` 的可编辑输入框 `Padding`、下拉项 `Padding`/`MinHeight`、Extend `MinContentHeight`；`TextBoxBaseStyle` 的 Watermark `Padding` 与 Extend `MinContentHeight`；`NumericUpDownBaseStyle` 的 Extend `MinContentHeight`；`AutoCompleteTextBoxBaseStyle` 的 `CornerRadius`/`MinHeight`/`Padding` 与下拉项 `Padding`/`MinHeight`。其余仍为 `StaticResource` 的消费点（Border、Calendar、CheckBox、RadioButton、Slider、Badge、DataGrid 等）按“不泛改全部”保留，已在 `build-and-use.md` 列出。
+- 颜色机制实测结论（重要）：`Basic/Brushes.xaml` 的画刷颜色虽是 `DynamicResource`，但在首次解析后不会因新增合并字典而重新求值，画刷本身也非冻结（`IsFrozen=False`）。因此仅覆盖 `Themes/Basic/Colors/Colors*.xaml` 的 `Color` 键无法实现运行时换色；运行时改配色必须由上层提供同名实体画刷，`PrimaryBrush`/`TitleBrush` 保持 `LinearGradientBrush` 以兼容依赖渐变类型的动画。该结论已写入维护文档，并作为下游 `WpfStyleManager` 的实现依据。
+- 验证：库 Release 全量构建 2206 警告、0 错误（与 HC-M007 基线相同，无新增警告）；Demo Release 全量构建 2206 警告、0 错误。WpfSmoke 在 SkinDefault/SkinDark/SkinViolet 三种皮肤下全部通过（退出码 0），除原有 PropertyGrid/时钟/NumericUpDown/WindowChrome/Growl/语言检查外，新增“运行时设计令牌覆盖”检查：默认消费值（`TextFontSize`=12、`DefaultFontFamily`=Microsoft YaHei UI、`MinHeight`=28、`Padding`=10,5 与 8,0、`Height=Auto`）→ 追加覆盖字典后字体家族/字号/最小高度/内边距/前景/背景画刷全部随动且 `PrimaryBrush` 仍为 `LinearGradientBrush` → 移除后恢复基线；三个已编译 Demo 页面加载与绑定通过。
+- 分发：主 DLL、英文卫星、XML 同批复制到 `D:/Sourcecode/JuLink.Ultron/src/JuLink.Common.UI.Wpf/Dlls`（含 `en/` 子目录），逐文件 SHA256 与库 Release 输出一致，不分发 PDB。主 DLL `444DAC51527C2C06FAC70853E02494C1DECE7743449EF927057047787240149D`；英文卫星 `385C8F4AC036CA38F84B4D3FF00F8837612C8F5EAD6577764F523A0FCB501171`；XML `F23540A8CE51E623C4EE7B7469B15946E33E6D4B68F006FAF3A61F5B4D11C420`。替换前整套旧文件备份于 `artifacts/deployment-backups/Ultron-before-3.6.4.0-20261008-121243`（旧主 DLL 3.6.3.0，SHA256 `7606E6D004C9710A7D35F2A7FF784EAC07FAB6A8CCE3C8020B14327D560D5204`）。日志：`artifacts/hc-3.6.4-build.log`、`hc-3.6.4-demo-build.log`、`hc-3.6.4-smoke.log`。
+- 源码基线：`main` @ `42a6cc5`（`refactor(property-grid): remove business attributes from HandyControl`）；本轮为**未提交工作区构建**，DLL 来自含 `DialogExtension.cs` 既有改动的工作区。
+- 未验证项：JuLink.Ultron 侧的下游编译、回归与人工界面验收（本轮按要求只构建 HandyControl 仓）；100%/150%/200% DPI、真实宿主鼠标键盘交互、输入法与多屏弹窗边界；仍为 `StaticResource` 的尺寸消费点不在本轮生效范围。
+- 状态：已完成源码修改、库/Demo 构建、三皮肤自动冒烟与下游二进制同步；仓库尚未提交或推送。
+
+## HC-M008：修正 Visual Studio WPF Demo 活动生成配置（2026-09-14）
+
+- 现象：生成或运行 WPF Demo 时跳过两个依赖库，需要分别生成库才能得到最新结果。
+- 实测原因：通过运行中 VS 的 DTE 读取到活动配置为 `Debug-Avalonia`，启动项目却为 `HandyControlDemo_Net_GE45`；已加载的 WPF 库、Demo、DemoCode 三个项目 `ShouldBuild` 均为 false。磁盘上的 `Debug-Net-GE45` 映射和 Demo 的两个 ProjectReference 正常，未发现应修改的依赖声明。
+- 修复：停止该 Demo 的调试，将当前 VS 解决方案配置切换为 `Debug-Net-GE45` 并保存解决方案；三个 WPF 项目的 `ShouldBuild` 均变为 true。执行 VS Clean + Build，再由 VS 启动 Demo。未修改其他 VS 实例、Avalonia 配置或业务代码。
+- 验证：VS BuildState=3（完成）、LastBuildInfo=0（无失败项目）；三个 Debug DLL 均重新生成且文件版本为 3.6.3.0；Demo 目录的 HandyControl.dll、HandyControlDemoCode.dll 与各自库输出 SHA256 一致。重启后进程实际加载的 HandyControlDemo.dll、HandyControl.dll 均为 3.6.3.0。未取得完整 VS 警告日志，不声明零警告。
+- 边界：这是当前 VS 会话的配置修复，仓库提交仅记录排查依据和操作说明；未改写 .suo、未测试关闭再打开 VS 后的配置恢复。Demo 标题读取入口程序集文件版本，不是控件库版本。未做人工页面交互或下游二进制分发。
+
 ## HC-M007：移除新增 PropertyGrid Attribute（2026-09-14）
 
 - 按用户要求移除 HandyControl.Data 下新增的七个元数据 Attribute 及 DateTimePickType，删除对应共享项目编译项。版本维持 3.6.3.0，nullable 和 PropertyResolver 外部特性解析、混合排序逻辑保持。

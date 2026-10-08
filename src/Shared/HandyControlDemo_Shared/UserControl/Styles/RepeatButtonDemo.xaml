@@ -1,246 +1,645 @@
-﻿<UserControl x:Class="HandyControlDemo.UserControl.RepeatButtonDemo"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:langs="clr-namespace:HandyControlDemo.Properties.Langs"
-             xmlns:ex="clr-namespace:HandyControlDemo.Tools.Extension"
-             Background="{DynamicResource RegionBrush}">
+<UserControl
+    x:Class="HandyControlDemo.UserControl.RepeatButtonDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ex="clr-namespace:HandyControlDemo.Tools.Extension"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:langs="clr-namespace:HandyControlDemo.Properties.Langs"
+    Background="{DynamicResource RegionBrush}">
     <hc:TransitioningContentControl>
         <hc:ScrollViewer IsInertiaEnabled="True">
-            <hc:UniformSpacingPanel ChildWrapping="Wrap" Spacing="32" Margin="32">
+            <hc:UniformSpacingPanel
+                Margin="32"
+                ChildWrapping="Wrap"
+                Spacing="32">
                 <hc:UniformSpacingPanel Orientation="Vertical" Spacing="32">
                     <WrapPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5"/>
+                            <RepeatButton Margin="5" Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                IsEnabled="False" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonPrimary}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonPrimary}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                Style="{StaticResource RepeatButtonPrimary}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonPrimary}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonSuccess}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonSuccess}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                Style="{StaticResource RepeatButtonSuccess}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonSuccess}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonInfo}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonInfo}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                Style="{StaticResource RepeatButtonInfo}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonInfo}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonWarning}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonWarning}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                Style="{StaticResource RepeatButtonWarning}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonWarning}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDanger}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDanger}"/>
-                        </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5" Style="{StaticResource RepeatButtonDashed}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5" Style="{StaticResource RepeatButtonDashed}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonDashedSuccess}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonDashedSuccess}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonDashedInfo}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonDashedInfo}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonDashedWarning}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonDashedWarning}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDashedDanger}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDashedDanger}"/>
-                        </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" IsEnabled="False" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" Margin="5" Style="{StaticResource RepeatButtonPrimary}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonPrimary}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonSuccess}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonSuccess}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonInfo}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonInfo}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonWarning}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonWarning}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDanger}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDanger}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                Style="{StaticResource RepeatButtonDanger}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDanger}" />
                         </StackPanel>
                     </WrapPanel>
                     <WrapPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}" Style="{StaticResource RepeatButtonDashed}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" IsEnabled="False" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}" Style="{StaticResource RepeatButtonDashed}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                Style="{StaticResource RepeatButtonDashed}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashed}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                Style="{StaticResource RepeatButtonDashedPrimary}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedPrimary}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedSuccess}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedSuccess}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                Style="{StaticResource RepeatButtonDashedSuccess}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedSuccess}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedInfo}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedInfo}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                Style="{StaticResource RepeatButtonDashedInfo}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedInfo}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedWarning}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedWarning}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                Style="{StaticResource RepeatButtonDashedWarning}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedWarning}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedDanger}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedDanger}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                Style="{StaticResource RepeatButtonDashedDanger}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedDanger}" />
                         </StackPanel>
                     </WrapPanel>
                     <WrapPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonIcon}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonIcon}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                IsEnabled="False" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonIconCircular}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonIconCircular}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                Style="{StaticResource RepeatButtonPrimary}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonPrimary}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                Style="{StaticResource RepeatButtonSuccess}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonSuccess}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                Style="{StaticResource RepeatButtonInfo}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonInfo}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                Style="{StaticResource RepeatButtonWarning}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonWarning}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                Style="{StaticResource RepeatButtonDanger}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDanger}" />
+                        </StackPanel>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                Style="{StaticResource RepeatButtonDashed}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashed}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                Style="{StaticResource RepeatButtonDashedPrimary}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedPrimary}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                Style="{StaticResource RepeatButtonDashedSuccess}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedSuccess}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                Style="{StaticResource RepeatButtonDashedInfo}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedInfo}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                Style="{StaticResource RepeatButtonDashedWarning}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedWarning}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                Style="{StaticResource RepeatButtonDashedDanger}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedDanger}" />
+                        </StackPanel>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                Style="{StaticResource RepeatButtonIcon}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonIcon}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                Style="{StaticResource RepeatButtonIconCircular}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonIconCircular}" />
                         </StackPanel>
                         <StackPanel Margin="16,0,0,0">
-                            <RepeatButton hc:BorderElement.CornerRadius="4" Margin="5" Height="28" Padding="10,0" Background="#24292e" Foreground="White" Content="{ex:Lang Key={x:Static langs:LangKeys.ButtonCustom}}" Style="{StaticResource RepeatButtonCustom}" hc:BackgroundSwitchElement.MouseHoverBackground="{DynamicResource DangerBrush}" hc:BackgroundSwitchElement.MouseDownBackground="PaleVioletRed"/>
-                            <RepeatButton hc:BorderElement.CornerRadius="4" Margin="5" Height="28" IsEnabled="False" Padding="10,0" Background="#24292e" Foreground="White" Content="{ex:Lang Key={x:Static langs:LangKeys.ButtonCustom}}" Style="{StaticResource RepeatButtonCustom}" hc:BackgroundSwitchElement.MouseHoverBackground="Red" hc:BackgroundSwitchElement.MouseDownBackground="PaleVioletRed"/>
+                            <RepeatButton
+                                Height="28"
+                                Margin="5"
+                                Padding="10,0"
+                                hc:BackgroundSwitchElement.MouseDownBackground="PaleVioletRed"
+                                hc:BackgroundSwitchElement.MouseHoverBackground="{DynamicResource DangerBrush}"
+                                hc:BorderElement.CornerRadius="4"
+                                Background="#24292e"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.ButtonCustom}}"
+                                Foreground="White"
+                                Style="{StaticResource RepeatButtonCustom}" />
+                            <RepeatButton
+                                Height="28"
+                                Margin="5"
+                                Padding="10,0"
+                                hc:BackgroundSwitchElement.MouseDownBackground="PaleVioletRed"
+                                hc:BackgroundSwitchElement.MouseHoverBackground="Red"
+                                hc:BorderElement.CornerRadius="4"
+                                Background="#24292e"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.ButtonCustom}}"
+                                Foreground="White"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonCustom}" />
                         </StackPanel>
                     </WrapPanel>
                 </hc:UniformSpacingPanel>
                 <hc:UniformSpacingPanel Orientation="Vertical" Spacing="32">
                     <WrapPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5" Style="{StaticResource RepeatButtonDefault.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5" Style="{StaticResource RepeatButtonDefault.Small}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                Style="{StaticResource RepeatButtonDefault.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDefault.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonPrimary.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonPrimary.Small}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                Style="{StaticResource RepeatButtonPrimary.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonPrimary.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonSuccess.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonSuccess.Small}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                Style="{StaticResource RepeatButtonSuccess.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonSuccess.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonInfo.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonInfo.Small}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                Style="{StaticResource RepeatButtonInfo.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonInfo.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonWarning.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonWarning.Small}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                Style="{StaticResource RepeatButtonWarning.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonWarning.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDanger.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDanger.Small}"/>
-                        </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5" Style="{StaticResource RepeatButtonDashed.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}" Margin="5" Style="{StaticResource RepeatButtonDashed.Small}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary.Small}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonDashedSuccess.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}" Margin="5" Style="{StaticResource RepeatButtonDashedSuccess.Small}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonDashedInfo.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}" Margin="5" Style="{StaticResource RepeatButtonDashedInfo.Small}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonDashedWarning.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}" Margin="5" Style="{StaticResource RepeatButtonDashedWarning.Small}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDashedDanger.Small}"/>
-                            <RepeatButton IsEnabled="False" Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}" Margin="5" Style="{StaticResource RepeatButtonDashedDanger.Small}"/>
-                        </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}" Style="{StaticResource RepeatButtonDefault.Small}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" IsEnabled="False" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}" Style="{StaticResource RepeatButtonDefault.Small}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" Margin="5" Style="{StaticResource RepeatButtonPrimary.Small}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonPrimary.Small}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonSuccess.Small}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonSuccess.Small}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonInfo.Small}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonInfo.Small}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonWarning.Small}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonWarning.Small}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDanger.Small}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDanger.Small}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                Style="{StaticResource RepeatButtonDanger.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDanger.Small}" />
                         </StackPanel>
                     </WrapPanel>
                     <WrapPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}" Style="{StaticResource RepeatButtonDashed.Small}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}" IsEnabled="False" Margin="5" hc:IconElement.Geometry="{StaticResource ClockGeometry}" Style="{StaticResource RepeatButtonDashed.Small}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                Style="{StaticResource RepeatButtonDashed.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Default}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashed.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary.Small}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
-                            <RepeatButton Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}" IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedPrimary.Small}" hc:IconElement.Geometry="{StaticResource CalendarGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                Style="{StaticResource RepeatButtonDashedPrimary.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Primary}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedPrimary.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedSuccess.Small}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedSuccess.Small}" hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                Style="{StaticResource RepeatButtonDashedSuccess.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Success}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedSuccess.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedInfo.Small}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedInfo.Small}" hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                Style="{StaticResource RepeatButtonDashedInfo.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Info}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedInfo.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedWarning.Small}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedWarning.Small}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                Style="{StaticResource RepeatButtonDashedWarning.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Warning}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedWarning.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonDashedDanger.Small}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonDashedDanger.Small}" hc:IconElement.Geometry="{StaticResource RightGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                Style="{StaticResource RepeatButtonDashedDanger.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Danger}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedDanger.Small}" />
                         </StackPanel>
                     </WrapPanel>
                     <WrapPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonIcon.Small}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonIcon.Small}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                Style="{StaticResource RepeatButtonDefault.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDefault.Small}" />
                         </StackPanel>
                         <StackPanel>
-                            <RepeatButton Margin="5" Style="{StaticResource RepeatButtonIconCircular.Small}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
-                            <RepeatButton IsEnabled="False" Margin="5" Style="{StaticResource RepeatButtonIconCircular.Small}" hc:IconElement.Geometry="{StaticResource UpDownGeometry}"/>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                Style="{StaticResource RepeatButtonPrimary.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonPrimary.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                Style="{StaticResource RepeatButtonSuccess.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonSuccess.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                Style="{StaticResource RepeatButtonInfo.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonInfo.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                Style="{StaticResource RepeatButtonWarning.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonWarning.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                Style="{StaticResource RepeatButtonDanger.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDanger.Small}" />
+                        </StackPanel>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                Style="{StaticResource RepeatButtonDashed.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Clock}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashed.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                Style="{StaticResource RepeatButtonDashedPrimary.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource CalendarGeometry}"
+                                Content="{ex:Lang Key={x:Static langs:LangKeys.Calendar}}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedPrimary.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                Style="{StaticResource RepeatButtonDashedSuccess.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedSuccess.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                Style="{StaticResource RepeatButtonDashedInfo.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedInfo.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                Style="{StaticResource RepeatButtonDashedWarning.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedWarning.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                Style="{StaticResource RepeatButtonDashedDanger.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonDashedDanger.Small}" />
+                        </StackPanel>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                Style="{StaticResource RepeatButtonIcon.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonIcon.Small}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                Style="{StaticResource RepeatButtonIconCircular.Small}" />
+                            <RepeatButton
+                                Margin="5"
+                                hc:IconElement.Geometry="{StaticResource UpDownGeometry}"
+                                IsEnabled="False"
+                                Style="{StaticResource RepeatButtonIconCircular.Small}" />
                         </StackPanel>
                     </WrapPanel>
                 </hc:UniformSpacingPanel>

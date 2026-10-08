@@ -195,11 +195,13 @@
         <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="hc:BorderElement.CornerRadius" Value="0"/>
-        <Setter Property="Height" Value="{StaticResource DefaultControlHeight}"/>
+        <!-- 与 ButtonGroupItemBaseStyle / RadioGroupItemBaseStyle 统一：Height=Auto + 动态 MinHeight，
+             不写死 StaticResource 的 28，运行时 DefaultControlHeight 覆盖与更高的同级输入都能生效。 -->
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
         <Setter Property="Padding" Value="10,0"/>
         <Setter Property="Margin" Value="-1,0,0,0"/>
         <Setter Property="Template">

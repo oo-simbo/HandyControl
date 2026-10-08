@@ -3,6 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:Double x:Key="DefaultControlHeight">28</sys:Double>
+    <sys:Double x:Key="DefaultIconSize">16</sys:Double>
     <sys:Double x:Key="SmallControlHeight">20</sys:Double>
     <Thickness x:Key="DefaultControlPadding">10,5</Thickness>
     <Thickness x:Key="DefaultInputPadding">8,0</Thickness>

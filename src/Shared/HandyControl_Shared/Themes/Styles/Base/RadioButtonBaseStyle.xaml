@@ -198,11 +198,16 @@
         <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="hc:BorderElement.CornerRadius" Value="0" />
-        <Setter Property="Height" Value="{StaticResource DefaultControlHeight}" />
+        <!-- 与 ButtonGroupItemBaseStyle 保持一致：Height=Auto + 动态 MinHeight。
+             原来写死 StaticResource 的 Height=28 既不随运行时 DefaultControlHeight 覆盖变化，
+             也不允许被更高的同级输入（如 PropertyGrid 工具栏里的 SearchBar）拉伸，导致两者不等高。
+             VerticalAlignment 用 Stretch：按钮组按内容定高时与原来的 Center 等价，
+             只有组被拉高（工具栏要跟随更高的搜索框）时组内项才会填满该行。 -->
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
         <Setter Property="Padding" Value="10,0" />
         <Setter Property="Margin" Value="-1,0,0,0" />
         <Setter Property="hc:IconElement.Width" Value="16" />

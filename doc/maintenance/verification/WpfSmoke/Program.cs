@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Shell;
 using System.Windows.Threading;
 using HandyControl.Data;
@@ -36,7 +37,13 @@ internal static class Program
                 VerifyNumericUpDown(app);
                 VerifyWindowAndGrowl(app);
                 VerifyLanguages(app);
-                Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl.");
+                VerifyThemeTokenOverride(app);
+                VerifyButtonSizing(app);
+                VerifyIconClipping(app);
+                VerifyNumericUpDownHeight(app);
+                VerifyPropertyGridToolbar(app);
+                VerifyButtonGroupItems(app);
+                Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl, runtime design-token override, button icon sizing, numeric spinner height, PropertyGrid toolbar height, button group item sizing.");
             }
             if (args.Length == 1) VerifyDemoPages(app, args[0]);
             Console.WriteLine("PASS all WPF binary smoke checks.");
@@ -374,6 +381,462 @@ internal static class Program
             }
             finally { window.Close(); }
         }
+    }
+
+    /// <summary>
+    /// 验证设计令牌的动态消费：字体家族/字号/最小高度/内外边距必须能被运行时覆盖，
+    /// 并且覆盖 HandyControl 的 Color 资源后已解析的画刷要随动、PrimaryBrush 类型不变。
+    /// </summary>
+    private static void VerifyThemeTokenOverride(Application app)
+    {
+        var button = new Button { Style = (Style)app.FindResource(typeof(Button)) };
+        var textBox = new TextBox { Style = (Style)app.FindResource(typeof(TextBox)) };
+        var panel = new StackPanel();
+        panel.Children.Add(button);
+        panel.Children.Add(textBox);
+        // 控件必须位于活动可视树中，DynamicResource 的失效通知才会沿树传播。
+        var window = new Window
+        {
+            Content = panel, Width = 400, Height = 200,
+            Left = -10000, Top = -10000,
+            ShowActivated = false, ShowInTaskbar = false
+        };
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+        try
+        {
+            window.Show();
+            Flush();
+
+            Require(button.FontSize == 12d, "BaseStyle must consume TextFontSize: " + button.FontSize);
+            Require(button.FontFamily.Source.Contains("Microsoft YaHei UI", StringComparison.OrdinalIgnoreCase),
+                "BaseStyle must consume DefaultFontFamily: " + button.FontFamily.Source);
+            Require(double.IsNaN(button.Height), "ButtonBaseBaseStyle must leave Height at Auto: " + button.Height);
+            Require(button.MinHeight == 28d, "ButtonBaseBaseStyle must consume DefaultControlHeight: " + button.MinHeight);
+            Require(button.Padding == new Thickness(10, 5, 10, 5),
+                "ButtonBaseBaseStyle must consume DefaultControlPadding: " + button.Padding);
+            Require(textBox.MinHeight == 28d, "InputElementBaseStyle must consume DefaultControlHeight: " + textBox.MinHeight);
+            Require(textBox.Padding == new Thickness(8, 0, 8, 0),
+                "InputElementBaseStyle must consume DefaultInputPadding: " + textBox.Padding);
+
+            var baselineTextColor = ((SolidColorBrush)app.FindResource("PrimaryTextBrush")).Color;
+            Require(app.FindResource("PrimaryBrush") is LinearGradientBrush,
+                "PrimaryBrush must stay a gradient brush for animation compatibility.");
+
+            // 运行时主题覆盖：字号/字体/尺寸类令牌由样式 Setter 的 DynamicResource 跟随；
+            // HandyControl 画刷自身的 DynamicResource 颜色只在首次解析时求值，
+            // 因此颜色必须由框架直接提供同键的实体画刷（PrimaryBrush 保持渐变类型）。
+            var primaryGradient = new LinearGradientBrush(Colors.Lime, Colors.Green, new Point(0, 0), new Point(1, 0));
+            var overrides = new ResourceDictionary
+            {
+                ["TextFontSize"] = 20d,
+                ["DefaultFontFamily"] = new FontFamily("Consolas"),
+                ["DefaultControlHeight"] = 44d,
+                ["DefaultControlPadding"] = new Thickness(20, 5, 20, 5),
+                ["DefaultInputPadding"] = new Thickness(16, 0, 16, 0),
+                ["PrimaryTextColor"] = Colors.Lime,
+                ["PrimaryTextBrush"] = new SolidColorBrush(Colors.Lime),
+                ["RegionBrush"] = new SolidColorBrush(Colors.Teal),
+                ["PrimaryBrush"] = primaryGradient
+            };
+            app.Resources.MergedDictionaries.Add(overrides);
+            Flush();
+
+            Require(button.FontSize == 20d, "TextFontSize override must reach a live control: " + button.FontSize);
+            Require(button.FontFamily.Source.Contains("Consolas", StringComparison.OrdinalIgnoreCase),
+                "DefaultFontFamily override must reach a live control: " + button.FontFamily.Source);
+            Require(button.MinHeight == 44d, "DefaultControlHeight override must reach a live button: " + button.MinHeight);
+            Require(button.Padding == new Thickness(20, 5, 20, 5),
+                "DefaultControlPadding override must reach a live button: " + button.Padding);
+            Require(textBox.MinHeight == 44d, "DefaultControlHeight override must reach a live TextBox: " + textBox.MinHeight);
+            Require(textBox.Padding == new Thickness(16, 0, 16, 0),
+                "DefaultInputPadding override must reach a live TextBox: " + textBox.Padding);
+            Require(ReferenceEquals(app.FindResource("PrimaryTextBrush"), overrides["PrimaryTextBrush"]),
+                "A real brush resource must override HandyControl's frozen-at-first-use brush.");
+            Require(ReferenceEquals(app.FindResource("PrimaryBrush"), primaryGradient)
+                    && app.FindResource("PrimaryBrush") is LinearGradientBrush,
+                "The accent gradient key must stay a LinearGradientBrush.");
+            Require(button.Foreground is SolidColorBrush foreground && foreground.Color == Colors.Lime,
+                "Live control foreground must follow the theme brush override.");
+            Require(textBox.Background is SolidColorBrush background && background.Color == Colors.Teal,
+                "Live input background must follow the theme brush override.");
+
+            app.Resources.MergedDictionaries.Remove(overrides);
+            Flush();
+
+            Require(button.FontSize == 12d && button.MinHeight == 28d,
+                "Removing the override must restore baseline tokens.");
+            Require(((SolidColorBrush)app.FindResource("PrimaryTextBrush")).Color == baselineTextColor,
+                "Removing the override must restore the baseline theme color.");
+            Console.WriteLine("PASS runtime design-token override (font family/size, control height, padding, theme brushes).");
+        }
+        finally { window.Close(); }
+    }
+
+    /// <summary>
+    /// 验证按钮图标尺寸：Height=Auto 之后，模板中 Stretch=Uniform 的图标 Path 不能被大坐标几何撑开，
+    /// 纯图标按钮必须有显式尺寸（圆形保持 1:1），Small 按钮的显式 Height 不能被继承的 MinHeight 压过，
+    /// 并且 DefaultControlHeight 的运行时覆盖要同时改变图标按钮尺寸而不影响 Small。
+    /// </summary>
+    private static void VerifyButtonSizing(Application app)
+    {
+        var hugeIcon = (Geometry)app.FindResource("DeleteGeometry");
+        var wideIcon = (Geometry)app.FindResource("DownGeometry");
+        var textButton = CreateIconButton((Style)app.FindResource(typeof(Button)), hugeIcon, "Text");
+        var wideTextButton = CreateIconButton((Style)app.FindResource(typeof(Button)), wideIcon, "Text");
+        var iconButton = CreateIconButton((Style)app.FindResource("ButtonIcon"), hugeIcon);
+        var circularButton = CreateIconButton((Style)app.FindResource("ButtonIconCircular"), hugeIcon);
+        var circularSmall = CreateIconButton((Style)app.FindResource("ButtonIconCircular.Small"), hugeIcon);
+        var smallTextButton = new Button
+        {
+            Style = (Style)app.FindResource("ButtonDefault.Small"), Content = "Small", Margin = new Thickness(4)
+        };
+
+        var panel = new StackPanel();
+        foreach (var child in new UIElement[] { textButton, wideTextButton, iconButton, circularButton, circularSmall, smallTextButton })
+            panel.Children.Add(child);
+        var window = new Window
+        {
+            Content = panel, Width = 480, Height = 480,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+
+        try
+        {
+            window.Show();
+            Flush();
+
+            // 修复前：Height=Auto 让图标 Path 按几何原始坐标（Delete/Down 都是 1024 级）测量，
+            // 普通按钮会被撑到上千像素；图标框也必须回到 DefaultIconSize。
+            foreach (var (name, element) in new[] { ("icon+text", textButton), ("wide icon+text", wideTextButton) })
+            {
+                Require(element.ActualHeight <= 40d,
+                    $"{name} button must keep the control height instead of the geometry: {element.ActualHeight}");
+                Require(element.ActualWidth <= 120d,
+                    $"{name} button width must stay bounded by the icon box: {element.ActualWidth}");
+                var icon = FindDescendant<Path>(element)
+                    ?? throw new InvalidOperationException($"{name} button template lacks an icon Path.");
+                Require(icon.ActualWidth <= 20d && icon.ActualHeight <= 20d,
+                    $"{name} icon box must stay at DefaultIconSize: {icon.ActualWidth}x{icon.ActualHeight}");
+            }
+
+            Require(iconButton.ActualWidth == 28d && iconButton.ActualHeight == 28d,
+                $"ButtonIcon must carry an explicit square size: {iconButton.ActualWidth}x{iconButton.ActualHeight}");
+            Require(circularButton.ActualWidth == 28d && circularButton.ActualHeight == 28d,
+                $"ButtonIconCircular must stay 1:1 at DefaultControlHeight: {circularButton.ActualWidth}x{circularButton.ActualHeight}");
+            Require(circularSmall.ActualWidth == 20d && circularSmall.ActualHeight == 20d,
+                $"ButtonIconCircular.Small must stay 20x20: {circularSmall.ActualWidth}x{circularSmall.ActualHeight}");
+            Require(smallTextButton.ActualHeight == 20d,
+                $"ButtonDefault.Small explicit Height must not be overridden by MinHeight: {smallTextButton.ActualHeight}");
+
+            var overrides = new ResourceDictionary { ["DefaultControlHeight"] = 44d };
+            app.Resources.MergedDictionaries.Add(overrides);
+            Flush();
+            Require(textButton.ActualHeight == 44d,
+                $"DefaultControlHeight override must grow a text button: {textButton.ActualHeight}");
+            Require(iconButton.ActualWidth == 44d && iconButton.ActualHeight == 44d,
+                $"DefaultControlHeight override must resize ButtonIcon: {iconButton.ActualWidth}x{iconButton.ActualHeight}");
+            Require(circularButton.ActualWidth == 44d && circularButton.ActualHeight == 44d,
+                $"ButtonIconCircular must stay 1:1 under a runtime size override: {circularButton.ActualWidth}x{circularButton.ActualHeight}");
+            Require(smallTextButton.ActualHeight == 20d && circularSmall.ActualHeight == 20d,
+                "Small buttons must keep their explicit height under a runtime size override.");
+
+            app.Resources.MergedDictionaries.Remove(overrides);
+            Flush();
+            Require(iconButton.ActualWidth == 28d && circularButton.ActualHeight == 28d,
+                "Removing the override must restore the baseline button size.");
+            Console.WriteLine("PASS button sizing (icon geometry containment, icon-only square size, circular 1:1, Small MinHeight, runtime size override).");
+        }
+        finally { window.Close(); }
+    }
+
+    private static void VerifyIconClipping(Application app)
+    {
+        var keys = new List<string>
+        {
+            "ButtonIcon", "ButtonIconCircular", "RepeatButtonIcon", "RepeatButtonIconCircular", "RadioButtonIcon",
+            "ToggleButtonIcon", "ToggleButtonIconPrimary", "ToggleButtonIconSuccess", "ToggleButtonIconInfo",
+            "ToggleButtonIconWarning", "ToggleButtonIconDanger", "ToggleButtonIconTransparent"
+        };
+        keys.AddRange(keys.ToArray().Select(key => key + ".Small"));
+        var panel = new WrapPanel();
+        var buttons = new List<(string Key, ButtonBase Button)>();
+        foreach (var key in keys)
+        {
+            var style = (Style)app.FindResource(key);
+            foreach (var enabled in new[] { true, false })
+            {
+                var button = (ButtonBase)Activator.CreateInstance(style.TargetType)!;
+                button.Style = style;
+                button.IsEnabled = enabled;
+                button.Margin = new Thickness(5);
+                Hc.IconElement.SetGeometry(button, (Geometry)app.FindResource("UpDownGeometry"));
+                Hc.IconSwitchElement.SetGeometry(button, (Geometry)app.FindResource("UpDownGeometry"));
+                Hc.IconSwitchElement.SetGeometrySelected(button, (Geometry)app.FindResource("DeleteGeometry"));
+                panel.Children.Add(button);
+                buttons.Add((key, button));
+            }
+        }
+        var window = new Window { Content = panel, Width = 1000, Height = 600,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        try
+        {
+            window.Show();
+            foreach (var selected in new[] { false, true })
+            {
+                foreach (var (_, button) in buttons)
+                    if (button is ToggleButton toggle) toggle.IsChecked = selected;
+                window.UpdateLayout();
+                foreach (var (key, button) in buttons)
+                {
+                    var icon = FindDescendant<Path>(button)
+                        ?? throw new InvalidOperationException(key + " lacks an icon Path.");
+                    Require(icon.ActualWidth > 0 && icon.ActualHeight > 0, key + " has an empty icon.");
+                    // 检查图标及其祖先的真实布局裁剪，按钮外框尺寸正常并不代表图标完整。
+                    var bounds = new Rect(icon.RenderSize);
+                    for (Visual? node = icon; node is not null; node = VisualTreeHelper.GetParent(node) as Visual)
+                    {
+                        var projected = icon.TransformToAncestor(node).TransformBounds(bounds);
+                        var clip = VisualTreeHelper.GetClip(node);
+                        Require(clip is null || clip.Bounds.Contains(projected),
+                            $"{key} enabled={button.IsEnabled} selected={selected}: {node.GetType().Name} clips icon {projected} to {clip?.Bounds}.");
+                        if (ReferenceEquals(node, button)) break;
+                    }
+                }
+            }
+            Console.WriteLine("PASS 24 icon styles, enabled/disabled and checked states: no icon layout clipping.");
+        }
+        finally { window.Close(); }
+    }
+
+    private static Button CreateIconButton(Style style, Geometry geometry, string? content = null)
+    {
+        var button = new Button { Style = style, Margin = new Thickness(4) };
+        if (content is not null) button.Content = content;
+        Hc.IconElement.SetGeometry(button, geometry);
+        return button;
+    }
+
+    /// <summary>
+    /// 验证 NumericUpDown 的内嵌上下按钮是半高子按钮：它们必须各自 MinHeight=0，否则两行都会吃到
+    /// 按钮基类继承来的 MinHeight=DefaultControlHeight，把整个数字框撑成双倍高度。
+    /// 默认字号下三种模板的数字框都要与同字体、同内边距的 TextBox/ComboBox 同高；
+    /// 动态放大 TextFontSize 时数字框随内容增高，而不是被固定高度裁切。
+    /// </summary>
+    private static void VerifyNumericUpDownHeight(Application app)
+    {
+        var textBox = new TextBox();
+        var comboBox = new ComboBox { ItemsSource = new[] { "one", "two" }, SelectedIndex = 0 };
+        var numbers = new[]
+        {
+            new Hc.NumericUpDown { Value = 3 },
+            new Hc.NumericUpDown { Value = 3, Style = (Style)app.FindResource("NumericUpDownExtend") },
+            new Hc.NumericUpDown { Value = 3, Style = (Style)app.FindResource("NumericUpDownPlus") }
+        };
+        var panel = new StackPanel();
+        panel.Children.Add(textBox);
+        panel.Children.Add(comboBox);
+        foreach (var number in numbers) panel.Children.Add(number);
+        var window = new Window
+        {
+            Content = panel, Width = 420, Height = 360,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+        void RequireConsistent(string stage)
+        {
+            Require(Math.Abs(numbers[0].ActualHeight - textBox.ActualHeight) <= 1d,
+                $"{stage}: NumericUpDown must match the TextBox height: {numbers[0].ActualHeight} vs {textBox.ActualHeight}");
+            Require(Math.Abs(numbers[0].ActualHeight - comboBox.ActualHeight) <= 2d,
+                $"{stage}: NumericUpDown must match the ComboBox height: {numbers[0].ActualHeight} vs {comboBox.ActualHeight}");
+            foreach (var number in numbers)
+            {
+                var up = number.Template?.FindName("UpButton", number) as RepeatButton
+                    ?? throw new InvalidOperationException($"{stage}: NumericUpDown template lacks UpButton.");
+                var down = number.Template?.FindName("DownButton", number) as RepeatButton
+                    ?? throw new InvalidOperationException($"{stage}: NumericUpDown template lacks DownButton.");
+                Require(up.MinHeight == 0d && down.MinHeight == 0d,
+                    $"{stage}: the inner spinner buttons must reset MinHeight: {up.MinHeight}/{down.MinHeight}");
+                Require(number.ActualHeight <= textBox.ActualHeight * 1.5d,
+                    $"{stage}: the numeric box must not double its height: {number.ActualHeight} vs {textBox.ActualHeight}");
+                Require(up.ActualHeight <= number.ActualHeight / 2d + 1d,
+                    $"{stage}: the spinner button must stay a half-height child: {up.ActualHeight} of {number.ActualHeight}");
+            }
+        }
+
+        try
+        {
+            var hostFontSize = window.FontSize;
+            window.Show();
+            Flush();
+            RequireConsistent("default font");
+            Console.WriteLine($"  input heights (default): text={textBox.ActualHeight} combo={comboBox.ActualHeight} numeric={numbers[0].ActualHeight}/{numbers[1].ActualHeight}/{numbers[2].ActualHeight}");
+
+            // 输入控件按继承取字体（输入样式不自己吃 TextFontSize），所以用宿主窗口字号模拟
+            // Ultron 在窗口层驱动的动态字号：四种输入必须同步增高，数字框不得翻倍或被裁切。
+            window.FontSize = 24d;
+            Flush();
+            Require(numbers[0].FontSize == 24d && textBox.FontSize == 24d && comboBox.FontSize == 24d,
+                "Every input must inherit the host font size.");
+            RequireConsistent("font 24");
+            Require(numbers[0].ActualHeight > 28d,
+                "The numeric box must grow with the font instead of clipping it: " + numbers[0].ActualHeight);
+            Console.WriteLine($"  input heights (font 24): text={textBox.ActualHeight} combo={comboBox.ActualHeight} numeric={numbers[0].ActualHeight}/{numbers[1].ActualHeight}/{numbers[2].ActualHeight}");
+
+            window.FontSize = hostFontSize;
+            Flush();
+            RequireConsistent("restored font");
+            Console.WriteLine("PASS NumericUpDown height (spinner MinHeight=0, TextBox/ComboBox parity, growth at font 24).");
+        }
+        finally { window.Close(); }
+    }
+
+    /// <summary>
+    /// 验证 PropertyGrid 原生工具栏的排序按钮与搜索框实际同高：两者都必须消费动态
+    /// DefaultControlHeight（单选组项此前写死 StaticResource 的 Height，搜索框内容行写死
+    /// StaticResource 的 MinContentHeight）。覆盖默认、Ultron 规格 36、48、字号 24 以及密度
+    /// 0.75/1.5 的组合，并且字号高于令牌时必须由内容把输入框撑高，而不是被固定高度裁切。
+    /// </summary>
+    private static void VerifyPropertyGridToolbar(Application app)
+    {
+        var propertyGrid = new Hc.PropertyGrid
+        {
+            Style = (Style)app.FindResource(typeof(Hc.PropertyGrid)),
+            SelectedObject = new SortModel(),
+            Width = 360
+        };
+        var window = new Window
+        {
+            Content = propertyGrid, Width = 420, Height = 260,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        var hostFontSize = window.FontSize;
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+
+        try
+        {
+            window.Show();
+            Flush();
+            var searchBar = propertyGrid.Template?.FindName("PART_SearchBar", propertyGrid) as Hc.SearchBar
+                ?? throw new InvalidOperationException("PropertyGrid template lacks PART_SearchBar.");
+            var group = FindDescendant<Hc.ButtonGroup>(propertyGrid)
+                ?? throw new InvalidOperationException("PropertyGrid template lacks the sort ButtonGroup.");
+            var sortButtons = group.Items.OfType<RadioButton>().ToArray();
+            Require(sortButtons.Length == 2, "The sort ButtonGroup must hold the two sort buttons: " + sortButtons.Length);
+
+            var scenarios = new[]
+            {
+                (28d, 12d), (36d, 12d), (36d, 24d), (48d, 12d), (48d, 24d),
+                (21d, 9d), (42d, 18d), (27d, 12d), (54d, 12d), (28d, 24d)
+            };
+            foreach (var (height, font) in scenarios)
+            {
+                var overrides = new ResourceDictionary { ["DefaultControlHeight"] = height };
+                window.FontSize = font;
+                app.Resources.MergedDictionaries.Add(overrides);
+                Flush();
+                var label = $"DefaultControlHeight={height} font={font}";
+                Console.WriteLine($"  toolbar({label}): search={searchBar.ActualHeight} (min={searchBar.MinHeight} minContent={Hc.InfoElement.GetMinContentHeight(searchBar)} desired={searchBar.DesiredSize.Height}) group={group.ActualHeight} (align={group.VerticalAlignment} desired={group.DesiredSize.Height}) sort={string.Join("/", sortButtons.Select(button => $"{button.ActualHeight}[min={button.MinHeight},align={button.VerticalAlignment}]"))}");
+                Require(searchBar.ActualHeight >= height - 0.5d,
+                    $"{label}: the search bar must not fall below the shared token: {searchBar.ActualHeight}");
+                if (font * 1.4d > height + 0.5d)
+                {
+                    Require(searchBar.ActualHeight > height + 0.5d,
+                        $"{label}: content taller than the token must grow the input instead of being clipped: {searchBar.ActualHeight}");
+                }
+                foreach (var sortButton in sortButtons)
+                {
+                    Require(Math.Abs(sortButton.ActualHeight - searchBar.ActualHeight) <= 0.5d,
+                        $"{label}: sort button {sortButton.ActualHeight} must match the search bar {searchBar.ActualHeight}");
+                }
+                app.Resources.MergedDictionaries.Remove(overrides);
+            }
+
+            window.FontSize = hostFontSize;
+            Flush();
+            foreach (var sortButton in sortButtons)
+            {
+                Require(Math.Abs(searchBar.ActualHeight - 28d) <= 0.5d && Math.Abs(sortButton.ActualHeight - 28d) <= 0.5d,
+                    $"Restoring the baseline must return both to DefaultControlHeight: search={searchBar.ActualHeight} sort={sortButton.ActualHeight}");
+            }
+            Console.WriteLine("PASS PropertyGrid toolbar height (sort buttons and search bar share the dynamic control height).");
+        }
+        finally { window.Close(); }
+    }
+
+    /// <summary>
+    /// 验证按钮组三类项样式（RadioButton / Button / ToggleButton）统一消费动态 DefaultControlHeight：
+    /// 不写死高度、随运行时覆盖同高变化。
+    /// </summary>
+    private static void VerifyButtonGroupItems(Application app)
+    {
+        var group = new Hc.ButtonGroup();
+        var radio = new RadioButton { Content = "R" };
+        var button = new Button { Content = "B" };
+        var toggle = new ToggleButton { Content = "T" };
+        foreach (var item in new ButtonBase[] { radio, button, toggle }) group.Items.Add(item);
+        var panel = new StackPanel();
+        panel.Children.Add(group);
+        var window = new Window
+        {
+            Content = panel, Width = 320, Height = 160,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+
+        try
+        {
+            window.Show();
+            Flush();
+            foreach (var height in new[] { 28d, 36d, 48d })
+            {
+                var overrides = new ResourceDictionary { ["DefaultControlHeight"] = height };
+                app.Resources.MergedDictionaries.Add(overrides);
+                Flush();
+                foreach (var item in new ButtonBase[] { radio, button, toggle })
+                {
+                    Require(Math.Abs(item.ActualHeight - height) <= 0.5d,
+                        $"ButtonGroup item {item.GetType().Name} must consume DefaultControlHeight {height}: {item.ActualHeight}");
+                }
+                Console.WriteLine($"  button group items(DefaultControlHeight={height}): {radio.ActualHeight}/{button.ActualHeight}/{toggle.ActualHeight}");
+                app.Resources.MergedDictionaries.Remove(overrides);
+            }
+            Flush();
+            Console.WriteLine("PASS button group item sizing (RadioButton/Button/ToggleButton share the dynamic control height).");
+        }
+        finally { window.Close(); }
+    }
+
+    private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
+    {
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is T typed) return typed;
+            var found = FindDescendant<T>(child);
+            if (found is not null) return found;
+        }
+        return null;
     }
 
     private static void Require(bool condition, string message)

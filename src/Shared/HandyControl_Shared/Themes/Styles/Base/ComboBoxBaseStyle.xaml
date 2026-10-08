@@ -247,7 +247,7 @@
         <Setter Property="AllowDrop" Value="true" />
         <Setter Property="MinWidth" Value="0" />
         <Setter Property="MinHeight" Value="0" />
-        <Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
+        <Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
@@ -492,11 +492,11 @@
     <!--下拉项基样式-->
     <Style x:Key="ComboBoxItemBaseStyle" TargetType="ComboBoxItem">
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
+        <Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -548,7 +548,7 @@
         <Setter Property="Template" Value="{StaticResource ComboBoxTopTemplate}" />
         <Setter Property="hc:InfoElement.Symbol" Value="●" />
         <Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}" />
-        <Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}" />
+        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}" />
         <Style.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>

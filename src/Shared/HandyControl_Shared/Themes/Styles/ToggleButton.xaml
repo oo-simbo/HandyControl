@@ -18,7 +18,9 @@
 
     <Style x:Key="ToggleButtonDefault.Small" BasedOn="{StaticResource ToggleButtonDefault}" TargetType="ToggleButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -31,7 +33,9 @@
 
     <Style x:Key="ToggleButtonPrimary.Small" BasedOn="{StaticResource ToggleButtonPrimary}" TargetType="ToggleButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -42,7 +46,9 @@
 
     <Style x:Key="ToggleButtonSuccess.Small" BasedOn="{StaticResource ToggleButtonSuccess}" TargetType="ToggleButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -53,7 +59,9 @@
 
     <Style x:Key="ToggleButtonInfo.Small" BasedOn="{StaticResource ToggleButtonInfo}" TargetType="ToggleButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -64,7 +72,9 @@
 
     <Style x:Key="ToggleButtonWarning.Small" BasedOn="{StaticResource ToggleButtonWarning}" TargetType="ToggleButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -75,7 +85,9 @@
 
     <Style x:Key="ToggleButtonDanger.Small" BasedOn="{StaticResource ToggleButtonDanger}" TargetType="ToggleButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 

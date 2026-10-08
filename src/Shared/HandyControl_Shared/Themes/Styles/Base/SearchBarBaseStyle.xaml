@@ -109,7 +109,7 @@
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="hc:InfoElement.Symbol" Value="●"/>
         <Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}"/>
-        <Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}"/>
+        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}"/>
         <Setter Property="Template" Value="{StaticResource SearchBarExtendTopTemplate}"/>
         <Style.Triggers>
             <Trigger Property="hc:InfoElement.TitlePlacement" Value="Left">

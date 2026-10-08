@@ -7,4 +7,7 @@
     <system:Double x:Key="SubHeadFontSize">16</system:Double>
     <system:Double x:Key="TextFontSize">12</system:Double>
 
+    <!--  默认字体家族；下游可通过覆盖同名资源在运行时切换正文字体。  -->
+    <FontFamily x:Key="DefaultFontFamily">Microsoft YaHei UI</FontFamily>
+
 </ResourceDictionary>

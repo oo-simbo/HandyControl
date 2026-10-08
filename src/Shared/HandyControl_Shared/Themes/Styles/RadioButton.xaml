@@ -19,7 +19,9 @@
 
     <Style x:Key="RadioButtonSameAsButtonDefault.Small" BasedOn="{StaticResource RadioButtonSameAsButtonDefault}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -30,7 +32,9 @@
 
     <Style x:Key="RadioButtonSameAsButtonPrimary.Small" BasedOn="{StaticResource RadioButtonSameAsButtonPrimary}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -41,7 +45,9 @@
 
     <Style x:Key="RadioButtonSameAsButtonSuccess.Small" BasedOn="{StaticResource RadioButtonSameAsButtonSuccess}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -52,7 +58,9 @@
 
     <Style x:Key="RadioButtonSameAsButtonInfo.Small" BasedOn="{StaticResource RadioButtonSameAsButtonInfo}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -63,7 +71,9 @@
 
     <Style x:Key="RadioButtonSameAsButtonWarning.Small" BasedOn="{StaticResource RadioButtonSameAsButtonWarning}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -74,7 +84,9 @@
 
     <Style x:Key="RadioButtonSameAsButtonDanger.Small" BasedOn="{StaticResource RadioButtonSameAsButtonDanger}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -82,7 +94,9 @@
 
     <Style x:Key="RadioButtonIcon.Small" BasedOn="{StaticResource RadioButtonIcon}" TargetType="RadioButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 

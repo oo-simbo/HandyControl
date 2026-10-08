@@ -39,6 +39,7 @@
 	<system:Double x:Key="HeadFontSize">20</system:Double>
 	<system:Double x:Key="SubHeadFontSize">16</system:Double>
 	<system:Double x:Key="TextFontSize">12</system:Double>
+	<FontFamily x:Key="DefaultFontFamily">Microsoft YaHei UI</FontFamily>
 	<Geometry o:Freeze="True" x:Key="CalendarGeometry">M377.897477 116.291025l265.298718 0 0 47.459125-265.298718 0 0-47.459125ZM888.317416 116.291025 748.229288 116.291025l0 47.459125 123.54866 0c18.167626 0 32.894732 14.727106 32.894732 32.894732l0 92.92987L115.42936 289.574752l0-92.92987c0-18.167626 14.727106-32.894732 32.894732-32.894732l123.54866 0 0-47.459125L131.776437 116.291025c-35.244356 0-63.814389 28.571056-63.814389 63.815412l0.004093 713.966329c0 35.243333 28.571056 63.814389 63.814389 63.814389l756.540979 0c35.244356 0 63.814389-28.571056 63.814389-63.815412l-0.004093-713.966329C952.131805 144.861058 923.560749 116.291025 888.317416 116.291025zM904.67268 337.033877l0 540.498398c0 18.167626-14.727106 32.894732-32.894732 32.894732L148.324092 910.427007c-18.167626 0-32.894732-14.727106-32.894732-32.894732L115.42936 337.033877 904.67268 337.033877zM300.659736 64.801927l47.459125 0 0 170.241292-47.459125 0 0-170.241292ZM672.97481 64.801927l47.450938 0 0 170.241292-47.450938 0 0-170.241292ZM358.384138 547.939214l0 231.021432 52.863464 0L411.247602 459.226591l-34.580198 0-2.651514 3.804835c-18.000819 25.896006-41.448959 48.758786-69.681285 67.955908l-3.886703 2.643327 0 53.742526 13.441772-8.069156C330.690097 569.215794 345.588103 558.712075 358.384138 547.939214zM618.031888 726.552576c-10.287791 6.395971-24.435678 8.069156-42.059902 4.948946-16.094309-2.842881-27.898712-18.373321-35.082666-46.159464l-2.261615-8.753781-48.312603 13.424375 1.68956 8.129534c6.270098 30.168514 18.347737 52.052967 35.884976 65.017855 17.120734 12.705979 35.542152 19.777364 54.731087 21.043255 3.358652 0.225138 6.655903 0.337707 9.897892 0.337707 14.859119 0 28.430857-2.374184 40.452211-7.072408 14.417029-5.641758 26.88866-13.338413 37.076162-22.86278 10.365566-9.723922 18.230051-22.143362 23.378552-36.920612 4.918246-14.170401 7.739636-28.296797 8.385373-42.025108 0.60685-13.658723-0.667228-26.650218-3.791531-38.619382l-0.008187-0.017397c-3.111-11.777796-8.133628-23.738773-14.946104-35.551363-7.353831-12.679372-19.028268-22.750211-34.710165-29.952586-15.037183-6.872854-30.927843-10.685876-47.24729-11.32752-11.414505-0.415482-23.487027 1.386646-36.04462 5.434017 3.813022-14.568486 7.648557-31.884681 11.465673-51.775637l113.87693 0 0-49.357449L535.645647 464.492778l-1.495122 7.028404c-24.621928 115.77116-31.589954 145.497585-33.102473 150.039235l-3.432334 10.338958 45.829943 5.391036 3.054716-4.20292c8.146931-11.214951 18.247448-18.139996 30.879746-21.164011 13.004799-3.137607 24.743707-3.180588 34.879018-0.129966 9.857981 2.95545 17.822756 8.771178 24.327202 17.758284 6.512633 9.03111 10.084143 20.392401 10.617311 33.757421 0.519864 13.849067-1.603598 26.442477-6.314102 37.440476C636.315153 711.429431 628.843637 719.871089 618.031888 726.552576z</Geometry>
 	<Geometry o:Freeze="True" x:Key="DeleteGeometry">M512 620.544l253.3376 253.3376a76.6976 76.6976 0 1 0 108.544-108.544L620.6464 512l253.2352-253.3376a76.6976 76.6976 0 1 0-108.544-108.544L512 403.3536 258.6624 150.1184a76.6976 76.6976 0 1 0-108.544 108.544L403.3536 512 150.1184 765.3376a76.6976 76.6976 0 1 0 108.544 108.544L512 620.6464z</Geometry>
 	<Geometry o:Freeze="True" x:Key="DeleteFillCircleGeometry">M7.4038057,6.4038057 C7.1478834,6.4038057 6.8919611,6.5014372 6.6966991,6.6966991 6.3061748,7.0872235 6.3061748,7.7203884 6.6966991,8.1109123 L10.585787,12 6.6966991,15.889088 C6.3061748,16.279612 6.3061748,16.912777 6.6966991,17.303301 7.0872235,17.693825 7.7203879,17.693825 8.1109123,17.303301 L12,13.414213 15.889088,17.303301 C16.279612,17.693825 16.912777,17.693825 17.303301,17.303301 17.693825,16.912777 17.693825,16.279612 17.303301,15.889088 L13.414213,12 17.303301,8.1109123 C17.693825,7.7203884 17.693825,7.0872235 17.303301,6.6966991 16.912777,6.3061748 16.279612,6.3061748 15.889088,6.6966991 L12,10.585787 8.1109123,6.6966991 C7.9156504,6.5014372 7.6597281,6.4038057 7.4038057,6.4038057 z M12,0 C18.627417,0 24,5.3725829 24,12 24,18.627417 18.627417,24 12,24 5.3725829,24 0,18.627417 0,12 0,5.3725829 5.3725829,0 12,0 z</Geometry>
@@ -98,6 +99,7 @@
 		<Setter Property="FlowDirection" Value="LeftToRight" />
 	</Style>
 	<system:Double x:Key="DefaultControlHeight">28</system:Double>
+	<system:Double x:Key="DefaultIconSize">16</system:Double>
 	<system:Double x:Key="SmallControlHeight">20</system:Double>
 	<Thickness x:Key="DefaultControlPadding">10,5</Thickness>
 	<Thickness x:Key="DefaultInputPadding">8,0</Thickness>
@@ -1193,9 +1195,9 @@
 	<Style x:Key="InputElementBaseStyle" TargetType="Control">
 		<Setter Property="hc:TitleElement.MarginOnTheLeft" Value="0,7,6,0" />
 		<Setter Property="hc:TitleElement.MarginOnTheTop" Value="8,0,0,5" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
-		<Setter Property="Padding" Value="{StaticResource DefaultInputPadding}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultInputPadding}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
@@ -1212,13 +1214,20 @@
 	</Style>
 	<Style x:Key="BaseStyle" TargetType="Control">
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="FontSize" Value="{StaticResource TextFontSize}" />
+		<Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+		<Setter Property="FontSize" Value="{DynamicResource TextFontSize}" />
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 	</Style>
 	<Style x:Key="ButtonBaseBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="ButtonBase">
-		<Setter Property="Height" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="Height" Value="Auto" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
+		<!-- Height=Auto 后，模板里 Stretch=Uniform 的图标 Path 不再有按钮高度可依附；
+             未显式给出 IconElement 尺寸时会退化成按几何原始坐标测量，大坐标图标几何
+             因此会把按钮撑到上千像素。此处提供可被调用方覆盖的默认图标框。 -->
+		<Setter Property="hc:IconElement.Width" Value="{DynamicResource DefaultIconSize}" />
+		<Setter Property="hc:IconElement.Height" Value="{DynamicResource DefaultIconSize}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-		<Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
 		<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="HorizontalAlignment" Value="Center" />
@@ -1229,7 +1238,7 @@
 	<Style x:Key="ButtonBaseStyle" BasedOn="{StaticResource ButtonBaseBaseStyle}" TargetType="Button">
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
@@ -1298,7 +1307,7 @@
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
-		<Setter Property="Height" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Padding" Value="10,0" />
 		<Setter Property="Margin" Value="-1,0,0,0" />
 		<Setter Property="Template">
@@ -1894,11 +1903,13 @@
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
-		<Setter Property="Height" Value="{StaticResource DefaultControlHeight}" />
+		<!-- 与 ButtonGroupItemBaseStyle / RadioGroupItemBaseStyle 统一：Height=Auto + 动态 MinHeight，
+             不写死 StaticResource 的 28，运行时 DefaultControlHeight 覆盖与更高的同级输入都能生效。 -->
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Padding" Value="10,0" />
 		<Setter Property="Margin" Value="-1,0,0,0" />
 		<Setter Property="Template">
@@ -3092,11 +3103,16 @@
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
-		<Setter Property="Height" Value="{StaticResource DefaultControlHeight}" />
+		<!-- 与 ButtonGroupItemBaseStyle 保持一致：Height=Auto + 动态 MinHeight。
+             原来写死 StaticResource 的 Height=28 既不随运行时 DefaultControlHeight 覆盖变化，
+             也不允许被更高的同级输入（如 PropertyGrid 工具栏里的 SearchBar）拉伸，导致两者不等高。
+             VerticalAlignment 用 Stretch：按钮组按内容定高时与原来的 Center 等价，
+             只有组被拉高（工具栏要跟随更高的搜索框）时组内项才会填满该行。 -->
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Padding" Value="10,0" />
 		<Setter Property="Margin" Value="-1,0,0,0" />
 		<Setter Property="hc:IconElement.Width" Value="16" />
@@ -3161,7 +3177,9 @@
 	</Style>
 	<Style x:Key="ButtonDefault.Small" BasedOn="{StaticResource ButtonDefault}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style BasedOn="{StaticResource ButtonDefault}" TargetType="Button" />
@@ -3171,7 +3189,9 @@
 	</Style>
 	<Style x:Key="ButtonPrimary.Small" BasedOn="{StaticResource ButtonPrimary}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonSuccess" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
@@ -3180,7 +3200,9 @@
 	</Style>
 	<Style x:Key="ButtonSuccess.Small" BasedOn="{StaticResource ButtonSuccess}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonInfo" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
@@ -3189,7 +3211,9 @@
 	</Style>
 	<Style x:Key="ButtonInfo.Small" BasedOn="{StaticResource ButtonInfo}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonWarning" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
@@ -3198,7 +3222,9 @@
 	</Style>
 	<Style x:Key="ButtonWarning.Small" BasedOn="{StaticResource ButtonWarning}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDanger" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
@@ -3207,7 +3233,9 @@
 	</Style>
 	<Style x:Key="ButtonDanger.Small" BasedOn="{StaticResource ButtonDanger}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonIcon" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
@@ -3215,6 +3243,10 @@
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
+		<Setter Property="Padding" Value="4" />
+		<!-- 纯图标按钮没有文本决定尺寸，必须显式给方形尺寸，否则图标几何会反向撑开按钮。 -->
+		<Setter Property="Width" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="Height" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
@@ -3228,15 +3260,19 @@
 		</Setter>
 	</Style>
 	<Style x:Key="ButtonIcon.Small" BasedOn="{StaticResource ButtonIcon}" TargetType="Button">
+		<Setter Property="Width" Value="20" />
 		<Setter Property="Height" Value="20" />
-		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="MinHeight" Value="20" />
+		<Setter Property="Padding" Value="2" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonIconCircular" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
-		<Setter Property="Width" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="Width" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="Height" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
-		<Setter Property="Padding" Value="6" />
+		<Setter Property="Padding" Value="4" />
 		<Setter Property="FocusVisualStyle">
 			<Setter.Value>
 				<Style>
@@ -3265,7 +3301,9 @@
 	<Style x:Key="ButtonIconCircular.Small" BasedOn="{StaticResource ButtonIconCircular}" TargetType="Button">
 		<Setter Property="Width" Value="20" />
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDashed" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
@@ -3279,7 +3317,9 @@
 	</Style>
 	<Style x:Key="ButtonDashed.Small" BasedOn="{StaticResource ButtonDashed}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDashedPrimary" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
@@ -3288,7 +3328,9 @@
 	</Style>
 	<Style x:Key="ButtonDashedPrimary.Small" BasedOn="{StaticResource ButtonDashedPrimary}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDashedSuccess" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
@@ -3297,7 +3339,9 @@
 	</Style>
 	<Style x:Key="ButtonDashedSuccess.Small" BasedOn="{StaticResource ButtonDashedSuccess}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDashedInfo" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
@@ -3306,7 +3350,9 @@
 	</Style>
 	<Style x:Key="ButtonDashedInfo.Small" BasedOn="{StaticResource ButtonDashedInfo}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDashedWarning" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
@@ -3315,7 +3361,9 @@
 	</Style>
 	<Style x:Key="ButtonDashedWarning.Small" BasedOn="{StaticResource ButtonDashedWarning}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonDashedDanger" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
@@ -3324,7 +3372,9 @@
 	</Style>
 	<Style x:Key="ButtonDashedDanger.Small" BasedOn="{StaticResource ButtonDashedDanger}" TargetType="Button">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ButtonCustom" BasedOn="{StaticResource BaseStyle}" TargetType="Button">
@@ -3479,7 +3529,9 @@
 	</Style>
 	<Style x:Key="ToggleButtonDefault.Small" BasedOn="{StaticResource ToggleButtonDefault}" TargetType="ToggleButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style BasedOn="{StaticResource ToggleButtonDefault}" TargetType="ToggleButton" />
@@ -3489,7 +3541,9 @@
 	</Style>
 	<Style x:Key="ToggleButtonPrimary.Small" BasedOn="{StaticResource ToggleButtonPrimary}" TargetType="ToggleButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ToggleButtonSuccess" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
@@ -3498,7 +3552,9 @@
 	</Style>
 	<Style x:Key="ToggleButtonSuccess.Small" BasedOn="{StaticResource ToggleButtonSuccess}" TargetType="ToggleButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ToggleButtonInfo" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
@@ -3507,7 +3563,9 @@
 	</Style>
 	<Style x:Key="ToggleButtonInfo.Small" BasedOn="{StaticResource ToggleButtonInfo}" TargetType="ToggleButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ToggleButtonWarning" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
@@ -3516,7 +3574,9 @@
 	</Style>
 	<Style x:Key="ToggleButtonWarning.Small" BasedOn="{StaticResource ToggleButtonWarning}" TargetType="ToggleButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ToggleButtonDanger" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
@@ -3525,7 +3585,9 @@
 	</Style>
 	<Style x:Key="ToggleButtonDanger.Small" BasedOn="{StaticResource ToggleButtonDanger}" TargetType="ToggleButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="ToggleButtonIcon" BasedOn="{StaticResource ToggleButtonIconBaseStyle}" TargetType="ToggleButton">
@@ -3881,7 +3943,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDefault.Small" BasedOn="{StaticResource RepeatButtonDefault}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style BasedOn="{StaticResource RepeatButtonDefault}" TargetType="RepeatButton" />
@@ -3891,7 +3955,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonPrimary.Small" BasedOn="{StaticResource RepeatButtonPrimary}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonSuccess" BasedOn="{StaticResource RepeatButtonBaseStyle}" TargetType="RepeatButton">
@@ -3900,7 +3966,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonSuccess.Small" BasedOn="{StaticResource RepeatButtonSuccess}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonInfo" BasedOn="{StaticResource RepeatButtonBaseStyle}" TargetType="RepeatButton">
@@ -3909,7 +3977,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonInfo.Small" BasedOn="{StaticResource RepeatButtonInfo}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonWarning" BasedOn="{StaticResource RepeatButtonBaseStyle}" TargetType="RepeatButton">
@@ -3918,7 +3988,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonWarning.Small" BasedOn="{StaticResource RepeatButtonWarning}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDanger" BasedOn="{StaticResource RepeatButtonBaseStyle}" TargetType="RepeatButton">
@@ -3927,7 +3999,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDanger.Small" BasedOn="{StaticResource RepeatButtonDanger}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonIcon" BasedOn="{StaticResource RepeatButtonBaseStyle}" TargetType="RepeatButton">
@@ -3935,6 +4009,10 @@
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
+		<Setter Property="Padding" Value="4" />
+		<!-- 纯图标按钮没有文本决定尺寸，必须显式给方形尺寸，否则图标几何会反向撑开按钮。 -->
+		<Setter Property="Width" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="Height" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="RepeatButton">
@@ -3948,15 +4026,19 @@
 		</Setter>
 	</Style>
 	<Style x:Key="RepeatButtonIcon.Small" BasedOn="{StaticResource RepeatButtonIcon}" TargetType="RepeatButton">
+		<Setter Property="Width" Value="20" />
 		<Setter Property="Height" Value="20" />
-		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="MinHeight" Value="20" />
+		<Setter Property="Padding" Value="2" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonIconCircular" BasedOn="{StaticResource RepeatButtonBaseStyle}" TargetType="RepeatButton">
-		<Setter Property="Width" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="Width" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="Height" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="0" />
-		<Setter Property="Padding" Value="6" />
+		<Setter Property="Padding" Value="4" />
 		<Setter Property="FocusVisualStyle">
 			<Setter.Value>
 				<Style>
@@ -3985,7 +4067,9 @@
 	<Style x:Key="RepeatButtonIconCircular.Small" BasedOn="{StaticResource RepeatButtonIconCircular}" TargetType="RepeatButton">
 		<Setter Property="Width" Value="20" />
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDashed" BasedOn="{StaticResource RepeatButtonDashedBaseStyle}" TargetType="RepeatButton">
@@ -3999,7 +4083,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDashed.Small" BasedOn="{StaticResource RepeatButtonDashed}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDashedPrimary" BasedOn="{StaticResource RepeatButtonDashedBaseStyle}" TargetType="RepeatButton">
@@ -4008,7 +4094,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDashedPrimary.Small" BasedOn="{StaticResource RepeatButtonDashedPrimary}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDashedSuccess" BasedOn="{StaticResource RepeatButtonDashedBaseStyle}" TargetType="RepeatButton">
@@ -4017,7 +4105,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDashedSuccess.Small" BasedOn="{StaticResource RepeatButtonDashedSuccess}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDashedInfo" BasedOn="{StaticResource RepeatButtonDashedBaseStyle}" TargetType="RepeatButton">
@@ -4026,7 +4116,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDashedInfo.Small" BasedOn="{StaticResource RepeatButtonDashedInfo}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDashedWarning" BasedOn="{StaticResource RepeatButtonDashedBaseStyle}" TargetType="RepeatButton">
@@ -4035,7 +4127,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDashedWarning.Small" BasedOn="{StaticResource RepeatButtonDashedWarning}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonDashedDanger" BasedOn="{StaticResource RepeatButtonDashedBaseStyle}" TargetType="RepeatButton">
@@ -4044,7 +4138,9 @@
 	</Style>
 	<Style x:Key="RepeatButtonDashedDanger.Small" BasedOn="{StaticResource RepeatButtonDashedDanger}" TargetType="RepeatButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RepeatButtonCustom" BasedOn="{StaticResource BaseStyle}" TargetType="RepeatButton">
@@ -4665,7 +4761,9 @@
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonDefault.Small" BasedOn="{StaticResource RadioButtonSameAsButtonDefault}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonPrimary" BasedOn="{StaticResource RadioButtonSameAsButtonBaseStyle}" TargetType="RadioButton">
@@ -4674,7 +4772,9 @@
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonPrimary.Small" BasedOn="{StaticResource RadioButtonSameAsButtonPrimary}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonSuccess" BasedOn="{StaticResource RadioButtonSameAsButtonBaseStyle}" TargetType="RadioButton">
@@ -4683,7 +4783,9 @@
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonSuccess.Small" BasedOn="{StaticResource RadioButtonSameAsButtonSuccess}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonInfo" BasedOn="{StaticResource RadioButtonSameAsButtonBaseStyle}" TargetType="RadioButton">
@@ -4692,7 +4794,9 @@
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonInfo.Small" BasedOn="{StaticResource RadioButtonSameAsButtonInfo}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonWarning" BasedOn="{StaticResource RadioButtonSameAsButtonBaseStyle}" TargetType="RadioButton">
@@ -4701,7 +4805,9 @@
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonWarning.Small" BasedOn="{StaticResource RadioButtonSameAsButtonWarning}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonDanger" BasedOn="{StaticResource RadioButtonSameAsButtonBaseStyle}" TargetType="RadioButton">
@@ -4710,13 +4816,17 @@
 	</Style>
 	<Style x:Key="RadioButtonSameAsButtonDanger.Small" BasedOn="{StaticResource RadioButtonSameAsButtonDanger}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioButtonIcon" BasedOn="{StaticResource RadioButtonIconBaseStyle}" TargetType="RadioButton" />
 	<Style x:Key="RadioButtonIcon.Small" BasedOn="{StaticResource RadioButtonIcon}" TargetType="RadioButton">
 		<Setter Property="Height" Value="20" />
+		<Setter Property="MinHeight" Value="20" />
 		<Setter Property="Padding" Value="6,1" />
+		<Setter Property="hc:IconElement.Width" Value="12" />
 		<Setter Property="hc:IconElement.Height" Value="12" />
 	</Style>
 	<Style x:Key="RadioGroupItemDefault" BasedOn="{StaticResource RadioGroupItemBaseStyle}" TargetType="RadioButton" />
@@ -5400,7 +5510,7 @@
 		<Setter Property="AllowDrop" Value="true" />
 		<Setter Property="MinWidth" Value="0" />
 		<Setter Property="MinHeight" Value="0" />
-		<Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
 		<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
@@ -5637,11 +5747,11 @@
 	</ControlTemplate>
 	<Style x:Key="ComboBoxItemBaseStyle" TargetType="ComboBoxItem">
 		<Setter Property="SnapsToDevicePixels" Value="True" />
-		<Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -5689,7 +5799,7 @@
 		<Setter Property="Template" Value="{StaticResource ComboBoxTopTemplate}" />
 		<Setter Property="hc:InfoElement.Symbol" Value="●" />
 		<Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}" />
-		<Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Style.Triggers>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -6627,7 +6737,7 @@
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="CaretBrush" Value="{Binding Foreground,RelativeSource={RelativeSource Self}}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="Padding" Value="{StaticResource DefaultInputPadding}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultInputPadding}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="hc:WatermarkTextBox">
@@ -6722,7 +6832,7 @@
 	<Style x:Key="TextBoxExtendBaseStyle" BasedOn="{StaticResource TextBoxBaseStyle}" TargetType="TextBox">
 		<Setter Property="hc:InfoElement.Symbol" Value="●" />
 		<Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}" />
-		<Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Height" Value="Auto" />
 		<Setter Property="Template" Value="{StaticResource TextBoxExtendTopTemplate}" />
 		<Style.Triggers>
@@ -6925,7 +7035,7 @@
 		<Setter Property="Height" Value="Auto" />
 		<Setter Property="hc:InfoElement.Symbol" Value="●" />
 		<Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}" />
-		<Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Template" Value="{StaticResource SearchBarExtendTopTemplate}" />
 		<Style.Triggers>
 			<Trigger Property="hc:InfoElement.TitlePlacement" Value="Left">
@@ -7194,7 +7304,7 @@
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Focusable" Value="False" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="hc:Card">
@@ -9618,8 +9728,8 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 							<hc:WatermarkTextBox Grid.RowSpan="2" Focusable="True" Watermark="{Binding Path=(hc:InfoElement.Placeholder),RelativeSource={RelativeSource TemplatedParent}}" CaretBrush="{TemplateBinding CaretBrush}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" x:Name="PART_TextBox" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{TemplateBinding IsReadOnly}" />
-							<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
-							<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+							<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+							<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
 						</Grid>
 					</hc:SimplePanel>
 					<ControlTemplate.Triggers>
@@ -9658,8 +9768,8 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 				<hc:WatermarkTextBox Grid.RowSpan="2" Focusable="True" Watermark="{Binding Path=(hc:InfoElement.Placeholder),RelativeSource={RelativeSource TemplatedParent}}" CaretBrush="{TemplateBinding CaretBrush}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" x:Name="PART_TextBox" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{TemplateBinding IsReadOnly}" />
-				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
-				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
 			</Grid>
 		</Grid>
 		<ControlTemplate.Triggers>
@@ -9700,8 +9810,8 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 				<hc:WatermarkTextBox Grid.RowSpan="2" Focusable="True" Watermark="{Binding Path=(hc:InfoElement.Placeholder),RelativeSource={RelativeSource TemplatedParent}}" CaretBrush="{TemplateBinding CaretBrush}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" x:Name="PART_TextBox" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{TemplateBinding IsReadOnly}" />
-				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
-				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="1" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
 			</Grid>
 		</Grid>
 		<ControlTemplate.Triggers>
@@ -9720,7 +9830,7 @@
 	<Style x:Key="NumericUpDownExtendBaseStyle" BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="hc:NumericUpDown">
 		<Setter Property="hc:InfoElement.Symbol" Value="●" />
 		<Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}" />
-		<Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Height" Value="Auto" />
 		<Setter Property="Template" Value="{StaticResource NumericUpDownExtendTopTemplate}" />
 		<Style.Triggers>
@@ -9753,8 +9863,8 @@
 				</Grid.RowDefinitions>
 				<hc:WatermarkTextBox Grid.RowSpan="2" Focusable="True" Watermark="{Binding Path=(hc:InfoElement.Placeholder),RelativeSource={RelativeSource TemplatedParent}}" CaretBrush="{TemplateBinding CaretBrush}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" x:Name="PART_TextBox" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{TemplateBinding IsReadOnly}" />
 				<Button HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="2" Height="Auto" Width="Auto" Command="interactivity:ControlCommands.Clear" hc:IconElement.Width="14" Padding="0,0,2,0" Visibility="Collapsed" Name="ButtonClear" Focusable="False" Grid.Column="1" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Foreground="{TemplateBinding BorderBrush}" />
-				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
-				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
 			</Grid>
 		</Grid>
 		<ControlTemplate.Triggers>
@@ -9801,8 +9911,8 @@
 				</Grid.RowDefinitions>
 				<hc:WatermarkTextBox Grid.RowSpan="2" Focusable="True" Watermark="{Binding Path=(hc:InfoElement.Placeholder),RelativeSource={RelativeSource TemplatedParent}}" CaretBrush="{TemplateBinding CaretBrush}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" x:Name="PART_TextBox" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{TemplateBinding IsReadOnly}" />
 				<Button HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="2" Height="Auto" Width="Auto" Command="interactivity:ControlCommands.Clear" hc:IconElement.Width="14" Padding="0,0,2,0" Visibility="Collapsed" Name="ButtonClear" Focusable="False" Grid.Column="1" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Foreground="{TemplateBinding BorderBrush}" />
-				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
-				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="UpButton" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="0" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Prev" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource UpGeometry}" Style="{StaticResource RepeatButtonIcon}" />
+				<RepeatButton x:Name="DownButton" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{TemplateBinding IsReadOnly, Converter={StaticResource Boolean2BooleanReConverter}}" Height="Auto" Width="Auto" MinHeight="0" Grid.Row="1" Visibility="{TemplateBinding ShowUpDownButton,Converter={StaticResource Boolean2VisibilityConverter}}" Command="interactivity:ControlCommands.Next" hc:IconElement.Height="6" hc:IconElement.Width="14" Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='0,0,1,0'}" Grid.Column="2" Foreground="{TemplateBinding BorderBrush}" hc:IconElement.Geometry="{StaticResource DownGeometry}" Style="{StaticResource RepeatButtonIcon}" />
 			</Grid>
 		</Grid>
 		<ControlTemplate.Triggers>
@@ -10257,7 +10367,7 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 							<DockPanel LastChildFill="True" Margin="0,0,0,6">
-								<hc:ButtonGroup Margin="0,0,6,0" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
+								<hc:ButtonGroup Margin="0,0,6,0" VerticalAlignment="Stretch" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
 									<RadioButton Command="interactivity:ControlCommands.SortByCategory" IsChecked="True">
 										<Rectangle Width="16" Height="16" Fill="{StaticResource SortByCategoryDrawingBrush}" />
 									</RadioButton>
@@ -11819,12 +11929,12 @@
 		</Setter>
 	</Style>
 	<Style x:Key="AutoCompleteTextBoxItemBaseStyle" TargetType="ComboBoxItem">
-		<Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
 		<Setter Property="SnapsToDevicePixels" Value="True" />
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Template">
@@ -11853,18 +11963,18 @@
 	<Style x:Key="AutoCompleteTextBoxBaseStyle" TargetType="hc:AutoCompleteTextBox">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
 		<Setter Property="ScrollViewer.PanningMode" Value="Both" />
 		<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-		<Setter Property="Padding" Value="{StaticResource DefaultInputPadding}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultInputPadding}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource AutoCompleteTextBoxItemBaseStyle}" />
