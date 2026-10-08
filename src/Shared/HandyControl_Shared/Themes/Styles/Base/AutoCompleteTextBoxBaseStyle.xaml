@@ -8,7 +8,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource InputMinHeight}"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
@@ -26,7 +26,7 @@
                             <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SecondaryRegionBrush}"/>
                         </MultiTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource InputFocusBrush}"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -37,19 +37,19 @@
 
     <Style x:Key="AutoCompleteTextBoxBaseStyle" TargetType="hc:AutoCompleteTextBox">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
-        <Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource InputCornerRadius}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource InputForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource InputBorderThickness}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource InputForegroundBrush}"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource InputMinHeight}"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="Padding" Value="{DynamicResource DefaultInputPadding}"/>
+        <Setter Property="Padding" Value="{DynamicResource InputPadding}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource AutoCompleteTextBoxItemBaseStyle}"/>
@@ -63,7 +63,7 @@
                             <TextBox x:Name="PART_SearchTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" CaretBrush="{TemplateBinding CaretBrush}" Padding="{TemplateBinding Padding}" Style="{StaticResource ComboBoxEditableTextBox}"/>
                         </Border>
                         <Popup x:Name="PART_Popup" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
-                            <Border BorderThickness="0,1,0,0" Effect="{StaticResource EffectShadow2}" Margin="8,0,8,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=toggleButton}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+                            <Border BorderThickness="0,1,0,0" Effect="{StaticResource EffectShadow2}" Margin="8,0,8,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=toggleButton}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource InputBorderBrush}" Background="{DynamicResource InputBackgroundBrush}">
                                 <hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                     <hc:ToggleBlock.CheckedContent>
                                         <ScrollViewer Margin="0,4">
@@ -100,7 +100,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
                         </MultiTrigger>
                         <Trigger Property="IsFocused" Value="True" SourceName="PART_SearchTextBox">
-                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.4"/>

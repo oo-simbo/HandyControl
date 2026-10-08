@@ -3,11 +3,11 @@
                     xmlns:hc="clr-namespace:HandyControl.Controls">
 
     <Style x:Key="ListViewBaseStyle" TargetType="ListView">
-        <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="6" />
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="Background" Value="{DynamicResource RegionBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource RegionBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource RegionBorderThickness}" />
+        <Setter Property="Padding" Value="{DynamicResource RegionPadding}" />
+        <Setter Property="Foreground" Value="{DynamicResource RegionForegroundBrush}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -15,8 +15,8 @@
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListViewItemBaseStyle}" />
-        <Setter Property="hc:GridViewAttach.ColumnHeaderHeight" Value="{StaticResource DefaultControlHeight}" />
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+        <Setter Property="hc:GridViewAttach.ColumnHeaderHeight" Value="{DynamicResource DataRowMinHeight}" />
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource RegionCornerRadius}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
@@ -62,7 +62,7 @@
                                                 <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" />
                                             </hc:ToggleBlock.CheckedContent>
                                             <hc:ToggleBlock.UnCheckedContent>
-                                                <hc:Empty Background="{DynamicResource RegionBrush}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                                                <hc:Empty Background="{DynamicResource RegionBackgroundBrush}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
                                             </hc:ToggleBlock.UnCheckedContent>
                                         </hc:ToggleBlock>
                                         <ScrollBar Style="{StaticResource ScrollBarBaseStyle}" Opacity="0" x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="1" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" />
@@ -100,7 +100,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ListView">
                             <Border CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-                                <hc:Empty Background="{DynamicResource RegionBrush}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
+                                <hc:Empty Background="{DynamicResource RegionBackgroundBrush}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" />
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>

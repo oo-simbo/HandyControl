@@ -208,3 +208,11 @@ dotnet run --project doc/maintenance/verification/WpfSmoke/WpfSmoke.csproj -c Re
 `build/build.config.xml` 已收敛到 .NET 10 Windows。`build/build.cake` 中发布资产改为从配置枚举目录，并删除 Framework/Core 分支。Squirrel 的 `lib/net45` 是该旧打包工具的布局约定，保留不代表库支持 .NET Framework。
 
 当前交付使用 `dotnet build`。Cake/Squirrel 安装包及公开 NuGet/GitHub 发布未验证；脚本仍含上游仓库发布目标和元数据，`publish` 会提交、打标签、推送包、创建 Release，Setup 还会清理输出并下载工具。后续确需个人版发布时须先单独配置和验证，不能把它当作普通 DLL 编译入口。
+
+## 2026-10-08 / 3.6.10.0 分类外观资源与静态布局边界
+
+按钮、输入、区域、卡片、弹层边框/圆角/背景/前景/描边独立资源，Separator分隔线单独消费；ButtonMinHeight/InputMinHeight/DataRowMinHeight独立。按钮组与图标按钮改用按钮高度，属性网格工具栏仍按行布局等高；数字框内部上下按钮保持MinHeight=0。RegionPadding与DataCellPadding分别用于列表外框与数据项。按钮组悬停/按下接ButtonHoverBrush/ButtonPressedBrush。卡片页眉页脚内边距采用StaticResource CardHeaderPadding/CardFooterPadding，不要求即时更新。StaticResource已在样式定义作用域解析时，下游应覆盖/派生样式或在加载前配置，不承诺替换字典更新已创建控件。
+
+Theme.xaml由现有XamlCombine从源字典生成。Release库/Demo构建0错误、2206既有警告；WpfSmoke更新分类键并通过SkinDefault/SkinDark/SkinViolet、属性网格/Clock/DateTimePicker编译Demo和受限窗口滚动。下游Ultron369项回归通过、两示例构建0警告0错误。未声明全控件全DPI人工验收。
+
+同批主DLL SHA256=05B58F8F7455B3264AEBDC720EECE9E475153C5ADB0AD357970681C66E43B56C，英文卫星=79916386E8DBB8A2D92DBB1F741A99AFBCBF8595C4332353DEC26F491434B6C6；XML同步。证据Ultron artifacts/style-categories-hc-build.log和style-categories-hc-smoke.log。提交及远端结果见JAX唯一交付总账。

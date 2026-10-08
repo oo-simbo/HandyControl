@@ -58,15 +58,15 @@
     <Style x:Key="InputElementBaseStyle" TargetType="Control">
         <Setter Property="hc:TitleElement.MarginOnTheLeft" Value="0,7,6,0" />
         <Setter Property="hc:TitleElement.MarginOnTheTop" Value="8,0,0,5" />
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
-        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
-        <Setter Property="Padding" Value="{DynamicResource DefaultInputPadding}" />
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource InputCornerRadius}" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputMinHeight}" />
+        <Setter Property="Padding" Value="{DynamicResource InputPadding}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-        <Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}" />
+        <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource InputForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputBorderThickness}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Validation.ErrorTemplate" Value="{StaticResource InputElementErrorTemplate}" />
         <Style.Triggers>

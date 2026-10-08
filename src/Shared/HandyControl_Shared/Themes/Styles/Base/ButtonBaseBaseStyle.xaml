@@ -4,15 +4,15 @@
 
     <Style x:Key="ButtonBaseBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="ButtonBase">
         <Setter Property="Height" Value="Auto"/>
-        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}"/>
         <!-- Height=Auto 后，模板里 Stretch=Uniform 的图标 Path 不再有按钮高度可依附；
              未显式给出 IconElement 尺寸时会退化成按几何原始坐标测量，大坐标图标几何
              因此会把按钮撑到上千像素。此处提供可被调用方覆盖的默认图标框。 -->
         <Setter Property="hc:IconElement.Width" Value="{DynamicResource DefaultIconSize}"/>
         <Setter Property="hc:IconElement.Height" Value="{DynamicResource DefaultIconSize}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource ButtonPadding}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonAccentTextBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

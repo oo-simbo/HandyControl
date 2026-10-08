@@ -4,8 +4,8 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <Style x:Key="ToggleButtonBaseStyle" BasedOn="{StaticResource ButtonBaseBaseStyle}" TargetType="ToggleButton">
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThickness}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource ButtonCornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -48,14 +48,14 @@
     </Style>
 
     <Style x:Key="ToggleButtonIconBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
-        <Setter Property="Width" Value="{StaticResource DefaultControlHeight}"/>
-        <Setter Property="Height" Value="{StaticResource DefaultControlHeight}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonAccentTextBrush}"/>
+        <Setter Property="Width" Value="{DynamicResource ButtonMinHeight}"/>
+        <Setter Property="Height" Value="{DynamicResource ButtonMinHeight}"/>
         <Setter Property="Padding" Value="8"/>
         <Setter Property="hc:IconSwitchElement.Geometry" Value="{x:Null}"/>
         <Setter Property="hc:IconSwitchElement.GeometrySelected" Value="{x:Null}"/>
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource ButtonCornerRadius}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -106,7 +106,7 @@
         <Setter Property="hc:VisualElement.HighlightBrush" Value="{DynamicResource PrimaryBrush}" />
         <Setter Property="hc:VisualElement.HighlightForeground" Value="{DynamicResource SecondaryBorderBrush}" />
         <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="6,0,0,0" />
@@ -157,7 +157,7 @@
                                     <Ellipse HorizontalAlignment="Right" Visibility="{Binding Path=(hc:ToggleButtonAttach.ShowLabel), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Margin="0 0 12 0" Width="16" Height="16" StrokeThickness="2" Stroke="{Binding Path=(hc:VisualElement.HighlightForeground),RelativeSource={RelativeSource TemplatedParent}}" />
                                 </Border>
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Opacity="0" x:Name="lightBorder" Background="{Binding Path=(hc:VisualElement.HighlightBrush),RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="24">
-                                    <Rectangle HorizontalAlignment="Left" Visibility="{Binding Path=(hc:ToggleButtonAttach.ShowLabel), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Margin="18 0 0 0" Width="2" Height="16" RadiusX="1" RadiusY="1" Fill="{DynamicResource TextIconBrush}" />
+                                    <Rectangle HorizontalAlignment="Left" Visibility="{Binding Path=(hc:ToggleButtonAttach.ShowLabel), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Margin="18 0 0 0" Width="2" Height="16" RadiusX="1" RadiusY="1" Fill="{DynamicResource ButtonAccentTextBrush}" />
                                 </Border>
                                 <Border Margin="2" HorizontalAlignment="Left" CornerRadius="22" Name="thumb" Effect="{StaticResource EffectShadow2}" Background="White" Width="44" Height="44" RenderTransformOrigin="0.5,0.5">
                                     <Border.RenderTransform>
@@ -192,8 +192,8 @@
     </Style>
 
     <Style x:Key="ToggleButtonGroupItemBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -201,7 +201,7 @@
         <Setter Property="hc:BorderElement.CornerRadius" Value="0"/>
         <!-- 与 ButtonGroupItemBaseStyle / RadioGroupItemBaseStyle 统一：Height=Auto + 动态 MinHeight，
              不写死 StaticResource 的 28，运行时 DefaultControlHeight 覆盖与更高的同级输入都能生效。 -->
-        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}"/>
         <Setter Property="Padding" Value="10,0"/>
         <Setter Property="Margin" Value="-1,0,0,0"/>
         <Setter Property="Template">
@@ -247,7 +247,7 @@
                 <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BorderBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBorderBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

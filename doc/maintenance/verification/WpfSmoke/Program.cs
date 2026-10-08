@@ -480,12 +480,12 @@ internal static class Program
             Require(button.FontFamily.Source.Contains("Microsoft YaHei UI", StringComparison.OrdinalIgnoreCase),
                 "BaseStyle must consume DefaultFontFamily: " + button.FontFamily.Source);
             Require(double.IsNaN(button.Height), "ButtonBaseBaseStyle must leave Height at Auto: " + button.Height);
-            Require(button.MinHeight == 28d, "ButtonBaseBaseStyle must consume DefaultControlHeight: " + button.MinHeight);
+            Require(button.MinHeight == 28d, "ButtonBaseBaseStyle must consume ButtonMinHeight: " + button.MinHeight);
             Require(button.Padding == new Thickness(10, 5, 10, 5),
-                "ButtonBaseBaseStyle must consume DefaultControlPadding: " + button.Padding);
-            Require(textBox.MinHeight == 28d, "InputElementBaseStyle must consume DefaultControlHeight: " + textBox.MinHeight);
+                "ButtonBaseBaseStyle must consume ButtonPadding: " + button.Padding);
+            Require(textBox.MinHeight == 28d, "InputElementBaseStyle must consume ButtonMinHeight: " + textBox.MinHeight);
             Require(textBox.Padding == new Thickness(8, 0, 8, 0),
-                "InputElementBaseStyle must consume DefaultInputPadding: " + textBox.Padding);
+                "InputElementBaseStyle must consume InputPadding: " + textBox.Padding);
 
             var baselineTextColor = ((SolidColorBrush)app.FindResource("PrimaryTextBrush")).Color;
             Require(app.FindResource("PrimaryBrush") is LinearGradientBrush,
@@ -499,12 +499,14 @@ internal static class Program
             {
                 ["TextFontSize"] = 20d,
                 ["DefaultFontFamily"] = new FontFamily("Consolas"),
-                ["DefaultControlHeight"] = 44d,
-                ["DefaultControlPadding"] = new Thickness(20, 5, 20, 5),
-                ["DefaultInputPadding"] = new Thickness(16, 0, 16, 0),
+                ["ButtonMinHeight"] = 44d,
+                ["InputMinHeight"] = 44d,
+                ["ButtonPadding"] = new Thickness(20, 5, 20, 5),
+                ["InputPadding"] = new Thickness(16, 0, 16, 0),
                 ["PrimaryTextColor"] = Colors.Lime,
                 ["PrimaryTextBrush"] = new SolidColorBrush(Colors.Lime),
-                ["RegionBrush"] = new SolidColorBrush(Colors.Teal),
+                ["ButtonForegroundBrush"] = new SolidColorBrush(Colors.Lime),
+                ["InputBackgroundBrush"] = new SolidColorBrush(Colors.Teal),
                 ["PrimaryBrush"] = primaryGradient
             };
             app.Resources.MergedDictionaries.Add(overrides);
@@ -513,12 +515,12 @@ internal static class Program
             Require(button.FontSize == 20d, "TextFontSize override must reach a live control: " + button.FontSize);
             Require(button.FontFamily.Source.Contains("Consolas", StringComparison.OrdinalIgnoreCase),
                 "DefaultFontFamily override must reach a live control: " + button.FontFamily.Source);
-            Require(button.MinHeight == 44d, "DefaultControlHeight override must reach a live button: " + button.MinHeight);
+            Require(button.MinHeight == 44d, "ButtonMinHeight override must reach a live button: " + button.MinHeight);
             Require(button.Padding == new Thickness(20, 5, 20, 5),
-                "DefaultControlPadding override must reach a live button: " + button.Padding);
-            Require(textBox.MinHeight == 44d, "DefaultControlHeight override must reach a live TextBox: " + textBox.MinHeight);
+                "ButtonPadding override must reach a live button: " + button.Padding);
+            Require(textBox.MinHeight == 44d, "ButtonMinHeight override must reach a live TextBox: " + textBox.MinHeight);
             Require(textBox.Padding == new Thickness(16, 0, 16, 0),
-                "DefaultInputPadding override must reach a live TextBox: " + textBox.Padding);
+                "InputPadding override must reach a live TextBox: " + textBox.Padding);
             Require(ReferenceEquals(app.FindResource("PrimaryTextBrush"), overrides["PrimaryTextBrush"]),
                 "A real brush resource must override HandyControl's frozen-at-first-use brush.");
             Require(ReferenceEquals(app.FindResource("PrimaryBrush"), primaryGradient)
@@ -544,7 +546,7 @@ internal static class Program
     /// <summary>
     /// 验证按钮图标尺寸：Height=Auto 之后，模板中 Stretch=Uniform 的图标 Path 不能被大坐标几何撑开，
     /// 纯图标按钮必须有显式尺寸（圆形保持 1:1），Small 按钮的显式 Height 不能被继承的 MinHeight 压过，
-    /// 并且 DefaultControlHeight 的运行时覆盖要同时改变图标按钮尺寸而不影响 Small。
+    /// 并且 ButtonMinHeight 的运行时覆盖要同时改变图标按钮尺寸而不影响 Small。
     /// </summary>
     private static void VerifyButtonSizing(Application app)
     {
@@ -596,19 +598,19 @@ internal static class Program
             Require(iconButton.ActualWidth == 28d && iconButton.ActualHeight == 28d,
                 $"ButtonIcon must carry an explicit square size: {iconButton.ActualWidth}x{iconButton.ActualHeight}");
             Require(circularButton.ActualWidth == 28d && circularButton.ActualHeight == 28d,
-                $"ButtonIconCircular must stay 1:1 at DefaultControlHeight: {circularButton.ActualWidth}x{circularButton.ActualHeight}");
+                $"ButtonIconCircular must stay 1:1 at ButtonMinHeight: {circularButton.ActualWidth}x{circularButton.ActualHeight}");
             Require(circularSmall.ActualWidth == 20d && circularSmall.ActualHeight == 20d,
                 $"ButtonIconCircular.Small must stay 20x20: {circularSmall.ActualWidth}x{circularSmall.ActualHeight}");
             Require(smallTextButton.ActualHeight == 20d,
                 $"ButtonDefault.Small explicit Height must not be overridden by MinHeight: {smallTextButton.ActualHeight}");
 
-            var overrides = new ResourceDictionary { ["DefaultControlHeight"] = 44d };
+            var overrides = new ResourceDictionary { ["ButtonMinHeight"] = 44d };
             app.Resources.MergedDictionaries.Add(overrides);
             Flush();
             Require(textButton.ActualHeight == 44d,
-                $"DefaultControlHeight override must grow a text button: {textButton.ActualHeight}");
+                $"ButtonMinHeight override must grow a text button: {textButton.ActualHeight}");
             Require(iconButton.ActualWidth == 44d && iconButton.ActualHeight == 44d,
-                $"DefaultControlHeight override must resize ButtonIcon: {iconButton.ActualWidth}x{iconButton.ActualHeight}");
+                $"ButtonMinHeight override must resize ButtonIcon: {iconButton.ActualWidth}x{iconButton.ActualHeight}");
             Require(circularButton.ActualWidth == 44d && circularButton.ActualHeight == 44d,
                 $"ButtonIconCircular must stay 1:1 under a runtime size override: {circularButton.ActualWidth}x{circularButton.ActualHeight}");
             Require(smallTextButton.ActualHeight == 20d && circularSmall.ActualHeight == 20d,
@@ -692,7 +694,7 @@ internal static class Program
 
     /// <summary>
     /// 验证 NumericUpDown 的内嵌上下按钮是半高子按钮：它们必须各自 MinHeight=0，否则两行都会吃到
-    /// 按钮基类继承来的 MinHeight=DefaultControlHeight，把整个数字框撑成双倍高度。
+    /// 按钮基类继承来的 MinHeight=ButtonMinHeight，把整个数字框撑成双倍高度。
     /// 默认字号下三种模板的数字框都要与同字体、同内边距的 TextBox/ComboBox 同高；
     /// 动态放大 TextFontSize 时数字框随内容增高，而不是被固定高度裁切。
     /// </summary>
@@ -770,7 +772,7 @@ internal static class Program
 
     /// <summary>
     /// 验证 PropertyGrid 原生工具栏的排序按钮与搜索框实际同高：两者都必须消费动态
-    /// DefaultControlHeight（单选组项此前写死 StaticResource 的 Height，搜索框内容行写死
+    /// ButtonMinHeight（单选组项此前写死 StaticResource 的 Height，搜索框内容行写死
     /// StaticResource 的 MinContentHeight）。覆盖默认、Ultron 规格 36、48、字号 24 以及密度
     /// 0.75/1.5 的组合，并且字号高于令牌时必须由内容把输入框撑高，而不是被固定高度裁切。
     /// </summary>
@@ -812,11 +814,11 @@ internal static class Program
             };
             foreach (var (height, font) in scenarios)
             {
-                var overrides = new ResourceDictionary { ["DefaultControlHeight"] = height };
+                var overrides = new ResourceDictionary { ["InputMinHeight"] = height, ["ButtonMinHeight"] = height };
                 window.FontSize = font;
                 app.Resources.MergedDictionaries.Add(overrides);
                 Flush();
-                var label = $"DefaultControlHeight={height} font={font}";
+                var label = $"ButtonMinHeight={height} font={font}";
                 Console.WriteLine($"  toolbar({label}): search={searchBar.ActualHeight} (min={searchBar.MinHeight} minContent={Hc.InfoElement.GetMinContentHeight(searchBar)} desired={searchBar.DesiredSize.Height}) group={group.ActualHeight} (align={group.VerticalAlignment} desired={group.DesiredSize.Height}) sort={string.Join("/", sortButtons.Select(button => $"{button.ActualHeight}[min={button.MinHeight},align={button.VerticalAlignment}]"))}");
                 Require(searchBar.ActualHeight >= height - 0.5d,
                     $"{label}: the search bar must not fall below the shared token: {searchBar.ActualHeight}");
@@ -838,7 +840,7 @@ internal static class Program
             foreach (var sortButton in sortButtons)
             {
                 Require(Math.Abs(searchBar.ActualHeight - 28d) <= 0.5d && Math.Abs(sortButton.ActualHeight - 28d) <= 0.5d,
-                    $"Restoring the baseline must return both to DefaultControlHeight: search={searchBar.ActualHeight} sort={sortButton.ActualHeight}");
+                    $"Restoring the baseline must return both to ButtonMinHeight: search={searchBar.ActualHeight} sort={sortButton.ActualHeight}");
             }
             Console.WriteLine("PASS PropertyGrid toolbar height (sort buttons and search bar share the dynamic control height).");
         }
@@ -846,7 +848,7 @@ internal static class Program
     }
 
     /// <summary>
-    /// 验证按钮组三类项样式（RadioButton / Button / ToggleButton）统一消费动态 DefaultControlHeight：
+    /// 验证按钮组三类项样式（RadioButton / Button / ToggleButton）统一消费动态 ButtonMinHeight：
     /// 不写死高度、随运行时覆盖同高变化。
     /// </summary>
     private static void VerifyButtonGroupItems(Application app)
@@ -875,15 +877,15 @@ internal static class Program
             Flush();
             foreach (var height in new[] { 28d, 36d, 48d })
             {
-                var overrides = new ResourceDictionary { ["DefaultControlHeight"] = height };
+                var overrides = new ResourceDictionary { ["ButtonMinHeight"] = height };
                 app.Resources.MergedDictionaries.Add(overrides);
                 Flush();
                 foreach (var item in new ButtonBase[] { radio, button, toggle })
                 {
                     Require(Math.Abs(item.ActualHeight - height) <= 0.5d,
-                        $"ButtonGroup item {item.GetType().Name} must consume DefaultControlHeight {height}: {item.ActualHeight}");
+                        $"ButtonGroup item {item.GetType().Name} must consume ButtonMinHeight {height}: {item.ActualHeight}");
                 }
-                Console.WriteLine($"  button group items(DefaultControlHeight={height}): {radio.ActualHeight}/{button.ActualHeight}/{toggle.ActualHeight}");
+                Console.WriteLine($"  button group items(ButtonMinHeight={height}): {radio.ActualHeight}/{button.ActualHeight}/{toggle.ActualHeight}");
                 app.Resources.MergedDictionaries.Remove(overrides);
             }
             Flush();

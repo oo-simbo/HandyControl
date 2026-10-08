@@ -69,4 +69,25 @@
     <SolidColorBrush x:Key="ItemSelectionTextBrush" Color="{DynamicResource TextIconColor}" />
     <SolidColorBrush x:Key="ItemInactiveSelectionBrush" Color="{DynamicResource DarkDefaultColor}" />
     <SolidColorBrush x:Key="ItemInactiveSelectionTextBrush" Color="{DynamicResource PrimaryTextColor}" />
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{DynamicResource RegionColor}" />
+    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{DynamicResource PrimaryTextColor}" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{DynamicResource BorderColor}" />
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="{DynamicResource RegionColor}" />
+    <SolidColorBrush x:Key="InputForegroundBrush" Color="{DynamicResource PrimaryTextColor}" />
+    <SolidColorBrush x:Key="InputBorderBrush" Color="{DynamicResource BorderColor}" />
+    <SolidColorBrush x:Key="RegionBackgroundBrush" Color="{DynamicResource RegionColor}" />
+    <SolidColorBrush x:Key="RegionForegroundBrush" Color="{DynamicResource PrimaryTextColor}" />
+    <SolidColorBrush x:Key="RegionBorderBrush" Color="{DynamicResource BorderColor}" />
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="{DynamicResource RegionColor}" />
+    <SolidColorBrush x:Key="CardForegroundBrush" Color="{DynamicResource PrimaryTextColor}" />
+    <SolidColorBrush x:Key="CardBorderBrush" Color="{DynamicResource BorderColor}" />
+    <SolidColorBrush x:Key="PopupBackgroundBrush" Color="{DynamicResource RegionColor}" />
+    <SolidColorBrush x:Key="PopupForegroundBrush" Color="{DynamicResource PrimaryTextColor}" />
+    <SolidColorBrush x:Key="PopupBorderBrush" Color="{DynamicResource BorderColor}" />
+    <SolidColorBrush x:Key="ButtonHoverBrush" Color="{DynamicResource SecondaryRegionColor}" />
+    <SolidColorBrush x:Key="ButtonPressedBrush" Color="{DynamicResource BorderColor}" />
+    <SolidColorBrush x:Key="ButtonAccentBrush" Color="{DynamicResource PrimaryColor}" />
+    <SolidColorBrush x:Key="ButtonAccentTextBrush" Color="{DynamicResource TextIconColor}" />
+    <SolidColorBrush x:Key="InputFocusBrush" Color="{DynamicResource PrimaryColor}" />
+    <SolidColorBrush x:Key="SeparatorColorBrush" Color="{DynamicResource SecondaryBorderColor}" />
 </ResourceDictionary>

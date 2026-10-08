@@ -27,7 +27,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
-                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -65,7 +65,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="true">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -100,7 +100,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="true">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -109,7 +109,7 @@
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="hc:InfoElement.Symbol" Value="●"/>
         <Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}"/>
-        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource InputMinHeight}"/>
         <Setter Property="Template" Value="{StaticResource SearchBarExtendTopTemplate}"/>
         <Style.Triggers>
             <Trigger Property="hc:InfoElement.TitlePlacement" Value="Left">
@@ -158,7 +158,7 @@
                 <Setter Property="Visibility" Value="Visible" TargetName="ButtonClear"/>
             </MultiTrigger>
             <Trigger Property="IsFocused" Value="true">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -202,7 +202,7 @@
                 <Setter Property="Visibility" Value="Visible" TargetName="ButtonClear"/>
             </MultiTrigger>
             <Trigger Property="IsFocused" Value="true">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

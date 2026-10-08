@@ -43,7 +43,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputMinHeight}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -76,7 +76,7 @@
             </Border>
             <Popup x:Name="PART_Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" AllowsTransparency="true" Grid.ColumnSpan="2" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
                 <Decorator Margin="8 0">
-                    <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+                    <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource InputBorderBrush}" Background="{DynamicResource InputBackgroundBrush}">
                         <hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                             <hc:ToggleBlock.CheckedContent>
                                 <Grid Margin="2" ClipToBounds="False">
@@ -121,10 +121,10 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
             </MultiTrigger>
             <Trigger Property="IsOpen" Value="True" SourceName="PART_Popup">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value="0.4" />
@@ -169,7 +169,7 @@
                 </Border>
                 <Popup x:Name="PART_Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" Margin="1" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
                     <Decorator Margin="8 0">
-                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource InputBorderBrush}" Background="{DynamicResource InputBackgroundBrush}">
                             <hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                 <hc:ToggleBlock.CheckedContent>
                                     <Grid Margin="2" ClipToBounds="False">
@@ -215,10 +215,10 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
             </MultiTrigger>
             <Trigger Property="IsOpen" Value="True" SourceName="PART_Popup">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value="0.4" TargetName="contentPanel" />
@@ -249,7 +249,7 @@
                 </Border>
                 <Popup x:Name="PART_Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" Margin="1" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
                     <Decorator Margin="8 0">
-                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource InputBorderBrush}" Background="{DynamicResource InputBackgroundBrush}">
                             <hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                 <hc:ToggleBlock.CheckedContent>
                                     <Grid Margin="2" ClipToBounds="False">
@@ -295,10 +295,10 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
             </MultiTrigger>
             <Trigger Property="IsOpen" Value="True" SourceName="PART_Popup">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value="0.4" TargetName="contentPanel" />
@@ -311,7 +311,7 @@
         <Setter Property="Template" Value="{StaticResource CheckComboBoxExtendTopTemplate}" />
         <Setter Property="hc:InfoElement.Symbol" Value="●" />
         <Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}" />
-        <Setter Property="hc:InfoElement.MinContentHeight" Value="{StaticResource DefaultControlHeight}" />
+        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource InputMinHeight}" />
         <Style.Triggers>
             <Trigger Property="hc:InfoElement.TitlePlacement" Value="Left">
                 <Setter Property="Template" Value="{StaticResource CheckComboBoxExtendLeftTemplate}" />
@@ -344,7 +344,7 @@
                 <Button Height="Auto" Width="Auto" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" hc:IconElement.Width="14" Command="interactivity:ControlCommands.Clear" Visibility="Hidden" Name="ButtonClear" Focusable="False" Grid.Column="1" Style="{StaticResource ButtonIcon}" Padding="0,0,4,0" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Foreground="{Binding BorderBrush,ElementName=border}" />
                 <Popup x:Name="PART_Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" Margin="1" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
                     <Decorator Margin="8 0">
-                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource InputBorderBrush}" Background="{DynamicResource InputBackgroundBrush}">
                             <hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                 <hc:ToggleBlock.CheckedContent>
                                     <Grid Margin="2" ClipToBounds="False">
@@ -411,10 +411,10 @@
                 <Setter Property="Visibility" Value="Visible" TargetName="ButtonClear" />
             </MultiTrigger>
             <Trigger Property="IsOpen" Value="True" SourceName="PART_Popup">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value="0.4" TargetName="contentPanel" />
@@ -447,7 +447,7 @@
                 <Button Height="Auto" Width="Auto" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" hc:IconElement.Width="14" Command="interactivity:ControlCommands.Clear" Visibility="Hidden" Name="ButtonClear" Focusable="False" Grid.Column="1" Style="{StaticResource ButtonIcon}" Padding="0,0,4,0" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Foreground="{Binding BorderBrush,ElementName=border}" />
                 <Popup x:Name="PART_Popup" StaysOpen="False" PlacementTarget="{Binding ElementName=border}" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" Margin="1" PopupAnimation="{StaticResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
                     <Decorator Margin="8 0">
-                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+                        <Border Effect="{StaticResource EffectShadow2}" BorderThickness="0,1,0,0" Margin="0,0,0,8" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="dropDownBorder" MinWidth="{Binding ActualWidth, ElementName=border}" MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{DynamicResource InputBorderBrush}" Background="{DynamicResource InputBackgroundBrush}">
                             <hc:ToggleBlock IsChecked="{Binding HasItems,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                                 <hc:ToggleBlock.CheckedContent>
                                     <Grid Margin="2" ClipToBounds="False">
@@ -514,10 +514,10 @@
                 <Setter Property="Visibility" Value="Visible" TargetName="ButtonClear" />
             </MultiTrigger>
             <Trigger Property="IsOpen" Value="True" SourceName="PART_Popup">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value="0.4" TargetName="contentPanel" />

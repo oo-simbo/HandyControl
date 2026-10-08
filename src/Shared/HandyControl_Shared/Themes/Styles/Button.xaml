@@ -5,13 +5,13 @@
     <!--region Button-->
 
     <Style x:Key="ButtonDefault" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BorderBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonPressedBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -27,8 +27,8 @@
     <Style BasedOn="{StaticResource ButtonDefault}" TargetType="Button"/>
 
     <Style x:Key="ButtonPrimary" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonAccentBrush}"/>
     </Style>
 
     <Style x:Key="ButtonPrimary.Small" BasedOn="{StaticResource ButtonPrimary}" TargetType="Button">
@@ -98,12 +98,12 @@
     <Style x:Key="ButtonIcon" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Setter Property="hc:BorderElement.CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="4"/>
         <!-- 纯图标按钮没有文本决定尺寸，必须显式给方形尺寸，否则图标几何会反向撑开按钮。 -->
-        <Setter Property="Width" Value="{DynamicResource DefaultControlHeight}"/>
-        <Setter Property="Height" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="Width" Value="{DynamicResource ButtonMinHeight}"/>
+        <Setter Property="Height" Value="{DynamicResource ButtonMinHeight}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -127,9 +127,9 @@
     </Style>
 
     <Style x:Key="ButtonIconCircular" BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
-        <Setter Property="Width" Value="{DynamicResource DefaultControlHeight}"/>
-        <Setter Property="Height" Value="{DynamicResource DefaultControlHeight}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Width" Value="{DynamicResource ButtonMinHeight}"/>
+        <Setter Property="Height" Value="{DynamicResource ButtonMinHeight}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Setter Property="hc:BorderElement.CornerRadius" Value="0"/>
         <Setter Property="Padding" Value="4"/>
         <Setter Property="FocusVisualStyle">
@@ -172,11 +172,11 @@
     <!--region ButtonDashed-->
 
     <Style x:Key="ButtonDashed" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonAccentBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonAccentBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -190,8 +190,8 @@
     </Style>
 
     <Style x:Key="ButtonDashedPrimary" BasedOn="{StaticResource ButtonDashedBaseStyle}" TargetType="Button">
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonAccentBrush}"/>
     </Style>
 
     <Style x:Key="ButtonDashedPrimary.Small" BasedOn="{StaticResource ButtonDashedPrimary}" TargetType="Button">

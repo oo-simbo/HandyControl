@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:hc="clr-namespace:HandyControl.Controls"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
@@ -195,9 +195,10 @@
     </Style>
 
     <Style x:Key="RadioGroupItemBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="RadioButton">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThickness}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -207,7 +208,7 @@
              也不允许被更高的同级输入（如 PropertyGrid 工具栏里的 SearchBar）拉伸，导致两者不等高。
              VerticalAlignment 用 Stretch：按钮组按内容定高时与原来的 Center 等价，
              只有组被拉高（工具栏要跟随更高的搜索框）时组内项才会填满该行。 -->
-        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
+        <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}" />
         <Setter Property="Padding" Value="10,0" />
         <Setter Property="Margin" Value="-1,0,0,0" />
         <Setter Property="hc:IconElement.Width" Value="16" />
@@ -252,10 +253,10 @@
                 <Setter Property="Margin" Value="0,-1,0,0" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+                <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BorderBrush}" />
+                <Setter Property="Background" Value="{DynamicResource ButtonPressedBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

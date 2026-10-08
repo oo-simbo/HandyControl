@@ -4,14 +4,14 @@
 
     <!--普通-->
     <Style x:Key="ToggleButtonDefault" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BorderBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonPressedBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -27,8 +27,8 @@
     <Style BasedOn="{StaticResource ToggleButtonDefault}" TargetType="ToggleButton"/>
 
     <Style x:Key="ToggleButtonPrimary" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonAccentBrush}"/>
     </Style>
 
     <Style x:Key="ToggleButtonPrimary.Small" BasedOn="{StaticResource ToggleButtonPrimary}" TargetType="ToggleButton">
@@ -93,14 +93,14 @@
 
     <!--图标-->
     <Style x:Key="ToggleButtonIcon" BasedOn="{StaticResource ToggleButtonIconBaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BorderBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonPressedBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -112,8 +112,8 @@
     </Style>
 
     <Style x:Key="ToggleButtonIconPrimary" BasedOn="{StaticResource ToggleButtonIconBaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonAccentBrush}"/>
     </Style>
 
     <Style x:Key="ToggleButtonIconPrimary.Small" BasedOn="{StaticResource ToggleButtonIconPrimary}" TargetType="ToggleButton">
@@ -169,7 +169,7 @@
     <Style x:Key="ToggleButtonIconTransparent" BasedOn="{StaticResource ToggleButtonIconBaseStyle}" TargetType="ToggleButton">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -203,7 +203,7 @@
 
     <!--翻转-->
     <Style x:Key="ToggleButtonFlip" BasedOn="{StaticResource BaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="0"/>
@@ -396,7 +396,7 @@
 
     <!--LoadingButton-->
     <Style x:Key="ToggleButtonLoadingPrimary" BasedOn="{StaticResource ToggleButtonBaseStyle}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonAccentBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -439,15 +439,15 @@
     </Style>
 
     <Style x:Key="ToggleButtonLoading" BasedOn="{StaticResource ToggleButtonLoadingPrimary}" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BorderBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonPressedBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

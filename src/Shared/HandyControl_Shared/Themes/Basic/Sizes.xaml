@@ -12,7 +12,32 @@
     <Thickness x:Key="DefaultBorderThicknessTop">0,1,0,0</Thickness>
     <Thickness x:Key="DefaultBorderThicknessBottom">0,0,0,1</Thickness>
     <Thickness x:Key="DefaultBorderThicknessLeftRightBottom">1,0,1,1</Thickness>
+    <Thickness x:Key="ButtonBorderThickness">1</Thickness>
+    <Thickness x:Key="InputBorderThickness">1</Thickness>
+    <Thickness x:Key="RegionBorderThickness">1</Thickness>
+    <Thickness x:Key="CardBorderThickness">1</Thickness>
+    <Thickness x:Key="PopupBorderThickness">1</Thickness>
+    <Thickness x:Key="SeparatorBorderThickness">1</Thickness>
+    <Thickness x:Key="SeparatorBorderThicknessTop">0,1,0,0</Thickness>
+    <Thickness x:Key="SeparatorBorderThicknessBottom">0,0,0,1</Thickness>
+    <Thickness x:Key="SeparatorBorderThicknessLeftRightBottom">1,0,1,1</Thickness>
     <CornerRadius x:Key="DefaultCornerRadius">4</CornerRadius>
     <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">30</sys:Double>
 
+    <sys:Double x:Key="ButtonMinHeight">28</sys:Double>
+    <sys:Double x:Key="InputMinHeight">28</sys:Double>
+    <sys:Double x:Key="DataRowMinHeight">28</sys:Double>
+    <Thickness x:Key="ButtonPadding">10,5,10,5</Thickness>
+    <Thickness x:Key="InputPadding">8,0,8,0</Thickness>
+    <Thickness x:Key="RegionPadding">6</Thickness>
+    <Thickness x:Key="CardPadding">0</Thickness>
+    <Thickness x:Key="CardHeaderPadding">0</Thickness>
+    <Thickness x:Key="CardFooterPadding">0</Thickness>
+    <Thickness x:Key="PopupPadding">10,15,10,15</Thickness>
+    <Thickness x:Key="DataCellPadding">8,4,8,4</Thickness>
+    <CornerRadius x:Key="ButtonCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="InputCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="RegionCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="CardCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="PopupCornerRadius">4</CornerRadius>
 </ResourceDictionary>

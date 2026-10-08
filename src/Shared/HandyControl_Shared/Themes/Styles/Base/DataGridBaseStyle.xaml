@@ -246,7 +246,7 @@
 		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource InputBorderThickness}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
 		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
@@ -278,7 +278,7 @@
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource InputBorderThickness}" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Validation.ErrorTemplate" Value="{StaticResource InputElementErrorTemplate}" />
         <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />
@@ -323,7 +323,7 @@
 		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource InputBorderThickness}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
@@ -353,7 +353,7 @@
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource InputBorderThickness}" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Validation.ErrorTemplate" Value="{StaticResource InputElementErrorTemplate}" />
         <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />

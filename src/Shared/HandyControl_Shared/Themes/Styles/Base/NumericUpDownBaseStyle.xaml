@@ -8,7 +8,7 @@
          必须逐个显式 MinHeight="0"：否则会继承按钮基类来的 MinHeight=DefaultControlHeight，
          两行各撑一份最小高度，把整个数字框撑成双倍高度。本文件 5 个模板共 10 处上下按钮均已清零。 -->
     <Style x:Key="NumericUpDownBaseStyle" BasedOn="{StaticResource InputElementBaseStyle}" TargetType="hc:NumericUpDown">
-        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource InputForegroundBrush}"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Once"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="AllowDrop" Value="true"/>
@@ -41,7 +41,7 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true" SourceName="PART_TextBox">
-                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -83,7 +83,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="true" SourceName="PART_TextBox">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
             <Trigger Property="IsReadOnly" Value="True">
                 <Setter Property="IsEnabled" TargetName="UpButton" Value="False"/>
@@ -126,7 +126,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="true" SourceName="PART_TextBox">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -134,7 +134,7 @@
     <Style x:Key="NumericUpDownExtendBaseStyle" BasedOn="{StaticResource NumericUpDownBaseStyle}" TargetType="hc:NumericUpDown">
         <Setter Property="hc:InfoElement.Symbol" Value="●"/>
         <Setter Property="hc:InfoElement.ContentHeight" Value="{x:Static system:Double.NaN}"/>
-        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource DefaultControlHeight}"/>
+        <Setter Property="hc:InfoElement.MinContentHeight" Value="{DynamicResource InputMinHeight}"/>
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="Template" Value="{StaticResource NumericUpDownExtendTopTemplate}"/>
         <Style.Triggers>
@@ -189,7 +189,7 @@
                 <Setter Property="Visibility" Value="Visible" TargetName="ButtonClear"/>
             </MultiTrigger>
             <Trigger Property="IsFocused" Value="true" SourceName="PART_TextBox">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -238,7 +238,7 @@
                 <Setter Property="Visibility" Value="Visible" TargetName="ButtonClear"/>
             </MultiTrigger>
             <Trigger Property="IsFocused" Value="true" SourceName="PART_TextBox">
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InputFocusBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
