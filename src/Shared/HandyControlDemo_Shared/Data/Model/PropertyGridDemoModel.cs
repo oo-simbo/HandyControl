@@ -23,6 +23,10 @@ public class PropertyGridDemoModel
     public VerticalAlignment VerticalAlignment { get; set; }
 
     public ImageSource ImageSource { get; set; }
+
+    public Color Color { get; set; } = Colors.DodgerBlue;
+
+    public Brush Brush { get; set; } = Brushes.White;
 }
 
 public enum Gender

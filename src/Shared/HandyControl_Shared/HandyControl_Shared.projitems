@@ -229,6 +229,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Carousel\Carousel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\ChatBubble.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorPicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorPalette.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\PropertyGrid\Editors\ColorPropertyEditor.cs" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\ColorPicker\ColorPalette.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Dialog\Dialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\GotoTop.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\Gravatar.cs" />

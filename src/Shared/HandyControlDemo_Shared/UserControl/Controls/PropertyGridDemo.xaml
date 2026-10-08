@@ -6,53 +6,55 @@
              Background="{DynamicResource RegionBrush}"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <hc:TransitioningContentControl>
-        <Grid Margin="22">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <CheckBox x:Name="CustomOrder" Content="CategoryOrder / PropertyOrder" IsChecked="True" Margin="0,0,0,12"/>
-                <hc:PropertyGrid Width="500" SelectedObject="{Binding DemoModel}">
-                    <hc:PropertyGrid.Style>
-                        <Style TargetType="hc:PropertyGrid" BasedOn="{StaticResource {x:Type hc:PropertyGrid}}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsChecked, ElementName=CustomOrder}" Value="True">
-                                    <Setter Property="CategoryOrder">
-                                        <Setter.Value>
-                                            <x:Array Type="{x:Type sys:String}">
-                                                <sys:String>Category2</sys:String>
-                                                <sys:String>Category1</sys:String>
-                                            </x:Array>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="PropertyOrder">
-                                        <Setter.Value>
-                                            <x:Array Type="{x:Type sys:String}">
-                                                <sys:String>Integer</sys:String>
-                                                <sys:String>Boolean</sys:String>
-                                                <sys:String>String</sys:String>
-                                                <sys:String>Enum</sys:String>
-                                            </x:Array>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </hc:PropertyGrid.Style>
-                </hc:PropertyGrid>
-            </StackPanel>
-            <StackPanel hc:TitleElement.TitleWidth="168" Grid.Row="1" Margin="20,16,17,10">
-                <TextBox hc:TitleElement.Title="String" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.String,Mode=OneWay}" IsReadOnly="True"/>
-                <TextBox hc:TitleElement.Title="Enum" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.Enum,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
-                <TextBox hc:TitleElement.Title="Integer" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.Integer,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
-                <TextBox hc:TitleElement.Title="Boolean" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.Boolean,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
-                <TextBox hc:TitleElement.Title="HorizontalAlignment" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.HorizontalAlignment,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
-                <TextBox hc:TitleElement.Title="VerticalAlignment" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.VerticalAlignment,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
-                <GroupBox Style="{StaticResource GroupBoxOriginal}" Header="ImageSource" hc:TitleElement.TitlePlacement="Left" Margin="0,6,0,0">
-                    <hc:Gravatar HorizontalAlignment="Left" Source="{Binding DemoModel.ImageSource}"/>
-                </GroupBox>
-            </StackPanel>
-        </Grid>
+        <hc:ScrollViewer x:Name="DemoScrollViewer" IsInertiaEnabled="True">
+            <Grid Margin="22">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <CheckBox x:Name="CustomOrder" Content="CategoryOrder / PropertyOrder" IsChecked="True" Margin="0,0,0,12"/>
+                    <hc:PropertyGrid Width="500" SelectedObject="{Binding DemoModel}">
+                        <hc:PropertyGrid.Style>
+                            <Style TargetType="hc:PropertyGrid" BasedOn="{StaticResource {x:Type hc:PropertyGrid}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=CustomOrder}" Value="True">
+                                        <Setter Property="CategoryOrder">
+                                            <Setter.Value>
+                                                <x:Array Type="{x:Type sys:String}">
+                                                    <sys:String>Category2</sys:String>
+                                                    <sys:String>Category1</sys:String>
+                                                </x:Array>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="PropertyOrder">
+                                            <Setter.Value>
+                                                <x:Array Type="{x:Type sys:String}">
+                                                    <sys:String>Integer</sys:String>
+                                                    <sys:String>Boolean</sys:String>
+                                                    <sys:String>String</sys:String>
+                                                    <sys:String>Enum</sys:String>
+                                                </x:Array>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </hc:PropertyGrid.Style>
+                    </hc:PropertyGrid>
+                </StackPanel>
+                <StackPanel hc:TitleElement.TitleWidth="168" Grid.Row="1" Margin="20,16,17,10">
+                    <TextBox hc:TitleElement.Title="String" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.String,Mode=OneWay}" IsReadOnly="True"/>
+                    <TextBox hc:TitleElement.Title="Enum" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.Enum,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
+                    <TextBox hc:TitleElement.Title="Integer" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.Integer,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
+                    <TextBox hc:TitleElement.Title="Boolean" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.Boolean,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
+                    <TextBox hc:TitleElement.Title="HorizontalAlignment" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.HorizontalAlignment,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
+                    <TextBox hc:TitleElement.Title="VerticalAlignment" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Text="{Binding DemoModel.VerticalAlignment,Mode=OneWay}" IsReadOnly="True" Margin="0,6,0,0"/>
+                    <GroupBox Style="{StaticResource GroupBoxOriginal}" Header="ImageSource" hc:TitleElement.TitlePlacement="Left" Margin="0,6,0,0">
+                        <hc:Gravatar HorizontalAlignment="Left" Source="{Binding DemoModel.ImageSource}"/>
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
+        </hc:ScrollViewer>
     </hc:TransitioningContentControl>
 </UserControl>

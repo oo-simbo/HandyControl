@@ -103,6 +103,10 @@
 	<system:Double x:Key="SmallControlHeight">20</system:Double>
 	<Thickness x:Key="DefaultControlPadding">10,5</Thickness>
 	<Thickness x:Key="DefaultInputPadding">8,0</Thickness>
+	<Thickness x:Key="DefaultBorderThickness">1</Thickness>
+	<Thickness x:Key="DefaultBorderThicknessTop">0,1,0,0</Thickness>
+	<Thickness x:Key="DefaultBorderThicknessBottom">0,0,0,1</Thickness>
+	<Thickness x:Key="DefaultBorderThicknessLeftRightBottom">1,0,1,1</Thickness>
 	<CornerRadius x:Key="DefaultCornerRadius">4</CornerRadius>
 	<system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">30</system:Double>
 	<interactivity:FluidMoveBehavior x:Key="BehaviorXY200" x:Shared="False" AppliesTo="Children" Duration="0:0:.2">
@@ -1203,7 +1207,7 @@
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Validation.ErrorTemplate" Value="{StaticResource InputElementErrorTemplate}" />
 		<Style.Triggers>
@@ -1236,7 +1240,7 @@
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>
 	<Style x:Key="ButtonBaseStyle" BasedOn="{StaticResource ButtonBaseBaseStyle}" TargetType="Button">
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="Template">
@@ -7301,7 +7305,7 @@
 	</Style>
 	<Style x:Key="CardBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="hc:Card">
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
@@ -7315,11 +7319,11 @@
 								<RowDefinition />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<Border BorderThickness="0,0,0,1" Visibility="{TemplateBinding Header, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
+							<Border BorderThickness="{DynamicResource DefaultBorderThicknessBottom}" Visibility="{TemplateBinding Header, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
 								<ContentPresenter ContentSource="Header" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" />
 							</Border>
 							<ContentPresenter Grid.Row="1" />
-							<Border Grid.Row="2" BorderThickness="0,1,0,0" Visibility="{TemplateBinding Footer, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
+							<Border Grid.Row="2" BorderThickness="{DynamicResource DefaultBorderThicknessTop}" Visibility="{TemplateBinding Footer, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
 								<ContentPresenter ContentSource="Footer" ContentTemplate="{TemplateBinding FooterTemplate}" ContentTemplateSelector="{TemplateBinding FooterTemplateSelector}" ContentStringFormat="{TemplateBinding FooterStringFormat}" />
 							</Border>
 						</Grid>
@@ -8077,9 +8081,8 @@
 							<RowDefinition Height="122" />
 							<RowDefinition Height="110" />
 							<RowDefinition Height="62" />
-							<RowDefinition Height="62" />
 						</Grid.RowDefinitions>
-						<Border BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Grid.RowSpan="4" Background="{TemplateBinding Background}" />
+						<Border BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Grid.RowSpan="3" Background="{TemplateBinding Background}" />
 						<hc:SimplePanel Margin="1" Grid.Row="0">
 							<Border Background="{TemplateBinding BackColor}" />
 							<Border>
@@ -8162,12 +8165,6 @@
 						</Grid>
 						<Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
 							<WrapPanel Name="PART_PanelColor" Margin="6" HorizontalAlignment="Center" />
-						</Border>
-						<Border Grid.Row="3" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-								<Button Command="interactivity:ControlCommands.Cancel" Content="{ex:Lang Key={x:Static langs:LangKeys.Cancel}}" Width="80" Margin="0,0,16,0" />
-								<Button Command="interactivity:ControlCommands.Confirm" Content="{ex:Lang Key={x:Static langs:LangKeys.Confirm}}" Width="80" Style="{StaticResource ButtonPrimary}" />
-							</StackPanel>
 						</Border>
 					</Grid>
 				</ControlTemplate>
@@ -10269,10 +10266,11 @@
 	</Style>
 	<Style x:Key="PropertyItemToolTipBaseStyle" BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="ToolTip">
 		<Setter Property="Padding" Value="10" />
+		<Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ToolTip">
-					<Border Effect="{StaticResource EffectShadow2}" Margin="8" Background="{DynamicResource RegionBrush}" Padding="{TemplateBinding Padding}" BorderThickness="1" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{DynamicResource BorderBrush}">
+					<Border Effect="{StaticResource EffectShadow2}" Margin="8" Background="{DynamicResource RegionBrush}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{DynamicResource BorderBrush}">
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
@@ -10342,7 +10340,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="GroupItem">
 					<Expander Header="{Binding Name}" IsExpanded="True">
-						<Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" CornerRadius="0,0,4,4">
+						<Border BorderThickness="{DynamicResource DefaultBorderThicknessLeftRightBottom}" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" CornerRadius="0,0,4,4">
 							<ItemsPresenter Margin="{TemplateBinding Padding}" />
 						</Border>
 					</Expander>
@@ -11966,7 +11964,7 @@
 		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}" />
 		<Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -12661,7 +12659,7 @@
 		</Style.Triggers>
 	</Style>
 	<Style x:Key="ClockListBoxStyle" TargetType="ListBox" BasedOn="{StaticResource ListBoxBaseStyle}">
-		<Setter Property="MaxHeight" Value="180" />
+		<Setter Property="MaxHeight" Value="240" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="True" />
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource ClockListBoxItemStyle}" />

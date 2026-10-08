@@ -1,4 +1,4 @@
-# 修改与验证台账
+﻿# 修改与验证台账
 
 ## HC-M012：统一按钮组项动态尺寸并修正 PropertyGrid 工具栏排序按钮与搜索框不等高（2026-10-08）
 
@@ -236,3 +236,11 @@
 ### 回退
 
 本批维护基线清理、控件行为修复及文档按维护者要求合并为一个提交。后续可按该提交回退，单项回退需核对代码和文档的依赖关系。下游分发前先归档旧 DLL 和语言资源，回退时整批恢复。不得通过覆盖整个工作区来回退后续无关修改。
+
+## 2026-10-08 / 3.6.8.0 颜色编辑、方向边框与滚动交付
+
+纳入当前工作区全部授权改动：ColorPalette常用颜色及完整取色弹层、ColorPropertyEditor识别Color/Brush/SolidColorBrush、属性网格及Clock滚动调整、Demo颜色字段和展示、基础控件按动态方向边框资源消费；版本由Directory.Build.Props统一为3.6.8.0。Theme.xaml由现有XamlCombine生成，较大文本差异包含生成器排版变化；未修改生成器。
+
+全量Release库/Demo构建0错误、2206条既有警告；WpfSmoke三皮肤及编译后PropertyGridDemo/CalendarWithClockDemo/DateTimePickerDemo全部通过，并验证受限窗口内属性网格能滚至底部。下游Ultron同步主DLL/英文卫星/XML，347项服务回归通过（包括ColorPalette、边框/圆角、主题与属性网格）。未声称所有DPI及所有控件人工验收。
+
+主DLL SHA256 `6376E1E3CDA32B76937EA4C4CA868BCB2ACA09F4AE8A4811B378B1E06DC8AC88`；英文卫星 `665008CB93A6ADDEE92E66CB7909456BFA36EEFB0C264D4B88D9A2556DE8D48D`。验证日志在Ultron artifacts/theme-hc-final-build.log及theme-hc-smoke.log。提交/远端状态由JuLink.JAX交付总账记录。回退需同步回退库、卫星及下游引用。

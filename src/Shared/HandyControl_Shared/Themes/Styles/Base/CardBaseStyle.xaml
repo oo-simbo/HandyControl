@@ -4,7 +4,7 @@
 
     <Style x:Key="CardBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="hc:Card">
         <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource DefaultBorderThickness}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}"/>
@@ -18,11 +18,11 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Border BorderThickness="0,0,0,1" Visibility="{TemplateBinding Header, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <Border BorderThickness="{DynamicResource DefaultBorderThicknessBottom}" Visibility="{TemplateBinding Header, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
                                 <ContentPresenter ContentSource="Header" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" ContentStringFormat="{TemplateBinding HeaderStringFormat}"/>
                             </Border>
                             <ContentPresenter Grid.Row="1"/>
-                            <Border Grid.Row="2" BorderThickness="0,1,0,0"  Visibility="{TemplateBinding Footer, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <Border Grid.Row="2" BorderThickness="{DynamicResource DefaultBorderThicknessTop}"  Visibility="{TemplateBinding Footer, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{TemplateBinding BorderBrush}">
                                 <ContentPresenter ContentSource="Footer" ContentTemplate="{TemplateBinding FooterTemplate}" ContentTemplateSelector="{TemplateBinding FooterTemplateSelector}" ContentStringFormat="{TemplateBinding FooterStringFormat}"/>
                             </Border>
                         </Grid>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -128,6 +128,7 @@ public class PropertyResolver
     }
 
     public virtual PropertyEditorBase CreateDefaultEditor(Type type) =>
+        type == typeof(Color) || type == typeof(SolidColorBrush) || type == typeof(Brush) ? new ColorPropertyEditor() :
         TypeCodeDic.TryGetValue(type, out var editorType)
             ? editorType switch
             {

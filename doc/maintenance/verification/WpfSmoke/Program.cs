@@ -235,6 +235,9 @@ internal static class Program
             var second = (ListBox)listClock.Template.FindName("PART_SecondList", listClock);
             Require(hour.SelectedIndex == 17 && minute.SelectedIndex == 28 && second.SelectedIndex == 39,
                 "ListClock must display all pending time components.");
+            AssertListClockRows(hour, "hour");
+            AssertListClockRows(minute, "minute");
+            AssertListClockRows(second, "second");
             var changes = 0;
             var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(Hc.CalendarWithClock.DisplayDateTimeProperty, typeof(Hc.CalendarWithClock));
             EventHandler changed = (_, _) => changes++;
@@ -304,6 +307,26 @@ internal static class Program
             Console.WriteLine("PASS Clock/ListClock switching, pending time, detached events, list edits, picker popup and confirmation.");
         }
         finally { picker.IsDropDownOpen = false; window.Close(); }
+    }
+
+    /// <summary>
+    /// 断言候选列表实际按“已实化的候选项行高 × 8”渲染：可见行数由候选项真实尺寸决定，
+    /// 因此不能写死像素高度；同时列表必须能滚动到可见范围之外。
+    /// </summary>
+    private static void AssertListClockRows(ListBox list, string name)
+    {
+        var container = list.ItemContainerGenerator.ContainerFromIndex(0) as ListBoxItem
+            ?? throw new InvalidOperationException($"{name} list must realize its first candidate item.");
+        var rowHeight = container.ActualHeight + container.Margin.Top + container.Margin.Bottom;
+        Require(rowHeight > 0d, $"{name} list candidate row height must be measurable: {rowHeight}");
+        var expected = rowHeight * 8d;
+        Require(Math.Abs(list.ActualHeight - expected) <= 0.5d,
+            $"{name} list must show exactly 8 candidate rows: {list.ActualHeight} vs {expected} (row={rowHeight})");
+        var scrollViewer = FindDescendant<ScrollViewer>(list)
+            ?? throw new InvalidOperationException($"{name} list must host its candidates in a ScrollViewer.");
+        Require(scrollViewer.ScrollableHeight > 0d,
+            $"{name} list must keep the remaining candidates scrollable: {scrollViewer.ScrollableHeight}");
+        Console.WriteLine($"  {name} list: row={rowHeight} height={list.ActualHeight} expected8rows={expected} scrollable={scrollViewer.ScrollableHeight}");
     }
 
     public enum TestState
@@ -381,6 +404,48 @@ internal static class Program
             }
             finally { window.Close(); }
         }
+        VerifyPropertyGridDemoScrolling(app, assembly);
+    }
+
+    /// <summary>
+    /// PropertyGridDemo 在受限窗口下必须能垂直滚动到底：内容高于视口时滚动范围必须大于 0，
+    /// 滚动到底后页面底部进入视口，且页面顶部移出视口。
+    /// </summary>
+    private static void VerifyPropertyGridDemoScrolling(Application app, System.Reflection.Assembly assembly)
+    {
+        var page = (FrameworkElement)Activator.CreateInstance(
+            assembly.GetType("HandyControlDemo.UserControl.PropertyGridDemo", true)!)!;
+        var window = new Window
+        {
+            Content = page, Width = 420, Height = 320, Left = -10000, Top = -10000,
+            ShowActivated = false, ShowInTaskbar = false
+        };
+        try
+        {
+            window.Show();
+            var scroll = page.FindName("DemoScrollViewer") as ScrollViewer
+                ?? throw new InvalidOperationException("PropertyGridDemo must host its content in a ScrollViewer.");
+            window.UpdateLayout();
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.Loaded);
+            window.UpdateLayout();
+            Require(scroll.ViewportHeight > 0d && scroll.ScrollableHeight > 0d,
+                $"PropertyGridDemo content must exceed the constrained viewport: viewport={scroll.ViewportHeight} scrollable={scroll.ScrollableHeight}");
+            var content = (FrameworkElement)scroll.Content;
+            var viewport = new Rect(0, 0, scroll.ViewportWidth, scroll.ViewportHeight);
+            Rect Bounds() => content.TransformToAncestor(scroll).TransformBounds(new Rect(content.RenderSize));
+            Require(Math.Abs(scroll.VerticalOffset) <= 0.5d,
+                "PropertyGridDemo must start at the top: " + scroll.VerticalOffset);
+            Require(Bounds().Bottom > viewport.Bottom + 1d,
+                $"PropertyGridDemo must overflow the viewport: content bottom {Bounds().Bottom} vs viewport {viewport.Bottom}");
+            scroll.ScrollToEnd();
+            window.UpdateLayout();
+            Require(Math.Abs(scroll.VerticalOffset - scroll.ScrollableHeight) <= 0.5d,
+                $"PropertyGridDemo must scroll to the bottom: {scroll.VerticalOffset} of {scroll.ScrollableHeight}");
+            Require(Bounds().Bottom <= viewport.Bottom + 2d && Bounds().Top < 0d,
+                $"Reaching the end must reveal the page bottom and hide the top: {Bounds()} in {viewport}");
+            Console.WriteLine($"PASS PropertyGridDemo scrolls to the bottom inside a constrained window: viewport={viewport.Height} content={Bounds().Height}");
+        }
+        finally { window.Close(); }
     }
 
     /// <summary>
