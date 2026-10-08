@@ -63,4 +63,10 @@
     <SolidColorBrush o:Freeze="True" x:Key="DarkMaskBrush" Color="{DynamicResource DarkMaskColor}"/>
     <SolidColorBrush o:Freeze="True" x:Key="DarkOpacityBrush" Color="{DynamicResource DarkOpacityColor}"/>
 
+    <!-- List selection semantics can be overridden independently of button accents. -->
+    <SolidColorBrush x:Key="ItemHoverBrush" Color="{DynamicResource SecondaryRegionColor}" />
+    <SolidColorBrush x:Key="ItemSelectionBrush" Color="{DynamicResource PrimaryColor}" />
+    <SolidColorBrush x:Key="ItemSelectionTextBrush" Color="{DynamicResource TextIconColor}" />
+    <SolidColorBrush x:Key="ItemInactiveSelectionBrush" Color="{DynamicResource DarkDefaultColor}" />
+    <SolidColorBrush x:Key="ItemInactiveSelectionTextBrush" Color="{DynamicResource PrimaryTextColor}" />
 </ResourceDictionary>

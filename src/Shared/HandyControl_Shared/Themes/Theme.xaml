@@ -892,6 +892,11 @@
 	<SolidColorBrush o:Freeze="True" x:Key="DarkAccentBrush" Color="{DynamicResource DarkAccentColor}" />
 	<SolidColorBrush o:Freeze="True" x:Key="DarkMaskBrush" Color="{DynamicResource DarkMaskColor}" />
 	<SolidColorBrush o:Freeze="True" x:Key="DarkOpacityBrush" Color="{DynamicResource DarkOpacityColor}" />
+	<SolidColorBrush x:Key="ItemHoverBrush" Color="{DynamicResource SecondaryRegionColor}" />
+	<SolidColorBrush x:Key="ItemSelectionBrush" Color="{DynamicResource PrimaryColor}" />
+	<SolidColorBrush x:Key="ItemSelectionTextBrush" Color="{DynamicResource TextIconColor}" />
+	<SolidColorBrush x:Key="ItemInactiveSelectionBrush" Color="{DynamicResource DarkDefaultColor}" />
+	<SolidColorBrush x:Key="ItemInactiveSelectionTextBrush" Color="{DynamicResource PrimaryTextColor}" />
 	<DropShadowEffect x:Key="EffectShadow1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="{StaticResource EffectShadowColor}" Opacity=".2" RenderingBias="Performance" o:Freeze="True" />
 	<DropShadowEffect x:Key="EffectShadow2" BlurRadius="8" ShadowDepth="1.5" Direction="270" Color="{StaticResource EffectShadowColor}" Opacity=".2" RenderingBias="Performance" o:Freeze="True" />
 	<DropShadowEffect x:Key="EffectShadow3" BlurRadius="14" ShadowDepth="4.5" Direction="270" Color="{StaticResource EffectShadowColor}" Opacity=".2" RenderingBias="Performance" o:Freeze="True" />
@@ -9450,7 +9455,7 @@
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualRadius0Margin0}" />
 		<Setter Property="SnapsToDevicePixels" Value="True" />
 		<Setter Property="Padding" Value="10,0" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
@@ -9468,11 +9473,11 @@
 		</Setter>
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemHoverBrush}" />
 			</Trigger>
 			<Trigger Property="IsSelected" Value="true">
-				<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
-				<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemSelectionBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
 			</Trigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -9480,8 +9485,8 @@
 					<Condition Property="Selector.IsSelectionActive" Value="false" />
 					<Condition Property="hc:VisualElement.StaysHighlighted" Value="false" />
 				</MultiTrigger.Conditions>
-				<Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}" />
-				<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemInactiveSelectionBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemInactiveSelectionTextBrush}" />
 			</MultiTrigger>
 			<Trigger Property="IsEnabled" Value="false">
 				<Setter Property="Opacity" Value=".4" />
@@ -9514,7 +9519,7 @@
 		<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2,2,2,0" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBaseStyle}" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -9575,11 +9580,11 @@
 		</Setter>
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemHoverBrush}" />
 			</Trigger>
 			<Trigger Property="IsSelected" Value="True">
-				<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
-				<Setter Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemSelectionBrush}" />
+				<Setter Property="TextElement.Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
 			</Trigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -9587,8 +9592,8 @@
 					<Condition Property="Selector.IsSelectionActive" Value="false" />
 					<Condition Property="hc:VisualElement.StaysHighlighted" Value="false" />
 				</MultiTrigger.Conditions>
-				<Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}" />
-				<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemInactiveSelectionBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemInactiveSelectionTextBrush}" />
 			</MultiTrigger>
 			<Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
 				<Setter Property="Template">
@@ -11814,7 +11819,7 @@
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Padding" Value="10,0" />
 		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Margin" Value="0,0,0,2" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -11834,7 +11839,7 @@
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="true" SourceName="Bd">
-							<Setter Property="Background" TargetName="Bd" Value="{DynamicResource SecondaryRegionBrush}" />
+							<Setter Property="Background" TargetName="Bd" Value="{DynamicResource ItemHoverBrush}" />
 						</Trigger>
 						<Trigger Property="IsExpanded" Value="false">
 							<Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed" />
@@ -11843,8 +11848,8 @@
 							<Setter Property="Visibility" TargetName="Expander" Value="Hidden" />
 						</Trigger>
 						<Trigger Property="IsSelected" Value="true">
-							<Setter Property="Background" TargetName="Bd" Value="{DynamicResource PrimaryBrush}" />
-							<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+							<Setter Property="Background" TargetName="Bd" Value="{DynamicResource ItemSelectionBrush}" />
+							<Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
 						</Trigger>
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
@@ -11852,8 +11857,8 @@
 								<Condition Property="IsSelectionActive" Value="false" />
 								<Condition Property="hc:VisualElement.StaysHighlighted" Value="false" />
 							</MultiTrigger.Conditions>
-							<Setter Property="Background" TargetName="Bd" Value="{DynamicResource DarkDefaultBrush}" />
-							<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+							<Setter Property="Background" TargetName="Bd" Value="{DynamicResource ItemInactiveSelectionBrush}" />
+							<Setter Property="Foreground" Value="{DynamicResource ItemInactiveSelectionTextBrush}" />
 						</MultiTrigger>
 						<Trigger Property="IsEnabled" Value="false">
 							<Setter Property="Opacity" Value=".4" />
@@ -11869,7 +11874,7 @@
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Padding" Value="2,2,2,0" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.PanningMode" Value="Both" />
@@ -12052,8 +12057,8 @@
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-		<Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="DataGridCell">
@@ -12071,8 +12076,8 @@
 					<Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource Self}}" Value="true" />
 					<Condition Binding="{Binding SelectionUnit,RelativeSource={RelativeSource FindAncestor,AncestorType=DataGrid}}" Value="Cell" />
 				</MultiDataTrigger.Conditions>
-				<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
-				<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemSelectionBrush}" />
 			</MultiDataTrigger>
 			<MultiDataTrigger>
 				<MultiDataTrigger.Conditions>
@@ -12080,8 +12085,8 @@
 					<Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="False" />
 					<Condition Binding="{Binding SelectionUnit,RelativeSource={RelativeSource FindAncestor,AncestorType=DataGrid}}" Value="CellOrRowHeader" />
 				</MultiDataTrigger.Conditions>
-				<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
-				<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemSelectionBrush}" />
 			</MultiDataTrigger>
 			<MultiDataTrigger>
 				<MultiDataTrigger.Conditions>
@@ -12089,14 +12094,14 @@
 					<Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True" />
 					<Condition Binding="{Binding SelectionUnit,RelativeSource={RelativeSource FindAncestor,AncestorType=DataGrid}}" Value="CellOrRowHeader" />
 				</MultiDataTrigger.Conditions>
-				<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
 			</MultiDataTrigger>
 			<MultiDataTrigger>
 				<MultiDataTrigger.Conditions>
 					<Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource Self}}" Value="true" />
 					<Condition Binding="{Binding SelectionUnit,RelativeSource={RelativeSource FindAncestor,AncestorType=DataGrid}}" Value="FullRow" />
 				</MultiDataTrigger.Conditions>
-				<Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
 			</MultiDataTrigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -12104,8 +12109,8 @@
 					<Condition Property="Selector.IsSelectionActive" Value="false" />
 					<Condition Property="hc:VisualElement.StaysHighlighted" Value="false" />
 				</MultiTrigger.Conditions>
-				<Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}" />
-				<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemInactiveSelectionBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemInactiveSelectionTextBrush}" />
 			</MultiTrigger>
 		</Style.Triggers>
 	</Style>
@@ -12145,11 +12150,11 @@
 		</Setter>
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemHoverBrush}" />
 			</Trigger>
 			<Trigger Property="IsSelected" Value="True">
-				<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
-				<Setter Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemSelectionBrush}" />
+				<Setter Property="TextElement.Foreground" Value="{DynamicResource ItemSelectionTextBrush}" />
 			</Trigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -12157,8 +12162,8 @@
 					<Condition Property="Selector.IsSelectionActive" Value="false" />
 					<Condition Property="hc:VisualElement.StaysHighlighted" Value="false" />
 				</MultiTrigger.Conditions>
-				<Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}" />
-				<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+				<Setter Property="Background" Value="{DynamicResource ItemInactiveSelectionBrush}" />
+				<Setter Property="Foreground" Value="{DynamicResource ItemInactiveSelectionTextBrush}" />
 			</MultiTrigger>
 		</Style.Triggers>
 	</Style>
@@ -12228,13 +12233,13 @@
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxItemBaseStyle}" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
 		<Setter Property="ScrollViewer.PanningMode" Value="Both" />
 		<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
@@ -12254,8 +12259,8 @@
 	<Style x:Key="DataGridEditingTextColumnStyle" TargetType="TextBox">
 		<Setter Property="hc:TitleElement.MarginOnTheLeft" Value="0,7,6,0" />
 		<Setter Property="hc:TitleElement.MarginOnTheTop" Value="8,0,0,5" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
 		<Setter Property="Padding" Value="{StaticResource DefaultInputPadding}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -12303,7 +12308,7 @@
 		<Setter Property="Padding" Value="6,0" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
@@ -12329,7 +12334,7 @@
 		<Setter Property="Padding" Value="6,0" />
 		<Setter Property="hc:TitleElement.MarginOnTheLeft" Value="0,3,6,0" />
 		<Setter Property="hc:TitleElement.MarginOnTheTop" Value="6,0,0,1" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />

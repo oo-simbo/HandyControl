@@ -7,7 +7,7 @@
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualRadius0Margin0}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Padding" Value="10,0"/>
-        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
@@ -25,11 +25,11 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ItemHoverBrush}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="true">
-                <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ItemSelectionBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ItemSelectionTextBrush}"/>
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -37,8 +37,8 @@
                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                     <Condition Property="hc:VisualElement.StaysHighlighted" Value="false"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource ItemInactiveSelectionBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ItemInactiveSelectionTextBrush}"/>
             </MultiTrigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value=".4"/>
@@ -72,7 +72,7 @@
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="2,2,2,0" />
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemBaseStyle}"/>
         <Setter Property="Template">
             <Setter.Value>

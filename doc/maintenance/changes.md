@@ -244,3 +244,9 @@
 全量Release库/Demo构建0错误、2206条既有警告；WpfSmoke三皮肤及编译后PropertyGridDemo/CalendarWithClockDemo/DateTimePickerDemo全部通过，并验证受限窗口内属性网格能滚至底部。下游Ultron同步主DLL/英文卫星/XML，347项服务回归通过（包括ColorPalette、边框/圆角、主题与属性网格）。未声称所有DPI及所有控件人工验收。
 
 主DLL SHA256 `6376E1E3CDA32B76937EA4C4CA868BCB2ACA09F4AE8A4811B378B1E06DC8AC88`；英文卫星 `665008CB93A6ADDEE92E66CB7909456BFA36EEFB0C264D4B88D9A2556DE8D48D`。验证日志在Ultron artifacts/theme-hc-final-build.log及theme-hc-smoke.log。提交/远端状态由JuLink.JAX交付总账记录。回退需同步回退库、卫星及下游引用。
+
+## 2026-10-08 / 3.6.9.0 列表状态语义与动态尺寸
+
+新增ItemHoverBrush、ItemSelectionBrush/TextBrush、ItemInactiveSelectionBrush/TextBrush默认资源，ListBox/ListView/TreeView/DataGrid状态触发器按语义消费，允许下游选中颜色独立于按钮强调色。ListBox/TreeView默认行高及相关DataGrid高度/Padding/CornerRadius改用DynamicResource。默认资源由原HC色值提供，未引入JuLink业务依赖。
+
+全量库/Demo构建0错误、2206既有警告；三皮肤、属性网格/时钟/DateTimePicker Demo冒烟通过；下游Ultron351项回归通过，包含真实窗口里的选择色即时更新、控件尺寸更新与Dock资源不遮蔽。主DLL SHA256 `337A8D43C1016DC51D0CECCA0DF68AEEADC38B70A668DD01AA7446E87A67F6CA`，英文卫星 `4FB577E3D85C7ADFB6B43AB72534A4B9366C8015DACC372A470D7CF4DDB188F6`。日志Ultron artifacts/style-cleanup-hc-build.log/style-cleanup-hc-smoke.log。未覆盖所有控件/DPI人工视觉验收；提交推送结果记录于JAX唯一交付总账。
