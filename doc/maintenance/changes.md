@@ -294,3 +294,28 @@ ToolTip复用Popup分类、TextFontSize且模板尊重BorderThickness；Expander
 Theme.xaml由现有csproj PreBuild/XamlCombine生成。Release库/Demo0错误、2206既有警告；WpfSmoke三皮肤、静态派生样式、属性组/字号/接缝、Frame、编译Demo和滚动通过。Ultron完整372回归通过；Ultron/JAX正式Startup均0错误/16既有警告，未做全控件全DPI人工验收。证据Ultron artifacts/style-boundary-*.log与TRX。
 
 分发主DLL/英文卫星/XML，主SHA256 `3A773DE299FF38027BD01B8DAFEF343DBECCC66EDEF92F7C2C4ECD7C19A9AC6D`；英文卫星 `70D7C7D8641154CD8851CC175D8725697F37C4196F87D09044AA36D1809E552B`。发布目标为个人GitHub仓库v3.6.12及下游DLL分发，不发布官方NuGet包。提交和远端交付见JAX总台账。
+
+### 2026-10-09 PropertyGridDemo展开组名称过早省略修复（本地已验证）
+
+- 原因：3.6.12 ExpanderBaseStyle将箭头栏宽30 DIP写入可继承的TitleElement.TitleWidth，PropertyItem名称从自身读取该继承值，覆盖了PropertyGrid按总宽度三分之一计算的名称栏宽。500 DIP网格实测Integer名称宽30.00 DIP，预期166.67 DIP。
+- 最小修复：PropertyGridBaseStyle的名称TextBlock.Width直接绑定最近所属PropertyGrid的TitleElement.TitleWidth；保留原生Expander箭头栏宽、名称省略规则与MinTitleWidth/MaxTitleWidth。不扩大Demo固定宽度。Theme.xaml由既有构建生成。
+- 验证：HC Release库/Demo构建0错误、2206既有警告；既有WpfSmoke新增PropertyTitleWidthChecks，SkinDefault/SkinDark/SkinViolet下分组名称166.67 DIP、普通名称不省略、折叠重开、48 DIP自定义箭头栏宽、分类/名称排序、360/500/720 DIP网格宽度与自定义标题宽度上下限均通过；完整WpfSmoke含编译Demo、滚动与Frame回归通过。日志在Ultron artifacts/hc-property-title-before.log、hc-property-title-build.log、hc-property-title-after.log。
+- 状态：个人HC main基线983f7a2，当前工作区同批3.6.13包含另一会话EnumDataProvider修复，保留并行变更。本轮未提交/推送、未分发下游DLL；Release Demo主DLL SHA256=9B0F33B9B4D4789F417078A5599B2A2501B0F120453DC22D916A1524D0E29626。当前运行的Debug Demo未重启，运行中旧进程不自动载入新模板；未声明全DPI或产品人工验收。下一项：重新构建并启动Debug Demo复核，后续统一分发同批补丁。
+
+### 2026-10-09 属性名称列宽可配置补充
+
+PropertyGrid的MinTitleWidth/MaxTitleWidth新增变化回调，不再依赖OnRenderSizeChanged才能更新名称列；复用既有DP与布局算法。Demo显式采用200/260 DIP；通用库默认不变。名称绑定所属PropertyGrid与箭头栏保持独立。三皮肤WpfSmoke覆盖无需resize修改范围/固定列宽，完整冒烟通过，Release库/Demo构建0错误/2206既有警告。Ultron分发、完整373/373回归、当前哈希与正式导航阻塞见JAX总台账本日“属性名称列宽配置与Ultron样式/参数回归”。本轮未提交推送，保留并行EnumDataProvider及DataGrid导航检查。
+
+### 2026-10-09 属性名称与输入框重叠补充修复（替代前序仅宽度验收结论）
+
+- 根因：前序只将名称TextBlock.Width绑定到所属PropertyGrid；GroupBoxOriginalLeftTemplate的列仍通过InfoElement.TitleWidth继承Expander的30 DIP。修复前实际名称右边界166.67 DIP，编辑器左边界30 DIP，构成重叠。前序名称宽度断言未覆盖排列边界，不能证明不重叠。
+- 修复：仅在PropertyItem模板的GroupBox显式设TitleElement.TitleWidth=Auto，使名称列按已配置TextBlock宽度与原模板间距测量，隔离箭头栏继承；保留200/260默认及Min/Max配置机制。新增实际TransformToAncestor边界断言，要求编辑器左边界不小于名称右边界。
+- 设置入口澄清：当前系统设置没有属性名称列宽字段，AppearanceSettings中未新增此项。现有JuLink.Layout.PropertyGrid.MinTitleWidth/MaxTitleWidth为代码/XAML资源配置，亦可直接设控件MinTitleWidth/MaxTitleWidth；区域内边距、字号不是名称列宽参数。固定240 DIP时Min=Max=240。
+- 验证：HC Release库/Demo构建成功，三皮肤完整WpfSmoke通过；Ultron完整373/373通过（0失败/跳过，16秒）；用户指定JuLink.Test.UI.Wpf Release构建0错误/202既有警告。最新测试程序已实际启动，150%桌面缩放下系统设置名称与输入框分列正常。通过UI Automation在现有设置页将区域内边距6改12，截图确认实时预览且不重叠，再调用撤销并读取控件确认恢复6，未保存测试参数，程序保留打开。
+- 二进制：HC补丁主DLL/英文卫星/XML已同步Ultron；引用目录与JuLink.Test.UI.Wpf Release主DLL SHA256一致：AB45BFCD5BEAA3988EB0A181C6EFDA6563EA95800070261372251437100EFE60。
+- 证据：Ultron artifacts/hc-title-overlap-before.log、hc-title-overlap-build.log、hc-title-overlap-after.log、title-overlap-test-ui-build.log、title-overlap-tests.log、title-overlap-results/title-overlap.trx、title-overlap-ui-default.png、title-overlap-ui-padding-preview.png。
+- 边界：本次按用户指定使用既有测试程序验证共享设置页，非正式Startup产品验收，未新增宿主；未声称全DPI验收或新增系统设置列宽字段。未提交/推送，HC main基线983f7a2、Ultron main基线9a90eb4，保留并行修改。下一项按需将名称列宽纳入持久化外观设置，当前资源配置入口已可用。
+
+### 2026-10-09 3.6.14 最终分发
+
+3.6.14包含名称列Auto测量隔离展开箭头继承及MinTitleWidth/MaxTitleWidth变化即时更新。三皮肤完整WpfSmoke通过；Ultron引用与JuLink.Test.UI.Wpf Release主DLL SHA256一致：93105006BB2996DB785BD4DEDA541FC799EF6903ABCE05091A951A83D2A7B4C6。Ultron已采用四类独立存储并开放名称列宽设置；实际设置页60 DIP省略号、保存重启读回及恢复200/260已验证。完整交付记录见JAX总台账2026-10-09“四类独立样式存储与名称列宽设置”；本轮未提交推送。

@@ -77,7 +77,7 @@ public class PropertyGrid : Control
     }
 
     public static readonly DependencyProperty MaxTitleWidthProperty = DependencyProperty.Register(
-        nameof(MaxTitleWidth), typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box));
+        nameof(MaxTitleWidth), typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box, OnTitleWidthLimitChanged));
 
     public double MaxTitleWidth
     {
@@ -86,7 +86,7 @@ public class PropertyGrid : Control
     }
 
     public static readonly DependencyProperty MinTitleWidthProperty = DependencyProperty.Register(
-        nameof(MinTitleWidth), typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box));
+        nameof(MinTitleWidth), typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box, OnTitleWidthLimitChanged));
 
     public double MinTitleWidth
     {
@@ -272,9 +272,19 @@ public class PropertyGrid : Control
         PropertyTypeName = $"{propertyDescriptor.PropertyType.Namespace}.{propertyDescriptor.PropertyType.Name}"
     };
 
+    private static void OnTitleWidthLimitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((PropertyGrid) d).UpdateTitleWidth();
+    }
+
+    private void UpdateTitleWidth()
+    {
+        TitleElement.SetTitleWidth(this, new GridLength(Math.Max(MinTitleWidth, Math.Min(MaxTitleWidth, ActualWidth / 3))));
+    }
+
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
         base.OnRenderSizeChanged(sizeInfo);
-        TitleElement.SetTitleWidth(this, new GridLength(Math.Max(MinTitleWidth, Math.Min(MaxTitleWidth, ActualWidth / 3))));
+        UpdateTitleWidth();
     }
 }

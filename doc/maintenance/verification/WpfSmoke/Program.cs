@@ -17,6 +17,8 @@ internal static partial class Program
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
         try
         {
+            VerifyEnumDataProvider();
+            if (args.Length == 1 && args[0] == "--enum-only") return 0;
             if (args.Length == 2 && args[0] == "--frame-only")
             {
                 VerifyFrameDemo(app, args[1]);
@@ -38,6 +40,7 @@ internal static partial class Program
                     });
 
                 VerifyStaticStyleOverrides(app);
+                VerifyPropertyTitleWidth(app);
                 VerifyPropertyGrid(app);
                 VerifyPropertyGroupExpander(app);
                 VerifyClockSwitching(app);

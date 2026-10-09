@@ -7,20 +7,21 @@ namespace HandyControl.Data;
 
 public class EnumDataProvider : ObjectDataProvider
 {
-    public EnumDataProvider()
-    {
-        MethodName = nameof(GetValues);
-    }
-
     private Type _type;
     public Type Type
     {
         get => _type;
         set
         {
-            _type = value;
-            MethodParameters.Add(value);
-            ObjectType = typeof(System.Enum);
+            // Refresh only after the target, method and argument are ready.
+            using (DeferRefresh())
+            {
+                _type = value;
+                MethodParameters.Clear();
+                MethodParameters.Add(value);
+                ObjectType = _useAttributes ? typeof(EnumDataProvider) : typeof(System.Enum);
+                MethodName = nameof(GetValues);
+            }
         }
     }
 
@@ -32,7 +33,10 @@ public class EnumDataProvider : ObjectDataProvider
         set
         {
             _useAttributes = value;
-            ObjectType = value ? typeof(EnumDataProvider) : typeof(System.Enum);
+            if (_type != null)
+            {
+                ObjectType = value ? typeof(EnumDataProvider) : typeof(System.Enum);
+            }
         }
     }
 

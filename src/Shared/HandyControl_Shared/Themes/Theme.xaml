@@ -10386,9 +10386,9 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="hc:PropertyItem">
-					<GroupBox Style="{StaticResource GroupBoxOriginal}" hc:TitleElement.TitlePlacement="Left">
+					<GroupBox Style="{StaticResource GroupBoxOriginal}" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="Auto">
 						<GroupBox.Header>
-							<TextBlock Padding="{StaticResource PropertyGridTitlePadding}" Width="{Binding Path=(hc:TitleElement.TitleWidth).Value,RelativeSource={RelativeSource TemplatedParent}}" Text="{TemplateBinding DisplayName}" TextTrimming="CharacterEllipsis">
+							<TextBlock Padding="{StaticResource PropertyGridTitlePadding}" Width="{Binding Path=(hc:TitleElement.TitleWidth).Value,RelativeSource={RelativeSource AncestorType=hc:PropertyGrid}}" Text="{TemplateBinding DisplayName}" TextTrimming="CharacterEllipsis">
 								<TextBlock.ToolTip>
 									<ToolTip Style="{StaticResource PropertyItemToolTipBaseStyle}" Content="{TemplateBinding Description}" />
 								</TextBlock.ToolTip>
