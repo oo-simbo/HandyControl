@@ -1849,9 +1849,7 @@
 					<hc:SimplePanel>
 						<Border Background="{TemplateBinding Background}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" />
 						<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}">
-							<ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-								<Path x:Name="PathIcon" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Data="{TemplateBinding hc:IconSwitchElement.Geometry}" />
-							</ContentControl>
+							<Path x:Name="PathIcon" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Data="{TemplateBinding hc:IconSwitchElement.Geometry}" />
 						</Border>
 					</hc:SimplePanel>
 					<ControlTemplate.Triggers>
@@ -3332,9 +3330,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
 					<Border CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-						<ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-							<Path Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
-						</ContentControl>
+						<Path Fill="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>
@@ -3371,9 +3367,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
 					<Border Style="{StaticResource BorderCircular}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-						<ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-							<Path Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
-						</ContentControl>
+						<Path Fill="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>
@@ -3741,9 +3735,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="ToggleButton">
 					<Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-						<ContentControl Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-							<Path x:Name="PathIcon" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Data="{TemplateBinding hc:IconSwitchElement.Geometry}" />
-						</ContentControl>
+						<Path x:Name="PathIcon" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Data="{TemplateBinding hc:IconSwitchElement.Geometry}" />
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsChecked" Value="True">
@@ -4098,9 +4090,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="RepeatButton">
 					<Border CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-						<ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-							<Path Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
-						</ContentControl>
+						<Path Fill="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>
@@ -4137,9 +4127,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="RepeatButton">
 					<Border Style="{StaticResource BorderCircular}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-						<ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-							<Path Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
-						</ContentControl>
+						<Path Fill="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" Stretch="Uniform" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" Data="{TemplateBinding hc:IconElement.Geometry}" />
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>
@@ -4552,9 +4540,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="hc:ToggleBlock">
-					<ContentControl Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-						<Path x:Name="PathIcon" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Data="{TemplateBinding hc:IconSwitchElement.Geometry}" />
-					</ContentControl>
+					<Path x:Name="PathIcon" Width="{TemplateBinding hc:IconElement.Width}" Height="{TemplateBinding hc:IconElement.Height}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stretch="Uniform" Data="{TemplateBinding hc:IconSwitchElement.Geometry}" />
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsChecked" Value="True">
 							<Setter TargetName="PathIcon" Property="Data" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(hc:IconSwitchElement.GeometrySelected)}" />
@@ -13081,9 +13067,7 @@
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 							<hc:SimplePanel x:Name="PART_PanelMain" ClipToBounds="True" Grid.RowSpan="2">
-								<Border HorizontalAlignment="Left" VerticalAlignment="Top" Height="{TemplateBinding ImageHeight}" Width="{TemplateBinding ImageWidth}" Margin="{TemplateBinding ImageMargin}">
-									<Image Name="PART_ImageMain" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderTransformOrigin="0.5,0.5" Source="{TemplateBinding ImageSource}" />
-								</Border>
+								<Image Name="PART_ImageMain" HorizontalAlignment="Left" VerticalAlignment="Top" Height="{TemplateBinding ImageHeight}" Width="{TemplateBinding ImageWidth}" Margin="{TemplateBinding ImageMargin}" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderTransformOrigin="0.5,0.5" Source="{TemplateBinding ImageSource}" />
 							</hc:SimplePanel>
 							<Border Grid.Row="0" Grid.RowSpan="2" Width="252" Height="162" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{DynamicResource DarkOpacityBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
 								<Border.Visibility>

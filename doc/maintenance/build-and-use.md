@@ -183,6 +183,8 @@ if ($LASTEXITCODE -ne 0) { throw 'WPF smoke failed' }
 
 每种皮肤还执行“按钮尺寸”实际布局检查：把 1024 级大坐标几何（`DeleteGeometry`）与宽比例几何（`DownGeometry`）挂到普通“图标+文字”按钮上，断言按钮高度（≤40）与宽度（≤120）、图标框（≤20）都被 `DefaultIconSize` 限制；再断言 `ButtonIcon` 与 `ButtonIconCircular` 为 28×28（圆形 1:1）、`ButtonIconCircular.Small` 为 20×20、`ButtonDefault.Small` 恰为 20；最后运行时覆盖 `DefaultControlHeight=44`，断言文本按钮与图标按钮随动、圆形仍 1:1、Small 仍为 20，移除覆盖后恢复 28。
 
+每种皮肤还执行“扁平化单子包装”结构检查：确认图标模板（`ButtonIcon`、`RepeatButtonIcon`、`ToggleButtonIcon`、`ToggleButtonIconTransparent`、`ToggleBlockIcon`）的图标 `Path` 直接挂在模板 `Border`（或模板根）下、不再被冗余 `ContentControl` 包裹，且 `Path.Margin` 跟随控件 `Padding`；并确认 `ImageViewer` 的 `PART_ImageMain` 直接挂在 `PART_PanelMain` 下、不再被透传 `Border` 包裹，`Margin`/对齐取自控件（尺寸与裁剪仍由上述“按钮尺寸/图标裁剪”检查覆盖）。
+
 每种皮肤还执行“数字框高度”实际布局检查：默认字号下 `TextBox`、`ComboBox` 与三种模板的 `NumericUpDown` 必须同为 28，上下按钮 `MinHeight=0` 且不超过数字框一半；把宿主窗口字号改为 24 后四者必须同步增高到同一值（实测 30.67）且数字框既不裁切也不翻倍，恢复字号后回到 28。
 
 每种皮肤还执行“PropertyGrid 工具栏高度”与“按钮组项尺寸”实际布局检查：前者用真实 `hc:PropertyGrid` 的工具栏，在 10 组 `DefaultControlHeight` × 宿主字号组合下断言搜索框不低于令牌、字号高于令牌时搜索框必须长于令牌（不得被裁切）、两个排序按钮与搜索框实际高度差 ≤ 0.5；后者断言同一按钮组内 RadioButton/Button/ToggleButton 三类项在令牌 28/36/48 下都实际等于令牌。

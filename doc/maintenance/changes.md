@@ -1,5 +1,30 @@
 # 修改与验证台账
 
+## 2026-10-09 / 3.6.16 模板冗余单子包装精简（本地已验证，未提交）
+
+- 目标：在非生成模板中精简“安全且有实际价值”的冗余单子 Grid/Border 包装，保留模板 PART、绑定、触发器、圆角裁剪、遮罩、阴影、命中测试和虚拟化行为。
+- 扫描结论（对 `src/Shared/HandyControl_Shared/Themes/Styles`、`Themes/Basic` 全部非生成字典做 XML 结构分析，生成文件 `Themes/Theme.xaml` 及其 Demo 副本不计入）：
+  - 178 个 `Grid` 中**单子（仅一个内容子元素）Grid 为 0**，不存在可直接删除的 Grid 包装层。
+  - 单子 `Border` 绝大多数承担装饰、圆角裁剪、命中测试或模板 PART，**不具备删除价值**：`ScrollViewerBaseStyle`/`SliderBaseStyle` 的 `Background="Transparent"` Border 是命中测试区（缩窄会缩小拖拽/点击区域）；`DataGridBaseStyle` 单元格外层透明 Border 同理；`WatermarkBaseStyle` 的 `PART_Root`、`ProgressButtonBaseStyle` 的 `PART_Track` 是代码 `GetTemplateChild` 获取的必需 PART；其余携带 `BorderBrush`/`CornerRadius`/`Background`/`Effect`。
+  - `CheckComboBoxBaseStyle` 的 5 个无装饰 Border 用负 `Margin="-4 0"` 与子元素自身的 `Margin="{TemplateBinding Padding}"` 叠加，删除会改变内边距，不做。
+- 本轮实际精简的 8 处冗余单子包装：
+  - 图标模板内容宿主扁平化（7 处，`ContentControl`→直接 `Path`，把内边距/对齐/吸附从包装层移到 `Path`，控件尺寸、图标框、触发器 `TargetName`、`Stretch=Uniform` 均不变）：`Styles/Button.xaml`（ButtonIcon、ButtonIconCircular）、`Styles/RepeatButton.xaml`（RepeatButtonIcon、RepeatButtonIconCircular）、`Styles/ToggleButton.xaml`（ToggleButtonIconTransparent）、`Styles/ToggleBlock.xaml`（ToggleBlockIcon）、`Styles/Base/ToggleButtonBaseStyle.xaml`（ToggleButtonIconBaseStyle，供 ToggleButtonIcon 及全部配色变体使用）。
+  - 透传 `Border` 扁平化（1 处）：`Styles/ImageViewer.xaml` 中包裹 `PART_ImageMain` 的无装饰 Border 移除，`Height`/`Width`/`Margin`/`HorizontalAlignment`/`VerticalAlignment` 移到 `PART_ImageMain`（`Image`）自身；`ClipToBounds` 仍在 `PART_PanelMain`，缩放 `LayoutTransform` 与 `Source` 逻辑不变。
+- 明确未改：`Styles/MessageBox.xaml` 有一处同样无装饰的透传 Border，但 `MessageBox` 构造函数为 private、无公开可实例化路径，无法用现有 WpfSmoke 做运行验证；按“构建成功不能代替运行验证”原则本轮不改，仅登记为后续备选。
+- 版本：`src/Directory.Build.Props` 由 `3.6.15` 升为 `3.6.16`（沿用每轮 X.Y.Z 递增）。
+- 验证：
+  - 库 + Demo Release 全量构建（`--no-incremental`）**0 错误、2206 条既有警告**（与 3.6.15 基线一致，无新增、无 XAML 警告）。
+  - `Themes/Theme.xaml` 由既有 csproj PreBuild/XamlCombine 从源字典重新生成，与源的差分为 **8 增 24 删**，与 6 个源字典的改动逐处对应（未手改生成文件）。
+  - WpfSmoke 三皮肤（SkinDefault/SkinDark/SkinViolet）退出码 **0**：既有“24 种图标样式无裁剪”“按钮图标尺寸/圆形 1:1/Small”等检查全部通过，新增「扁平化单子包装」检查（图标模板 `Path` 的直接父级不再是 `ContentControl`、`Path.Margin` 跟随控件 `Padding`、图标非空；ImageViewer 的 `PART_ImageMain` 直接父级不再是 `Border`，`Margin`/对齐取自控件）通过；编译后 PropertyGrid/CalendarWithClock/DateTimePicker Demo、受限窗口滚动与 Frame 导航回归一并通过。
+  - 本次为低影响模板精简，未做反向验证（用户确认无需扩展反向测试），以既有图标尺寸/裁剪行为回归与新增结构断言作为覆盖。
+- 产物（工作区未提交构建，`Version`/`FileVersion`/`AssemblyVersion` = 3.6.16）：
+  - 主程序集：`src/Net_GE45/HandyControl_Net_GE45/bin/Release/net10.0-windows/HandyControl.dll`，SHA256 `B99436B41934224C1BF60F66B46A9686469BE0B5542A8B2B69BB328BFC5DD8DB`。
+  - 英文卫星：`.../net10.0-windows/en/HandyControl.resources.dll`，SHA256 `CD5809F326C75137953B9CE7DB68F2F14531B817C38AB566C1C8AA05F2E11C35`。
+  - XML 文档：`.../net10.0-windows/HandyControl.xml`，SHA256 `0F249FA36A70D1AF422E52D0B5F605DFD9841842CB6D3DFA08B49E8930D43820`。
+  - Demo 输出 `src/Net_GE45/HandyControlDemo_Net_GE45/bin/Release/net10.0-windows/HandyControl.dll` 同为 3.6.16。
+  - 冒烟项目：`doc/maintenance/verification/WpfSmoke`（构建 0 错误；4 条既有 CS8625 空值警告与本次改动无关）。日志：`artifacts/hc-3.6.16-build.log`、`artifacts/hc-3.6.16-smoke.log`。
+- 边界/未验证项：未分发下游 DLL，未改 Ultron/JAX；100%/150%/200% DPI、真实宿主鼠标键盘与输入法、Growl/通知动画等未受影响区域未重新人工验收；仓库**未提交、未推送**，提交与远端由统一台账记录。
+
 ## HC-M012：统一按钮组项动态尺寸并修正 PropertyGrid 工具栏排序按钮与搜索框不等高（2026-10-08）
 
 - 现象（用户反馈）：Ultron 原生 PropertyGrid 的 2 个排序按钮与 SearchBar 不等高，而 HC 默认 Demo 等高。框架把 `DefaultControlHeight` 运行时覆盖为 36（另有 `DefaultControlPadding` 12,6、`DefaultInputPadding` 8,0）。

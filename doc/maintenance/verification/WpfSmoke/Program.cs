@@ -50,6 +50,7 @@ internal static partial class Program
                 VerifyThemeTokenOverride(app);
                 VerifyButtonSizing(app);
                 VerifyIconClipping(app);
+                VerifyFlattenedWrappers(app);
                 VerifyNumericUpDownHeight(app);
                 VerifyPropertyGridToolbar(app);
                 VerifyButtonGroupItems(app);
@@ -783,6 +784,74 @@ internal static partial class Program
                 }
             }
             Console.WriteLine("PASS 24 icon styles, enabled/disabled and checked states: no icon layout clipping.");
+        }
+        finally { window.Close(); }
+    }
+
+    /// <summary>
+    /// 验证模板冗余单子包装已扁平化：图标模板中包裹单个 Path 的 ContentControl 已移除，Path 直接挂在
+    /// 模板 Border 下并保留控件内边距；ImageViewer 的无装饰透传 Border 已移除，尺寸/对齐/边距仍由
+    /// PART_ImageMain 承担。图标尺寸与裁剪另由 VerifyIconClipping / VerifyButtonSizing 覆盖。
+    /// </summary>
+    private static void VerifyFlattenedWrappers(Application app)
+    {
+        var geometry = (Geometry)app.FindResource("UpDownGeometry");
+        var icons = new (string Key, Control Control)[]
+        {
+            ("ButtonIcon", new Button()),
+            ("RepeatButtonIcon", new RepeatButton()),
+            ("ToggleButtonIcon", new ToggleButton()),
+            ("ToggleButtonIconTransparent", new ToggleButton()),
+            ("ToggleBlockIcon", new Hc.ToggleBlock())
+        };
+
+        var panel = new WrapPanel();
+        foreach (var (key, control) in icons)
+        {
+            control.Style = (Style)app.FindResource(key);
+            control.Margin = new Thickness(5);
+            Hc.IconElement.SetGeometry(control, geometry);
+            Hc.IconElement.SetWidth(control, 16);
+            Hc.IconElement.SetHeight(control, 16);
+            Hc.IconSwitchElement.SetGeometry(control, geometry);
+            panel.Children.Add(control);
+        }
+
+        var viewer = new Hc.ImageViewer();
+        panel.Children.Add(viewer);
+
+        var window = new Window
+        {
+            Content = panel, Width = 900, Height = 400,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        try
+        {
+            window.Show();
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+
+            foreach (var (key, control) in icons)
+            {
+                var path = FindDescendant<Path>(control)
+                    ?? throw new InvalidOperationException(key + " lacks an icon Path.");
+                Require(VisualTreeHelper.GetParent(path) is not ContentControl,
+                    key + " still wraps its icon Path in a redundant ContentControl.");
+                Require(path.ActualWidth > 0 && path.ActualHeight > 0, key + " has an empty icon.");
+                Require(path.Margin == control.Padding,
+                    $"{key} icon Margin must follow the control Padding: {path.Margin} vs {control.Padding}.");
+            }
+
+            var image = FindDescendant<Image>(viewer)
+                ?? throw new InvalidOperationException("ImageViewer lacks PART_ImageMain.");
+            Require(VisualTreeHelper.GetParent(image) is not Border,
+                "ImageViewer still wraps PART_ImageMain in a redundant pass-through Border.");
+            Require(image.Margin == viewer.ImageMargin
+                && image.HorizontalAlignment == HorizontalAlignment.Left
+                && image.VerticalAlignment == VerticalAlignment.Top,
+                $"ImageViewer must keep its margin/alignment on the image itself: {image.Margin}.");
+
+            Console.WriteLine("PASS flattened single-child wrappers (icon content hosts + ImageViewer pass-through border).");
         }
         finally { window.Close(); }
     }
