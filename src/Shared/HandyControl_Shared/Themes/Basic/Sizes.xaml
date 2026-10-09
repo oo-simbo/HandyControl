@@ -40,4 +40,28 @@
     <CornerRadius x:Key="RegionCornerRadius">4</CornerRadius>
     <CornerRadius x:Key="CardCornerRadius">4</CornerRadius>
     <CornerRadius x:Key="PopupCornerRadius">4</CornerRadius>
+
+    <!--  静态布局默认值：编译模板已捕获本字典值，不承诺外部同名键覆盖。调用方通过 BasedOn 样式设置 Padding、IconElement、TitleElement 等现有属性；模板私有布局需定制模板。  -->
+    <Thickness x:Key="PropertyGridItemSpacing">0,0,0,6</Thickness>
+    <Thickness x:Key="PropertyGridToolbarMargin">0,0,0,6</Thickness>
+    <Thickness x:Key="PropertyGridSortButtonGroupMargin">0,0,6,0</Thickness>
+    <Thickness x:Key="PropertyGridTitlePadding">0,0,10,0</Thickness>
+    <sys:Double x:Key="PropertyGridMinTitleWidth">120</sys:Double>
+    <sys:Double x:Key="PropertyGridMaxTitleWidth">200</sys:Double>
+    <!--  展开框：箭头尺寸、箭头栏宽与标题内边距。  -->
+    <sys:Double x:Key="ExpanderArrowSize">12</sys:Double>
+    <GridLength x:Key="ExpanderArrowColumnWidth">30</GridLength>
+    <Thickness x:Key="ExpanderHeaderPadding">10,0,0,0</Thickness>
+    <Thickness x:Key="ExpanderHeaderPaddingRotated">0,0,0,10</Thickness>
+    <!--  复选框 / 单选按钮：标记尺寸与内容间距。  -->
+    <sys:Double x:Key="CheckBoxBoxSize">16</sys:Double>
+    <sys:Double x:Key="CheckBoxCheckSize">12</sys:Double>
+    <Thickness x:Key="CheckBoxContentSpacing">6,0,0,0</Thickness>
+    <sys:Double x:Key="RadioButtonBoxSize">16</sys:Double>
+    <sys:Double x:Key="RadioButtonDotSize">8</sys:Double>
+    <Thickness x:Key="RadioButtonContentSpacing">6,0,0,0</Thickness>
+    <!--  工具提示：阴影溢出余量（防止投影被裁剪）。  -->
+    <Thickness x:Key="ToolTipShadowMargin">8</Thickness>
+    <Thickness x:Key="PropertyGridToolTipContentMargin">0,0,0,10</Thickness>
+    <Thickness x:Key="PropertyGridToolTipNameMargin">6,0,0,0</Thickness>
 </ResourceDictionary>

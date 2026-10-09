@@ -69,6 +69,8 @@
     </Style>
 
     <Style x:Key="ButtonGroupItemBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="Button">
+        <Setter Property="hc:IconElement.Width" Value="{DynamicResource DefaultIconSize}"/>
+        <Setter Property="hc:IconElement.Height" Value="{DynamicResource DefaultIconSize}"/>
         <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>

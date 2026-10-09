@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media;
 using HandyControl.Data;
 
@@ -6,6 +6,17 @@ namespace HandyControl.Controls;
 
 public class TitleElement
 {
+    /// <summary>Gets or sets the expander header font size independently of its content.</summary>
+    public static readonly DependencyProperty FontSizeProperty = DependencyProperty.RegisterAttached(
+        "FontSize", typeof(double), typeof(TitleElement),
+        new FrameworkPropertyMetadata(12d, FrameworkPropertyMetadataOptions.Inherits),
+        value => value is double size && size > 0 && !double.IsInfinity(size));
+
+    public static void SetFontSize(DependencyObject element, double value)
+        => element.SetValue(FontSizeProperty, value);
+
+    public static double GetFontSize(DependencyObject element)
+        => (double) element.GetValue(FontSizeProperty);
     public static readonly DependencyProperty TitleProperty = DependencyProperty.RegisterAttached(
         "Title", typeof(string), typeof(TitleElement), new PropertyMetadata(default(string)));
 

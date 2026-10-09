@@ -9,7 +9,7 @@ using System.Windows.Threading;
 using HandyControl.Data;
 using Hc = HandyControl.Controls;
 
-internal static class Program
+internal static partial class Program
 {
     [STAThread]
     private static int Main(string[] args)
@@ -17,6 +17,11 @@ internal static class Program
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
         try
         {
+            if (args.Length == 2 && args[0] == "--frame-only")
+            {
+                VerifyFrameDemo(app, args[1]);
+                return 0;
+            }
             foreach (var name in new[] { "CategoryOrderingAttribute", "DisplayNameOrderingAttribute",
                          "DateTimePickerAttribute", "DateTimePickType", "DecimalRoundAttribute",
                          "FilePathSelectorAttribute", "FormatAttribute", "OpenDirectoryPropertyAttribute" })
@@ -32,7 +37,9 @@ internal static class Program
                         Source = new Uri($"pack://application:,,,/HandyControl;component/Themes/{name}.xaml")
                     });
 
+                VerifyStaticStyleOverrides(app);
                 VerifyPropertyGrid(app);
+                VerifyPropertyGroupExpander(app);
                 VerifyClockSwitching(app);
                 VerifyNumericUpDown(app);
                 VerifyWindowAndGrowl(app);
@@ -45,7 +52,11 @@ internal static class Program
                 VerifyButtonGroupItems(app);
                 Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl, runtime design-token override, button icon sizing, numeric spinner height, PropertyGrid toolbar height, button group item sizing.");
             }
-            if (args.Length == 1) VerifyDemoPages(app, args[0]);
+            if (args.Length == 1)
+            {
+                VerifyDemoPages(app, args[0]);
+                VerifyFrameDemo(app, args[0]);
+            }
             Console.WriteLine("PASS all WPF binary smoke checks.");
             return 0;
         }
@@ -548,6 +559,95 @@ internal static class Program
     /// 纯图标按钮必须有显式尺寸（圆形保持 1:1），Small 按钮的显式 Height 不能被继承的 MinHeight 压过，
     /// 并且 ButtonMinHeight 的运行时覆盖要同时改变图标按钮尺寸而不影响 Small。
     /// </summary>
+    private static void VerifyPropertyGroupExpander(Application app)
+    {
+        var grid = new Hc.PropertyGrid { FontSize = 19, SelectedObject = new { Name = "标题字号", Count = 3 } };
+        Hc.TitleElement.SetFontSize(grid, 15);
+        var body = new TextBlock { Text = "正文" };
+        var native = new Expander { Header = "原生标题", FontSize = 19, Content = body, IsExpanded = true };
+        var panel = new StackPanel();
+        panel.Children.Add(grid);
+        panel.Children.Add(native);
+        var window = new Window
+        {
+            Content = panel, Width = 560, Height = 640,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        try
+        {
+            window.Show();
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+            var group = FindDescendant<GroupItem>(grid)!;
+            var expander = FindDescendant<Expander>(group)!;
+            var toggle = (ToggleButton)expander.Template.FindName("ToggleButton", expander);
+            var header = FindDescendant<TextBlock>(toggle)!;
+            Require(ReferenceEquals(expander.Template, native.Template), "Property groups must use the native expander template.");
+            Require(Equals(expander.Background, native.Background) && expander.BorderThickness == native.BorderThickness
+                && Hc.BorderElement.GetCornerRadius(expander) == Hc.BorderElement.GetCornerRadius(native),
+                "Property groups must preserve native expander background, border and corners.");
+            Require(header.FontSize == 15 && expander.FontSize == 19, "PropertyGrid title/body font sizes must be independent.");
+            var contentBorder = (Border)expander.Content;
+            var headerBorder = (Border)toggle.Template.FindName("Chrome", toggle);
+            Require(contentBorder.BorderThickness == new Thickness(1, 0, 1, 1)
+                && Equals(contentBorder.BorderBrush, expander.BorderBrush)
+                && Equals(contentBorder.Background, app.FindResource("RegionBrush")),
+                "Group content must match the native Expander demo: no second border at the header seam.");
+            // Distinct edge widths catch accidental reuse of the global Region border or a doubled seam.
+            foreach (var thickness in new[] { new Thickness(2, 3, 4, 5), new Thickness(0), new Thickness(1) })
+            {
+                expander.BorderThickness = thickness;
+                expander.BorderBrush = Brushes.Crimson;
+                Hc.BorderElement.SetCornerRadius(expander, new CornerRadius(3, 5, 7, 9));
+                window.UpdateLayout();
+                Require(headerBorder.BorderThickness == thickness
+                    && contentBorder.BorderThickness == new Thickness(thickness.Left, 0, thickness.Right, thickness.Bottom),
+                    "One Expander.BorderThickness must drive both regions without doubling the shared seam.");
+                Require(Equals(headerBorder.BorderBrush, Brushes.Crimson)
+                    && Equals(contentBorder.BorderBrush, Brushes.Crimson), "One border brush must drive both regions.");
+                Require(Hc.BorderElement.GetCornerRadius(toggle) == new CornerRadius(3, 5, 0, 0)
+                    && contentBorder.CornerRadius == new CornerRadius(0, 0, 7, 9), "Corners must share the expander source.");
+                Require(Math.Abs(contentBorder.TransformToAncestor(expander).Transform(new Point()).Y
+                    - (toggle.TransformToAncestor(expander).Transform(new Point()).Y + toggle.ActualHeight)) < .01,
+                    "Header and content must meet without a gap or overlap.");
+            }
+            expander.ClearValue(Control.BorderThicknessProperty);
+            expander.ClearValue(Control.BorderBrushProperty);
+            expander.ClearValue(Hc.BorderElement.CornerRadiusProperty);
+            window.UpdateLayout();
+            Hc.TitleElement.SetFontSize(grid, 23);
+            window.UpdateLayout();
+            Require(header.FontSize == 23 && expander.FontSize == 19, "Changing group title font must leave body font unchanged.");
+            var arrow = FindDescendant<Path>(toggle)!;
+            toggle.IsChecked = false;
+            window.UpdateLayout();
+            Require(!expander.IsExpanded && ((ContentPresenter)expander.Template.FindName("ExpandSite", expander)).Visibility == Visibility.Collapsed,
+                "Native toggle must collapse the group content.");
+            Require(Math.Abs(arrow.TransformToAncestor(toggle).Transform(new Point()).Y + arrow.ActualHeight / 2 - toggle.ActualHeight / 2) <= 1,
+                "Collapsed arrow must remain vertically centered.");
+            toggle.IsChecked = true;
+            window.UpdateLayout();
+            Require(expander.IsExpanded, "Native toggle must reopen the group.");
+            foreach (var direction in new[] { ExpandDirection.Down, ExpandDirection.Up, ExpandDirection.Left, ExpandDirection.Right })
+            {
+                native.ExpandDirection = direction;
+                Hc.TitleElement.SetFontSize(native, 12);
+                window.UpdateLayout();
+                var nativeToggle = (ToggleButton)native.Template.FindName("ToggleButton", native);
+                var nativeHeader = FindDescendant<TextBlock>(nativeToggle)!;
+                Require(nativeHeader.FontSize == 12 && body.FontSize == 19, $"{direction}: independent default title/body size.");
+                Hc.TitleElement.SetFontSize(native, 27);
+                window.UpdateLayout();
+                Require(nativeHeader.FontSize == 27 && body.FontSize == 19, $"{direction}: runtime title size must not alter content.");
+                native.FontSize = 21;
+                window.UpdateLayout();
+                Require(nativeHeader.FontSize == 27 && body.FontSize == 21, $"{direction}: body size must not alter title.");
+                native.FontSize = 19;
+            }
+            Console.WriteLine("PASS native PropertyGrid appearance/toggle and Expander title/body fonts in all four directions.");
+        }
+        finally { window.Close(); }
+    }
     private static void VerifyButtonSizing(Application app)
     {
         var hugeIcon = (Geometry)app.FindResource("DeleteGeometry");

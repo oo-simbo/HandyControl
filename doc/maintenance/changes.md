@@ -1,4 +1,4 @@
-﻿# 修改与验证台账
+# 修改与验证台账
 
 ## HC-M012：统一按钮组项动态尺寸并修正 PropertyGrid 工具栏排序按钮与搜索框不等高（2026-10-08）
 
@@ -258,3 +258,39 @@
 Theme.xaml由现有XamlCombine从源字典生成。Release库/Demo构建0错误、2206既有警告；WpfSmoke更新分类键并通过SkinDefault/SkinDark/SkinViolet、属性网格/Clock/DateTimePicker编译Demo和受限窗口滚动。下游Ultron369项回归通过、两示例构建0警告0错误。未声明全控件全DPI人工验收。
 
 同批主DLL SHA256=05B58F8F7455B3264AEBDC720EECE9E475153C5ADB0AD357970681C66E43B56C，英文卫星=79916386E8DBB8A2D92DBB1F741A99AFBCBF8595C4332353DEC26F491434B6C6；XML同步。证据Ultron artifacts/style-categories-hc-build.log和style-categories-hc-smoke.log。提交及远端结果见JAX唯一交付总账。
+## 2026-10-09 / 3.6.11 — 原生展开框样式与独立标题字号
+
+属性组恢复直接使用HC原生Expander，移除透明背景、零边框/圆角及包围标题的Region外框覆盖；保留原生ToggleButtonCustom、箭头和伸展布局。内容Border仅负责正文区域，底部圆角取展开框对应两角，避免标题与内容圆角来源不一致。
+
+新增附加属性 `TitleElement.FontSize`（默认12 DIP、可继承、正有限数），四方向模板只将其用于标题ContentPresenter，正文继续由Expander.FontSize控制。PropertyGrid分组从所属网格绑定标题/正文字号，因此普通Expander与PropertyGrid均可直接在XAML配置并运行时修改。不再保留未实际生效的PropertyGroupHeaderFontSize资源。自定义Header元素若显式指定FontSize，按WPF属性优先级使用其自身值。
+
+验证：HC库Release构建0错误/2206既有警告；Demo构建0错误/0警告；WpfSmoke三皮肤通过（原生样式对比、展开折叠、四方向标题/正文字号初值与运行时独立更新）；Ultron属性网格专项17/17，正式Startup构建0错误/16警告。仅编译正式宿主，未执行正式界面人工验收。证据：Ultron artifacts/hc-expander-*.log。源码工作区未提交，基线559a093；提交和远程状态见JAX交付总账。
+
+主DLL SHA256：679A885022A555057F8EA13E7D41FE4DA6B63E7670353E0C230FE2C27099CF3D；英文卫星：7BE363A71E608AFD1F08ECCAA60DC0A3F691AB57DB172190085F5DBA29E3CB94。主DLL/卫星/XML已同批同步Ultron，正式Release目录主DLL与卫星哈希一致。
+
+### 2026-10-09 FrameDemo 导航图标过大修复（本地已验证）
+
+- 原因：ButtonGroupItemBaseStyle 直接继承 BaseStyle，未继承普通按钮的 IconElement 默认尺寸；自动高度下图标按原始几何测量。修复前编译 FrameDemo 实测导航按钮组高345 DIP、图标宽高NaN。
+- 最小修复：在 ButtonGroupItemBaseStyle 增加 IconElement.Width/Height 的 DefaultIconSize 动态资源 Setter（默认16 DIP），保留显式尺寸覆盖及原导航命令。Theme.xaml通过既有构建生成。修复后按钮组高30 DIP，图标保持比例并限制在16 DIP框内。
+- 验证：Release控件库/Demo构建0错误、2206既有警告；新增FrameChecks并接入既有WpfSmoke，SkinDefault/SkinDark/SkinViolet下编译FrameDemo尺寸、0→1→2、后退、前进、刷新、历史菜单跳转全部通过；完整WpfSmoke通过。证据位于Ultron artifacts/frame-before.log、frame-hc-build.log、frame-after.log、frame-full-smoke.log。
+- 实际界面：运行最新源码生成的HC Demo，在150%桌面缩放下打开导航框架，确认三个图标及内容区正常，并实际点击0翻到1。Demo保留打开供复核。
+- 状态：本次未提交/推送，无本次提交hash；HC本地main基线559a093，未核验远端。本次未主动分发下游DLL；工作区包含其他会话并行修改，未纳入本项或覆盖。下一项：按需合并验证同期HC变更后统一分发二进制。
+
+### 2026-10-09 HC属性组接缝与统一边框修复（本地已验证）
+
+- 原因：分组正文RegionBorderThickness包含顶边，与原生Expander标题底边相邻叠加；正文颜色/粗细另取Region资源，导致与原生ExpanderDemo不一致。
+- 最小修改：PropertyGroupItemBaseStyle正文Border的BorderBrush绑定所属Expander，BorderThickness通过既有ThicknessSplitConverter取1,0,1,1，背景采用原生Demo的RegionBrush。保留原生Expander模板/箭头/标题按钮，不新增覆盖描边；沿用TitleElement.FontSize与FontSize分别控制标题、正文。组边框通过Expander Style统一设置，PropertyGrid.BorderThickness仍仅控制网格外框。
+- 验证：HC Release库构建0错误/2206既有警告；Demo构建0警告0错误；三皮肤WpfSmoke通过，新增零边框、2/3/4/5非对称边框、颜色/圆角动态更新及标题正文无间隙验证，原有四方向独立字号、折叠回归通过。编译Demo页面和导航回归通过。Ultron相关回归43/43通过，正式Startup构建0错误/16既有警告。证据：Ultron artifacts/hc-expander-border-{build,smoke,demo-build,demo-smoke,tests,startup-build}.log及hc-expander-border-results/hc-expander-border.trx。
+- 实际界面：启动最新HC Demo 3.6.11，150%桌面缩放下检查属性编辑器Category2/Category1标题与内容接缝，保留示例打开。仅此页面人工检查，不声明正式JAX/W001运行验收或全DPI验收。
+- 同批主DLL/英文卫星/XML同步Ultron；主SHA256=9907BFD8702089EC7ECFFC9DD79153BDBBC8B94B24EC0BDAF7A4B6EB762047EE，卫星=7BE363A71E608AFD1F08ECCAA60DC0A3F691AB57DB172190085F5DBA29E3CB94。含本轮开始前已有3.6.11字号及Frame图标改动，不覆盖并行工作。
+- 状态：本轮未提交/推送，无本次提交hash；本地HC基线559a093，Ultron基线68ee8ef，分支main；未核验远端。无本次功能阻塞。下一项：用户复核当前效果后按项目统一发布节奏处理未提交改动。
+
+## 2026-10-09 / 3.6.12 静态定制入口与现有动态样式补齐
+
+纳入尚未提交的3.6.11原生属性组接缝、TitleElement.FontSize、Frame导航图标修复，版本统一3.6.12。新增19个Sizes静态资源供模板默认消费；Expander箭头/栏宽/标题Padding、CheckBox/RadioButton标记尺寸改由现有IconElement/TitleElement/Padding属性传入模板，调用方可用静态资源Setter及BasedOn定制。编译Theme内静态键已捕获，不承诺宿主前置/后置同名资源覆盖；私有内部几何通过自定义模板处理，不增加新实时参数或主题引擎。
+
+ToolTip复用Popup分类、TextFontSize且模板尊重BorderThickness；Expander复用Region边框/前景/圆角和已有高度；PropertyGrid排序图标跟随DefaultIconSize。复选框背景/单选标记色使用已有主题画刷。NumericUpDownExtend左侧标题移除Width=Auto触发器，修复调用方Style.Width被压过；未配置宽度时默认仍Auto。
+
+Theme.xaml由现有csproj PreBuild/XamlCombine生成。Release库/Demo0错误、2206既有警告；WpfSmoke三皮肤、静态派生样式、属性组/字号/接缝、Frame、编译Demo和滚动通过。Ultron完整372回归通过；Ultron/JAX正式Startup均0错误/16既有警告，未做全控件全DPI人工验收。证据Ultron artifacts/style-boundary-*.log与TRX。
+
+分发主DLL/英文卫星/XML，主SHA256 `3A773DE299FF38027BD01B8DAFEF343DBECCC66EDEF92F7C2C4ECD7C19A9AC6D`；英文卫星 `70D7C7D8641154CD8851CC175D8725697F37C4196F87D09044AA36D1809E552B`。发布目标为个人GitHub仓库v3.6.12及下游DLL分发，不发布官方NuGet包。提交和远端交付见JAX总台账。

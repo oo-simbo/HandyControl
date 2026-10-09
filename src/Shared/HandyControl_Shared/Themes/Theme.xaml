@@ -134,6 +134,25 @@
 	<CornerRadius x:Key="RegionCornerRadius">4</CornerRadius>
 	<CornerRadius x:Key="CardCornerRadius">4</CornerRadius>
 	<CornerRadius x:Key="PopupCornerRadius">4</CornerRadius>
+	<Thickness x:Key="PropertyGridItemSpacing">0,0,0,6</Thickness>
+	<Thickness x:Key="PropertyGridToolbarMargin">0,0,0,6</Thickness>
+	<Thickness x:Key="PropertyGridSortButtonGroupMargin">0,0,6,0</Thickness>
+	<Thickness x:Key="PropertyGridTitlePadding">0,0,10,0</Thickness>
+	<system:Double x:Key="PropertyGridMinTitleWidth">120</system:Double>
+	<system:Double x:Key="PropertyGridMaxTitleWidth">200</system:Double>
+	<system:Double x:Key="ExpanderArrowSize">12</system:Double>
+	<GridLength x:Key="ExpanderArrowColumnWidth">30</GridLength>
+	<Thickness x:Key="ExpanderHeaderPadding">10,0,0,0</Thickness>
+	<Thickness x:Key="ExpanderHeaderPaddingRotated">0,0,0,10</Thickness>
+	<system:Double x:Key="CheckBoxBoxSize">16</system:Double>
+	<system:Double x:Key="CheckBoxCheckSize">12</system:Double>
+	<Thickness x:Key="CheckBoxContentSpacing">6,0,0,0</Thickness>
+	<system:Double x:Key="RadioButtonBoxSize">16</system:Double>
+	<system:Double x:Key="RadioButtonDotSize">8</system:Double>
+	<Thickness x:Key="RadioButtonContentSpacing">6,0,0,0</Thickness>
+	<Thickness x:Key="ToolTipShadowMargin">8</Thickness>
+	<Thickness x:Key="PropertyGridToolTipContentMargin">0,0,0,10</Thickness>
+	<Thickness x:Key="PropertyGridToolTipNameMargin">6,0,0,0</Thickness>
 	<interactivity:FluidMoveBehavior x:Key="BehaviorXY200" x:Shared="False" AppliesTo="Children" Duration="0:0:.2">
 		<interactivity:FluidMoveBehavior.EaseX>
 			<PowerEase />
@@ -1355,6 +1374,8 @@
 		</Setter>
 	</Style>
 	<Style x:Key="ButtonGroupItemBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="Button">
+		<Setter Property="hc:IconElement.Width" Value="{DynamicResource DefaultIconSize}" />
+		<Setter Property="hc:IconElement.Height" Value="{DynamicResource DefaultIconSize}" />
 		<Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
@@ -2884,13 +2905,15 @@
 				</Style>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="Background" Value="White" />
+		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Padding" Value="6,0,0,0" />
+		<Setter Property="Padding" Value="{StaticResource CheckBoxContentSpacing}" />
+		<Setter Property="hc:IconElement.Width" Value="{StaticResource CheckBoxBoxSize}" />
+		<Setter Property="hc:IconElement.Height" Value="{StaticResource CheckBoxBoxSize}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="CheckBox">
@@ -2911,12 +2934,12 @@
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Border Height="16" Width="16" Background="{TemplateBinding Background}" CornerRadius="2" />
-						<hc:SimplePanel Grid.Column="0" Height="16" Width="16" x:Name="markGrid">
-							<Path FlowDirection="LeftToRight" UseLayoutRounding="True" x:Name="path" StrokeDashOffset="8" StrokeDashArray="8,8" Width="12" Height="12" Data="{StaticResource CheckedGeometry}" StrokeThickness="2" Stretch="Uniform" Stroke="{DynamicResource TextIconBrush}" />
+						<Border Height="{Binding Path=(hc:IconElement.Height),RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" CornerRadius="2" />
+						<hc:SimplePanel Grid.Column="0" Height="{Binding Path=(hc:IconElement.Height),RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" x:Name="markGrid">
+							<Path FlowDirection="LeftToRight" UseLayoutRounding="True" x:Name="path" StrokeDashOffset="8" StrokeDashArray="8,8" Width="{StaticResource CheckBoxCheckSize}" Height="{StaticResource CheckBoxCheckSize}" Data="{StaticResource CheckedGeometry}" StrokeThickness="2" Stretch="Uniform" Stroke="{DynamicResource TextIconBrush}" />
 							<Rectangle x:Name="indeterminateMark" RadiusX="2" RadiusY="2" Fill="{DynamicResource PrimaryBrush}" Margin="2" Opacity="0" />
 						</hc:SimplePanel>
-						<Border Height="16" Width="16" x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
+						<Border Height="{Binding Path=(hc:IconElement.Height),RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
 						<ContentPresenter x:Name="contentPresenter" Visibility="Collapsed" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 					</Grid>
 					<ControlTemplate.Triggers>
@@ -2986,7 +3009,9 @@
 		<Setter Property="HorizontalAlignment" Value="Center" />
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Padding" Value="6,0,0,0" />
+		<Setter Property="Padding" Value="{StaticResource RadioButtonContentSpacing}" />
+		<Setter Property="hc:IconElement.Width" Value="{StaticResource RadioButtonBoxSize}" />
+		<Setter Property="hc:IconElement.Height" Value="{StaticResource RadioButtonBoxSize}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="RadioButton">
@@ -3013,8 +3038,8 @@
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
-						<Border Height="16" Width="16" Background="{TemplateBinding Background}" CornerRadius="8" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-							<Ellipse x:Name="optionMark" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Fill="White" Width="8" Height="8" RenderTransformOrigin="0.5,0.5">
+						<Border Height="{Binding Path=(hc:IconElement.Height),RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" CornerRadius="8" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+							<Ellipse x:Name="optionMark" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Fill="{DynamicResource TextIconBrush}" Width="{StaticResource RadioButtonDotSize}" Height="{StaticResource RadioButtonDotSize}" RenderTransformOrigin="0.5,0.5">
 								<Ellipse.RenderTransform>
 									<TransformGroup>
 										<ScaleTransform ScaleX="0" ScaleY="0" />
@@ -3022,7 +3047,7 @@
 								</Ellipse.RenderTransform>
 							</Ellipse>
 						</Border>
-						<Border x:Name="border" Grid.Column="0" Height="16" Width="16" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+						<Border x:Name="border" Grid.Column="0" Height="{Binding Path=(hc:IconElement.Height),RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 						<ContentPresenter x:Name="contentPresenter" Visibility="Collapsed" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 					</Grid>
 					<ControlTemplate.Triggers>
@@ -9036,19 +9061,19 @@
 				<ColumnDefinition />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<ToggleButton x:Name="ToggleButton" Grid.Column="1" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Padding="0,0,0,10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="{TemplateBinding MinWidth}" Style="{StaticResource ToggleButtonCustom}">
+			<ToggleButton x:Name="ToggleButton" Grid.Column="1" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="{TemplateBinding MinWidth}" Style="{StaticResource ToggleButtonCustom}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
-						<ColumnDefinition Width="30" />
+						<ColumnDefinition Width="{Binding Path=(hc:TitleElement.TitleWidth),RelativeSource={RelativeSource TemplatedParent}}" />
 					</Grid.ColumnDefinitions>
 					<Grid.LayoutTransform>
 						<TransformGroup>
 							<RotateTransform Angle="-90" />
 						</TransformGroup>
 					</Grid.LayoutTransform>
-					<ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource UpGeometry}" Width="12" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center" />
+					<ContentPresenter ContentSource="Header" TextElement.FontSize="{TemplateBinding hc:TitleElement.FontSize}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.TextAlignment="Left" />
+					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource UpGeometry}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Grid>
 			</ToggleButton>
 			<ContentPresenter Name="ExpandSite" Visibility="Collapsed" Grid.Column="0" />
@@ -9070,14 +9095,14 @@
 				<RowDefinition />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<ToggleButton x:Name="ToggleButton" Grid.Row="1" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Focusable="False" Padding="10,0,0,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinHeight="{TemplateBinding MinHeight}" Style="{StaticResource ToggleButtonCustom}">
+			<ToggleButton x:Name="ToggleButton" Grid.Row="1" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Focusable="False" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinHeight="{TemplateBinding MinHeight}" Style="{StaticResource ToggleButtonCustom}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
-						<ColumnDefinition Width="30" />
+						<ColumnDefinition Width="{Binding Path=(hc:TitleElement.TitleWidth),RelativeSource={RelativeSource TemplatedParent}}" />
 					</Grid.ColumnDefinitions>
-					<ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource UpGeometry}" Width="12" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center" />
+					<ContentPresenter ContentSource="Header" TextElement.FontSize="{TemplateBinding hc:TitleElement.FontSize}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.TextAlignment="Left" />
+					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource UpGeometry}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Grid>
 			</ToggleButton>
 			<ContentPresenter Name="ExpandSite" Visibility="Collapsed" Grid.Row="0" />
@@ -9099,19 +9124,19 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<ToggleButton x:Name="ToggleButton" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Padding="0,0,0,10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="{TemplateBinding MinWidth}" Style="{StaticResource ToggleButtonCustom}">
+			<ToggleButton x:Name="ToggleButton" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="{TemplateBinding MinWidth}" Style="{StaticResource ToggleButtonCustom}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
-						<ColumnDefinition Width="30" />
+						<ColumnDefinition Width="{Binding Path=(hc:TitleElement.TitleWidth),RelativeSource={RelativeSource TemplatedParent}}" />
 					</Grid.ColumnDefinitions>
 					<Grid.LayoutTransform>
 						<TransformGroup>
 							<RotateTransform Angle="-90" />
 						</TransformGroup>
 					</Grid.LayoutTransform>
-					<ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownGeometry}" Width="12" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center" />
+					<ContentPresenter ContentSource="Header" TextElement.FontSize="{TemplateBinding hc:TitleElement.FontSize}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.TextAlignment="Left" />
+					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownGeometry}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Grid>
 			</ToggleButton>
 			<ContentPresenter Name="ExpandSite" Visibility="Collapsed" Grid.Column="1" />
@@ -9133,14 +9158,14 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			<ToggleButton x:Name="ToggleButton" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Focusable="False" Padding="10,0,0,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinHeight="{TemplateBinding MinHeight}" Style="{StaticResource ToggleButtonCustom}">
+			<ToggleButton x:Name="ToggleButton" hc:BorderElement.CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Focusable="False" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinHeight="{TemplateBinding MinHeight}" Style="{StaticResource ToggleButtonCustom}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
-						<ColumnDefinition Width="30" />
+						<ColumnDefinition Width="{Binding Path=(hc:TitleElement.TitleWidth),RelativeSource={RelativeSource TemplatedParent}}" />
 					</Grid.ColumnDefinitions>
-					<ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownGeometry}" Width="12" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center" />
+					<ContentPresenter ContentSource="Header" TextElement.FontSize="{TemplateBinding hc:TitleElement.FontSize}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.TextAlignment="Left" />
+					<Path Name="PathArrow" IsHitTestVisible="False" Grid.Column="1" Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource DownGeometry}" Width="{Binding Path=(hc:IconElement.Width),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Grid>
 			</ToggleButton>
 			<ContentPresenter Name="ExpandSite" Visibility="Collapsed" Grid.Row="1" />
@@ -9157,24 +9182,29 @@
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
 	<Style x:Key="ExpanderBaseStyle" TargetType="Expander">
-		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+		<Setter Property="Foreground" Value="{DynamicResource RegionForegroundBrush}" />
 		<Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
-		<Setter Property="MinWidth" Value="{StaticResource DefaultControlHeight}" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource RegionBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource RegionBorderThickness}" />
+		<Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="MinWidth" Value="{DynamicResource DefaultControlHeight}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource RegionCornerRadius}" />
+		<Setter Property="Padding" Value="{StaticResource ExpanderHeaderPadding}" />
+		<Setter Property="hc:IconElement.Width" Value="{StaticResource ExpanderArrowSize}" />
+		<Setter Property="hc:TitleElement.TitleWidth" Value="{StaticResource ExpanderArrowColumnWidth}" />
 		<Setter Property="Template" Value="{StaticResource ExpanderDownTemplate}" />
 		<Style.Triggers>
 			<Trigger Property="ExpandDirection" Value="Left">
+				<Setter Property="Padding" Value="{StaticResource ExpanderHeaderPaddingRotated}" />
 				<Setter Property="Template" Value="{StaticResource ExpanderLeftTemplate}" />
 			</Trigger>
 			<Trigger Property="ExpandDirection" Value="Up">
 				<Setter Property="Template" Value="{StaticResource ExpanderUpTemplate}" />
 			</Trigger>
 			<Trigger Property="ExpandDirection" Value="Right">
+				<Setter Property="Padding" Value="{StaticResource ExpanderHeaderPaddingRotated}" />
 				<Setter Property="Template" Value="{StaticResource ExpanderRightTemplate}" />
 			</Trigger>
 		</Style.Triggers>
@@ -9887,7 +9917,6 @@
 		<Style.Triggers>
 			<Trigger Property="hc:InfoElement.TitlePlacement" Value="Left">
 				<Setter Property="Template" Value="{StaticResource NumericUpDownExtendLeftTemplate}" />
-				<Setter Property="Width" Value="Auto" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
@@ -10326,16 +10355,16 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ToolTip">
-					<Border Effect="{StaticResource EffectShadow2}" Margin="8" Background="{DynamicResource PopupBackgroundBrush}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{DynamicResource PopupBorderBrush}">
+					<Border Effect="{StaticResource EffectShadow2}" Margin="{StaticResource ToolTipShadowMargin}" Background="{DynamicResource PopupBackgroundBrush}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{DynamicResource PopupBorderBrush}">
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<ContentPresenter x:Name="Presenter" Margin="0,0,0,10" />
+							<ContentPresenter x:Name="Presenter" Margin="{StaticResource PropertyGridToolTipContentMargin}" />
 							<StackPanel Grid.Row="1" Orientation="Horizontal">
 								<TextBlock FontWeight="Bold" Text="{Binding PropertyTypeName,RelativeSource={RelativeSource AncestorType=hc:PropertyItem}}" />
-								<TextBlock Text="{Binding PropertyName,RelativeSource={RelativeSource AncestorType=hc:PropertyItem}}" Margin="6,0,0,0" />
+								<TextBlock Text="{Binding PropertyName,RelativeSource={RelativeSource AncestorType=hc:PropertyItem}}" Margin="{StaticResource PropertyGridToolTipNameMargin}" />
 							</StackPanel>
 						</Grid>
 					</Border>
@@ -10353,13 +10382,13 @@
 	</Style>
 	<Style x:Key="PropertyItemBaseStyle" TargetType="hc:PropertyItem">
 		<Setter Property="Focusable" Value="False" />
-		<Setter Property="Margin" Value="0,0,0,6" />
+		<Setter Property="Margin" Value="{StaticResource PropertyGridItemSpacing}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="hc:PropertyItem">
 					<GroupBox Style="{StaticResource GroupBoxOriginal}" hc:TitleElement.TitlePlacement="Left">
 						<GroupBox.Header>
-							<TextBlock Padding="0,0,10,0" Width="{Binding Path=(hc:TitleElement.TitleWidth).Value,RelativeSource={RelativeSource TemplatedParent}}" Text="{TemplateBinding DisplayName}" TextTrimming="CharacterEllipsis">
+							<TextBlock Padding="{StaticResource PropertyGridTitlePadding}" Width="{Binding Path=(hc:TitleElement.TitleWidth).Value,RelativeSource={RelativeSource TemplatedParent}}" Text="{TemplateBinding DisplayName}" TextTrimming="CharacterEllipsis">
 								<TextBlock.ToolTip>
 									<ToolTip Style="{StaticResource PropertyItemToolTipBaseStyle}" Content="{TemplateBinding Description}" />
 								</TextBlock.ToolTip>
@@ -10390,16 +10419,16 @@
 		</Style.Triggers>
 	</Style>
 	<Style x:Key="PropertyGroupItemBaseStyle" TargetType="GroupItem">
-		<Setter Property="Margin" Value="0,0,0,6" />
+		<Setter Property="Margin" Value="{StaticResource PropertyGridItemSpacing}" />
 		<Setter Property="Padding" Value="{DynamicResource RegionPadding}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="GroupItem">
-					<Border Style="{StaticResource BorderClip}" BorderThickness="{DynamicResource RegionBorderThickness}" BorderBrush="{DynamicResource RegionBorderBrush}" Background="{DynamicResource RegionBackgroundBrush}" CornerRadius="{DynamicResource RegionCornerRadius}">
-						<Expander Header="{Binding Name}" IsExpanded="True" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" hc:BorderElement.CornerRadius="0">
+					<Expander Header="{Binding Name}" IsExpanded="True" FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=hc:PropertyGrid}}" hc:TitleElement.FontSize="{Binding Path=(hc:TitleElement.FontSize), RelativeSource={RelativeSource AncestorType=hc:PropertyGrid}}">
+						<Border BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource AncestorType=Expander}, Converter={StaticResource ThicknessSplitConverter}, ConverterParameter='1,0,1,1'}" BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Expander}}" Background="{DynamicResource RegionBrush}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource AncestorType=Expander}, Converter={StaticResource CornerRadiusSplitConverter}, ConverterParameter='0,0,1,1'}">
 							<ItemsPresenter Margin="{TemplateBinding Padding}" />
-						</Expander>
-					</Border>
+						</Border>
+					</Expander>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -10407,8 +10436,8 @@
 	<Style x:Key="PropertyGridBaseStyle" TargetType="hc:PropertyGrid">
 		<Setter Property="Foreground" Value="{DynamicResource RegionForegroundBrush}" />
 		<Setter Property="BorderThickness" Value="{DynamicResource RegionBorderThickness}" />
-		<Setter Property="MaxTitleWidth" Value="200" />
-		<Setter Property="MinTitleWidth" Value="120" />
+		<Setter Property="MaxTitleWidth" Value="{StaticResource PropertyGridMaxTitleWidth}" />
+		<Setter Property="MinTitleWidth" Value="{StaticResource PropertyGridMinTitleWidth}" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="Padding" Value="{DynamicResource RegionPadding}" />
 		<Setter Property="Background" Value="{DynamicResource RegionBackgroundBrush}" />
@@ -10422,13 +10451,13 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition />
 							</Grid.RowDefinitions>
-							<DockPanel LastChildFill="True" Margin="0,0,0,6">
-								<hc:ButtonGroup Margin="0,0,6,0" VerticalAlignment="Stretch" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
+							<DockPanel LastChildFill="True" Margin="{StaticResource PropertyGridToolbarMargin}">
+								<hc:ButtonGroup Margin="{StaticResource PropertyGridSortButtonGroupMargin}" VerticalAlignment="Stretch" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
 									<RadioButton Command="interactivity:ControlCommands.SortByCategory" IsChecked="True">
-										<Rectangle Width="16" Height="16" Fill="{StaticResource SortByCategoryDrawingBrush}" />
+										<Rectangle Width="{DynamicResource DefaultIconSize}" Height="{DynamicResource DefaultIconSize}" Fill="{StaticResource SortByCategoryDrawingBrush}" />
 									</RadioButton>
 									<RadioButton Command="interactivity:ControlCommands.SortByName">
-										<Rectangle Width="16" Height="16" Fill="{StaticResource SortByNameDrawingBrush}" />
+										<Rectangle Width="{DynamicResource DefaultIconSize}" Height="{DynamicResource DefaultIconSize}" Fill="{StaticResource SortByNameDrawingBrush}" />
 									</RadioButton>
 								</hc:ButtonGroup>
 								<hc:SearchBar x:Name="PART_SearchBar" IsRealTime="True" hc:InfoElement.ShowClearButton="True" Style="{StaticResource SearchBarPlus}" />
@@ -11750,17 +11779,17 @@
 		</Style.Triggers>
 	</Style>
 	<Style x:Key="ToolTipBaseStyle" TargetType="ToolTip">
-		<Setter Property="Padding" Value="{StaticResource DefaultControlPadding}" />
-		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="FontSize" Value="12" />
-		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+		<Setter Property="Padding" Value="{DynamicResource PopupPadding}" />
+		<Setter Property="Background" Value="{DynamicResource PopupBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource PopupBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource PopupBorderThickness}" />
+		<Setter Property="Foreground" Value="{DynamicResource PopupForegroundBrush}" />
+		<Setter Property="FontSize" Value="{DynamicResource TextFontSize}" />
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource PopupCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ToolTip">
-					<Border Margin="8" Effect="{StaticResource EffectShadow2}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" BorderThickness="1" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}">
+					<Border Margin="{StaticResource ToolTipShadowMargin}" Effect="{StaticResource EffectShadow2}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}">
 						<ContentPresenter />
 					</Border>
 				</ControlTemplate>
