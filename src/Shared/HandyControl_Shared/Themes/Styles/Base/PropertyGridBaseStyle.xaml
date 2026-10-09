@@ -108,11 +108,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupItem">
-                    <Expander Header="{Binding Name}" IsExpanded="True">
-                        <Border BorderThickness="{DynamicResource SeparatorBorderThicknessLeftRightBottom}" BorderBrush="{DynamicResource SeparatorColorBrush}" Background="{DynamicResource RegionBackgroundBrush}" CornerRadius="{DynamicResource RegionCornerRadius}">
+                    <Border Style="{StaticResource BorderClip}" BorderThickness="{DynamicResource RegionBorderThickness}" BorderBrush="{DynamicResource RegionBorderBrush}" Background="{DynamicResource RegionBackgroundBrush}" CornerRadius="{DynamicResource RegionCornerRadius}">
+                        <Expander Header="{Binding Name}" IsExpanded="True" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" hc:BorderElement.CornerRadius="0">
                             <ItemsPresenter Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                    </Expander>
+                        </Expander>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
