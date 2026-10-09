@@ -319,3 +319,11 @@ PropertyGrid的MinTitleWidth/MaxTitleWidth新增变化回调，不再依赖OnRen
 ### 2026-10-09 3.6.14 最终分发
 
 3.6.14包含名称列Auto测量隔离展开箭头继承及MinTitleWidth/MaxTitleWidth变化即时更新。三皮肤完整WpfSmoke通过；Ultron引用与JuLink.Test.UI.Wpf Release主DLL SHA256一致：93105006BB2996DB785BD4DEDA541FC799EF6903ABCE05091A951A83D2A7B4C6。Ultron已采用四类独立存储并开放名称列宽设置；实际设置页60 DIP省略号、保存重启读回及恢复200/260已验证。完整交付记录见JAX总台账2026-10-09“四类独立样式存储与名称列宽设置”；本轮未提交推送。
+
+### 2026-10-09 3.6.15 PropertyGrid统一外框
+
+PropertyGridBaseStyle唯一根Border命名PART_Border，继续TemplateBinding背景、描边颜色和粗细，将Padding直接绑定到Border，移除内层Grid的重复Margin；新增BorderElement.CornerRadius动态默认RegionCornerRadius，模板绑定该附加属性，并复用现有BorderClip完成圆角裁剪。HC只使用已有通用Region资源，不依赖Ultron资源键。Theme.xaml由正常PreBuild生成。
+
+Release库/Demo构建0错误（2206条既有警告），三皮肤完整WpfSmoke通过。Ultron381/381服务回归通过，包含原生PropertyGrid/ConfigPropertyGrid/集合编辑器、动态资源更新、局部覆盖及96/144/192 DPI圆角描边采样。最新JuLink.Test.UI.Wpf Release构建0警告0错误；系统设置真实页面已验证移除外围Border后的单层外框。
+
+主DLL SHA256：02CAB11887B1BB23E6B60ED140E53A3C76E0D72CBCCEEE76E2358B7416EB4CBE。主DLL、英文卫星/XML已同步Ultron，生成XML移除了编译器GeneratedInternalTypeHelper文档，不涉及公共API删除。证据位于Ultron artifacts/hc-3615-border-build.log、hc-3615-border-smoke.log、propertygrid-border-final.log、propertygrid-border-results/propertygrid-border-final.trx、propertygrid-border-ui-build.log、propertygrid-border-system.png。未推送。

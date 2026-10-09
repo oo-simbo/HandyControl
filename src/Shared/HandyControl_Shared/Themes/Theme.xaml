@@ -10434,6 +10434,7 @@
 		</Setter>
 	</Style>
 	<Style x:Key="PropertyGridBaseStyle" TargetType="hc:PropertyGrid">
+		<Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource RegionCornerRadius}" />
 		<Setter Property="Foreground" Value="{DynamicResource RegionForegroundBrush}" />
 		<Setter Property="BorderThickness" Value="{DynamicResource RegionBorderThickness}" />
 		<Setter Property="MaxTitleWidth" Value="{StaticResource PropertyGridMaxTitleWidth}" />
@@ -10445,8 +10446,8 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="hc:PropertyGrid">
-					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-						<Grid Margin="{TemplateBinding Padding}">
+					<Border x:Name="PART_Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BorderClip}">
+						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition />

@@ -1,9 +1,9 @@
 <Project>
     <PropertyGroup>
         <UseWPF>true</UseWPF>
-        <Version>3.6.14</Version>
-        <FileVersion>3.6.14</FileVersion>
-        <AssemblyVersion>3.6.14</AssemblyVersion>
+        <Version>3.6.15</Version>
+        <FileVersion>3.6.15</FileVersion>
+        <AssemblyVersion>3.6.15</AssemblyVersion>
         <LangVersion>latest</LangVersion>
         <Copyright>Copyright oo-simbo 2026</Copyright>
         <Authors>oo-simbo</Authors>
