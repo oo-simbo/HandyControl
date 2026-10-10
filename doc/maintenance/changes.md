@@ -1,4 +1,10 @@
 # 修改与验证台账
+## 2026-10-10 / 3.6.20 当前颜色按钮对齐与名称列默认值
+
+- 最终约定：当前颜色按钮固定68 DIP，4 DIP间距，颜色网格占剩余宽度；名称列默认100–200 DIP。替代3.6.19按内容测量按钮宽度与120–180默认值，不改变用户已保存配置。
+- 冒烟新增RGB/ARGB/不同字符宽度切换的按钮恒宽与网格边界断言；160/220/320 DIP色板及三皮肤/编译Demo完整通过。HC库+Demo构建0错误、2206条既有警告；Ultron402/402回归通过，最新JuLink.Test.UI.Wpf构建0警告/0错误。
+- Theme.xaml由PreBuild生成；同批主DLL、英文卫星和XML已同步Ultron。主DLL SHA256 6B1840F6367F3E545B8FA9B2941F176DF9BF6D667E1615F73027FBC788CE8CA1。
+- 最终日志位于Ultron artifacts/hc-3.6.20-build.log、hc-3.6.20-smoke.log、color-3.6.20-tests.log、color-3.6.20-ui-build.log；TRX位于artifacts/color-3.6.20。提交及远端发布结果统一记录JAX总台账。
 ## 2026-10-10 / 3.6.18 最终集成验证
 
 本节为3.6.18最终状态；下方阶段记录中的“尚未同步下游”等描述保留为历史。主DLL SHA256为 A5738CF711C202B0657F250549F08015A223DBA2D6B6373CC1B1A1B948CDAB56，Ultron仓库及最新JuLink.Test.UI.Wpf Release输出完全一致。主DLL、英文卫星和XML已整批同步（不分发PDB）。

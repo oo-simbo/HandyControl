@@ -47,8 +47,8 @@
     <Thickness x:Key="PropertyGridToolbarMargin">0,0,0,6</Thickness>
     <Thickness x:Key="PropertyGridSortButtonGroupMargin">0,0,6,0</Thickness>
     <Thickness x:Key="PropertyGridTitlePadding">0,0,10,0</Thickness>
-    <sys:Double x:Key="PropertyGridMinTitleWidth">120</sys:Double>
-    <sys:Double x:Key="PropertyGridMaxTitleWidth">180</sys:Double>
+    <sys:Double x:Key="PropertyGridMinTitleWidth">100</sys:Double>
+    <sys:Double x:Key="PropertyGridMaxTitleWidth">200</sys:Double>
     <!--  展开框：箭头尺寸、箭头栏宽与标题内边距。  -->
     <sys:Double x:Key="ExpanderArrowSize">12</sys:Double>
     <GridLength x:Key="ExpanderArrowColumnWidth">30</GridLength>

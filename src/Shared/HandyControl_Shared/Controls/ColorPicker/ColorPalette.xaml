@@ -38,7 +38,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <UniformGrid x:Name="Swatches" Rows="2" Columns="10"/>
-        <Button x:Name="CurrentColor" Grid.Column="1" Margin="4,2,0,2" Padding="5,0" MaxWidth="64"
+        <Button x:Name="CurrentColor" Grid.Column="1" Margin="4,2,0,2" Padding="5,0" Width="68"
                 Style="{StaticResource SwatchStyle}" Click="OpenPicker"
                 ToolTip="ColorPicker">
             <TextBlock x:Name="HexText" FontSize="12" TextTrimming="CharacterEllipsis"/>

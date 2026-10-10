@@ -19,7 +19,7 @@ Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优�
 
 Demo 标题和关于窗口的版本读取入口程序集 `HandyControlDemo.dll` 的文件版本；确认控件库更新时，还应核对 Demo 输出目录中的 `HandyControl.dll` 与库输出的版本或哈希，不能仅凭标题判断。
 
-需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.19.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
+需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.20.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
 
 产物目录：
 
@@ -304,3 +304,8 @@ dotnet run --project doc/maintenance/verification/WpfSmoke/WpfSmoke.csproj -c Re
 Theme.xaml由现有XamlCombine从源字典生成。Release库/Demo构建0错误、2206既有警告；WpfSmoke更新分类键并通过SkinDefault/SkinDark/SkinViolet、属性网格/Clock/DateTimePicker编译Demo和受限窗口滚动。下游Ultron369项回归通过、两示例构建0警告0错误。未声明全控件全DPI人工验收。
 
 同批主DLL SHA256=05B58F8F7455B3264AEBDC720EECE9E475153C5ADB0AD357970681C66E43B56C，英文卫星=79916386E8DBB8A2D92DBB1F741A99AFBCBF8595C4332353DEC26F491434B6C6；XML同步。证据Ultron artifacts/style-categories-hc-build.log和style-categories-hc-smoke.log。提交及远端结果见JAX唯一交付总账。
+## 3.6.20 当前颜色按钮统一宽度与名称列最终默认值
+
+按用户最终约定，ColorPalette.CurrentColor固定Width=68 DIP，不再按HEX字符串测量宽度；左间距4 DIP，Grid首列星号宽度，只有颜色网格适应剩余宽度。160/220/320 DIP色板对应颜色网格88/148/248 DIP，RGB及ARGB切换时按钮及网格分界保持不变。全文ToolTip/Automation与详细取色器回写契约不变。
+
+HC资源和PropertyGridDemo名称列默认100–200 DIP；Ultron模型、渲染快照和Layout资源同步。已有显式配置保留。本节覆盖3.6.19的MaxWidth64及120–180阶段约定，不新增全局参数。

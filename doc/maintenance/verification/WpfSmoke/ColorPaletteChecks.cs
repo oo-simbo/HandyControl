@@ -74,6 +74,16 @@ internal static partial class Program
                 Require(AutomationProperties.GetName(current).Contains("#80123456", StringComparison.Ordinal),
                     $"palette width {width}: the current-color button must expose the full color in its Automation name: {AutomationProperties.GetName(current)}");
 
+                // 色值字符宽度与Alpha长度不得影响按钮宽度和色块网格右边界。
+                foreach (var color in new[] { Colors.White, Colors.DodgerBlue, Color.FromArgb(0x80, 0x12, 0x34, 0x56) })
+                {
+                    palette.SelectedBrush = new SolidColorBrush(color);
+                    window.UpdateLayout();
+                    Require(Math.Abs(current.ActualWidth - 68d) <= 0.5d,
+                        $"palette width {width}: current-color buttons must all be 68 DIP: {current.ActualWidth}");
+                    Require(Math.Abs(swatches.ActualWidth - (width - 72d)) <= 0.5d,
+                        $"palette width {width}: only the swatch grid adapts: {swatches.ActualWidth}");
+                }
                 RequireNoLayoutClip(current, $"palette width {width} current-color button");
                 RequireNoLayoutClip(swatches, $"palette width {width} swatch grid");
 
