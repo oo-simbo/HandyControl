@@ -3,9 +3,14 @@
                     xmlns:hc="clr-namespace:HandyControl.Controls">
 
     <Style x:Key="SplitButtonBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="hc:SplitButton">
-        <Setter Property="Height" Value="{StaticResource DefaultControlHeight}"/>
+        <!--  与按钮族统一：Height=Auto + 动态 MinHeight，字号增大或运行时改令牌时随内容增高；
+             同时给图标 Path 一个有限方框，避免 1024 级几何在无高度约束下按原始坐标撑开按钮（同 HC-M010）。  -->
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}"/>
+        <Setter Property="hc:IconElement.Width" Value="{DynamicResource DefaultIconSize}"/>
+        <Setter Property="hc:IconElement.Height" Value="{DynamicResource DefaultIconSize}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="Padding" Value="{StaticResource DefaultControlPadding}"/>
+        <Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -13,7 +18,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="hc:SplitButton">

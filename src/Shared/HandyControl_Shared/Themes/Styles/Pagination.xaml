@@ -15,7 +15,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="hc:BorderElement.CornerRadius" Value="0"/>
-        <Setter Property="Height" Value="{StaticResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}"/>
         <Setter Property="Padding" Value="10,0"/>
         <Setter Property="Margin" Value="-1,0,0,0"/>
         <Setter Property="Template">
@@ -64,7 +64,7 @@
         <Setter Property="hc:VisualElement.HighlightBorderBrush" Value="{DynamicResource TitleBrush}"/>
         <Setter Property="hc:VisualElement.HighlightBackground" Value="{DynamicResource TitleBrush}"/>
         <Setter Property="hc:VisualElement.HighlightForeground" Value="{DynamicResource TextIconBrush}"/>
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}"/>
         <Setter Property="PaginationButtonStyle" Value="{StaticResource PaginationButtonStyle}"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="UseLayoutRounding" Value="True"/>

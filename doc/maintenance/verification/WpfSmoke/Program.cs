@@ -54,7 +54,9 @@ internal static partial class Program
                 VerifyNumericUpDownHeight(app);
                 VerifyPropertyGridToolbar(app);
                 VerifyButtonGroupItems(app);
-                Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl, runtime design-token override, button icon sizing, numeric spinner height, PropertyGrid toolbar height, button group item sizing.");
+                VerifyControlTokenSizing(app);
+                VerifyCardHeaderSlots(app);
+                Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl, runtime design-token override, button icon sizing, numeric spinner height, PropertyGrid toolbar height, button group item sizing, control token sizing, card header slots.");
             }
             if (args.Length == 1)
             {
@@ -420,6 +422,74 @@ internal static partial class Program
             finally { window.Close(); }
         }
         VerifyPropertyGridDemoScrolling(app, assembly);
+        VerifyCardDemoPage(app, assembly);
+    }
+
+    /// <summary>
+    /// 加载编译后的 CardDemo：确认标题插槽按钮带 ToolTip 与 Automation 名称、标题在带插槽时仍居中，
+    /// 且点击事件确实走到页面的点击处理器（反馈文本随之变化）。
+    /// CardDemo 依赖 Demo 的 Locator 资源，冒烟不启动 Demo App，这里显式补上该资源。
+    /// </summary>
+    private static void VerifyCardDemoPage(Application app, System.Reflection.Assembly assembly)
+    {
+        if (app.Resources["Locator"] is null)
+        {
+            app.Resources["Locator"] = Activator.CreateInstance(
+                assembly.GetType("HandyControlDemo.ViewModel.ViewModelLocator", true)!);
+        }
+        var page = (FrameworkElement)Activator.CreateInstance(
+            assembly.GetType("HandyControlDemo.UserControl.CardDemo", true)!)!;
+        var window = new Window
+        {
+            Content = page, Width = 1000, Height = 800, Left = -10000, Top = -10000,
+            ShowActivated = false, ShowInTaskbar = false
+        };
+        try
+        {
+            window.Show();
+            window.UpdateLayout();
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.Loaded);
+
+            static IEnumerable<T> Descendants<T>(DependencyObject root) where T : DependencyObject
+            {
+                for (var i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+                {
+                    var child = VisualTreeHelper.GetChild(root, i);
+                    if (child is T typed) yield return typed;
+                    foreach (var nested in Descendants<T>(child)) yield return nested;
+                }
+            }
+
+            var slotCard = Descendants<Hc.Card>(page).FirstOrDefault(card =>
+                Hc.EdgeElement.GetLeftContent(card) is Button && Hc.EdgeElement.GetRightContent(card) is not null);
+            Require(slotCard is not null, "CardDemo must show a card with both header slots.");
+            var slotButton = (Button)Hc.EdgeElement.GetLeftContent(slotCard!);
+            var toolTip = slotButton.ToolTip as string;
+            Require(!string.IsNullOrEmpty(toolTip)
+                    && !string.IsNullOrEmpty(System.Windows.Automation.AutomationProperties.GetName(slotButton)),
+                "CardDemo header slot buttons must expose ToolTip and AutomationProperties.Name.");
+            var header = slotCard!.Template.FindName("PART_Header", slotCard) as Border
+                ?? throw new InvalidOperationException("CardDemo card lacks PART_Header.");
+            var presenter = slotCard.Template.FindName("PART_HeaderContent", slotCard) as ContentPresenter
+                ?? throw new InvalidOperationException("CardDemo card lacks PART_HeaderContent.");
+            var title = FindDescendant<TextBlock>(presenter)
+                ?? throw new InvalidOperationException("CardDemo header lacks a title TextBlock.");
+            var titleBounds = title.TransformToAncestor(header).TransformBounds(new Rect(title.RenderSize));
+            var titleCenter = titleBounds.X + titleBounds.Width / 2d;
+            var expectedCenter = (header.Padding.Left + header.ActualWidth - header.Padding.Right) / 2d;
+            Require(Math.Abs(titleCenter - expectedCenter) <= 1d,
+                $"CardDemo title must stay centered with header slots: {titleCenter} vs {expectedCenter}");
+
+            var feedback = page.FindName("HeaderSlotActionText") as TextBlock
+                ?? throw new InvalidOperationException("CardDemo lacks the HeaderSlotActionText feedback block.");
+            var before = feedback.Text;
+            slotButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, slotButton));
+            var after = feedback.Text;
+            Require(after != before && after!.Contains(toolTip, StringComparison.Ordinal),
+                $"CardDemo header slot click must reach the page handler: '{before}' -> '{after}'");
+            Console.WriteLine($"PASS compiled CardDemo page: header slots, tooltip/automation, centered title, click handler -> {after}");
+        }
+        finally { window.Close(); }
     }
 
     /// <summary>
@@ -1062,6 +1132,414 @@ internal static partial class Program
             }
             Flush();
             Console.WriteLine("PASS button group item sizing (RadioButton/Button/ToggleButton share the dynamic control height).");
+        }
+        finally { window.Close(); }
+    }
+
+    /// <summary>
+    /// 验证非按钮/输入控件的高度也消费动态设计令牌：Label/Tag 与 GroupBox 标题跟随
+    /// DefaultControlHeight，SplitButton 与 Pagination 页码按钮跟随 ButtonMinHeight；
+    /// 字号高于令牌时由内容撑高、不被固定高度裁切；SplitButton 的 1024 级图标几何仍受有限
+    /// 方框约束；Label/SplitButton 的 Small 变体在令牌放大时保持 20。
+    /// </summary>
+    private static void VerifyControlTokenSizing(Application app)
+    {
+        var label = new Label { Style = (Style)app.FindResource(typeof(Label)), Content = "L" };
+        var labelSmall = new Label { Style = (Style)app.FindResource("LabelDefault.Small"), Content = "l" };
+        var tag = new Hc.Tag { Style = (Style)app.FindResource(typeof(Hc.Tag)), Content = "T" };
+        var pagination = new Hc.Pagination { Style = (Style)app.FindResource(typeof(Hc.Pagination)), MaxPageCount = 5 };
+        var splitButton = new Hc.SplitButton { Style = (Style)app.FindResource(typeof(Hc.SplitButton)), Content = "S" };
+        var splitSmall = new Hc.SplitButton { Style = (Style)app.FindResource("SplitButtonDefault.Small"), Content = "s" };
+        var splitIconButton = new Hc.SplitButton { Style = (Style)app.FindResource(typeof(Hc.SplitButton)), Content = "S" };
+        Hc.IconElement.SetGeometry(splitIconButton, (Geometry)app.FindResource("DeleteGeometry"));
+        var groupBox = new GroupBox
+        {
+            Style = (Style)app.FindResource(typeof(GroupBox)), Header = "G", Content = new TextBlock { Text = "body" }
+        };
+        // 同规格参照按钮：SplitButton 属于按钮族，默认、运行时令牌覆盖与更大字号下都应与普通按钮一致。
+        var referenceButton = new Button { Style = (Style)app.FindResource(typeof(Button)), Content = "B" };
+        var referenceIconButton = new Button { Style = (Style)app.FindResource(typeof(Button)), Content = "B" };
+        Hc.IconElement.SetGeometry(referenceIconButton, (Geometry)app.FindResource("DeleteGeometry"));
+
+        var panel = new StackPanel();
+        foreach (var child in new FrameworkElement[]
+                 {
+                     label, labelSmall, tag, pagination, splitButton, splitSmall, splitIconButton, groupBox,
+                     referenceButton, referenceIconButton
+                 })
+            panel.Children.Add(child);
+        var window = new Window
+        {
+            Content = panel, Width = 640, Height = 520,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        var hostFontSize = window.FontSize;
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+        void RequireHeight(string name, FrameworkElement element, double expected)
+        {
+            Require(Math.Abs(element.ActualHeight - expected) <= 0.5d,
+                $"{name} must consume the dynamic control height {expected}: {element.ActualHeight}");
+        }
+
+        try
+        {
+            window.Show();
+            Flush();
+
+            var pageButton = pagination.Template?.FindName("PART_ButtonFirst", pagination) as RadioButton
+                ?? throw new InvalidOperationException("Pagination template lacks PART_ButtonFirst.");
+            var headerBorder = FindDescendant<Border>(groupBox)
+                ?? throw new InvalidOperationException("GroupBox template lacks its header Border.");
+            var splitIcon = FindDescendant<Path>(splitIconButton)
+                ?? throw new InvalidOperationException("SplitButton template lacks its icon Path.");
+            var referenceIcon = FindDescendant<Path>(referenceIconButton)
+                ?? throw new InvalidOperationException("reference button template lacks its icon Path.");
+
+            Console.WriteLine($"  control heights (default): label={label.ActualHeight} tag={tag.ActualHeight} split={splitButton.ActualHeight} button={referenceButton.ActualHeight} page={pageButton.ActualHeight} labelSmall={labelSmall.ActualHeight} splitSmall={splitSmall.ActualHeight} groupHeader={headerBorder.MinHeight} iconSplit={splitIconButton.ActualHeight} iconButton={referenceIconButton.ActualHeight}");
+
+            RequireHeight("Label", label, 28d);
+            RequireHeight("Tag", tag, 28d);
+            RequireHeight("Pagination page button", pageButton, 28d);
+            Require(Math.Abs(headerBorder.MinHeight - 28d) <= 0.5d,
+                $"GroupBox header must consume the dynamic control height: {headerBorder.MinHeight}");
+            RequireHeight("LabelDefault.Small", labelSmall, 20d);
+            RequireHeight("SplitButtonDefault.Small", splitSmall, 20d);
+            // SplitButton 属于按钮族：默认高度必须与普通按钮一致，而不是被写死的 28 固定住。
+            Require(Math.Abs(splitButton.ActualHeight - referenceButton.ActualHeight) <= 0.5d,
+                $"SplitButton must match a sibling button: {splitButton.ActualHeight} vs {referenceButton.ActualHeight}");
+            // 带 1024 级图标时不能按几何原始坐标撑开，且要与同规格的普通图标按钮同高、图标框一致。
+            Require(Math.Abs(splitIconButton.ActualHeight - referenceIconButton.ActualHeight) <= 0.5d
+                    && splitIconButton.ActualHeight <= 40d,
+                $"an icon SplitButton must match an icon button: {splitIconButton.ActualHeight} vs {referenceIconButton.ActualHeight}");
+            Require(splitIcon.ActualWidth <= 20d && splitIcon.ActualHeight <= 20d
+                    && Math.Abs(splitIcon.ActualHeight - referenceIcon.ActualHeight) <= 0.5d,
+                $"the SplitButton icon must stay inside DefaultIconSize: {splitIcon.ActualWidth}x{splitIcon.ActualHeight}");
+
+            var overrides = new ResourceDictionary { ["ButtonMinHeight"] = 44d, ["DefaultControlHeight"] = 44d };
+            app.Resources.MergedDictionaries.Add(overrides);
+            Flush();
+            RequireHeight("Label", label, 44d);
+            RequireHeight("Tag", tag, 44d);
+            RequireHeight("SplitButton", splitButton, 44d);
+            RequireHeight("SplitButton (icon)", splitIconButton, 44d);
+            RequireHeight("Pagination page button", pageButton, 44d);
+            Require(Math.Abs(headerBorder.MinHeight - 44d) <= 0.5d,
+                $"GroupBox header must follow a runtime control-height override: {headerBorder.MinHeight}");
+            RequireHeight("LabelDefault.Small", labelSmall, 20d);
+            RequireHeight("SplitButtonDefault.Small", splitSmall, 20d);
+            Require(Math.Abs(splitButton.ActualHeight - referenceButton.ActualHeight) <= 0.5d
+                    && Math.Abs(splitIconButton.ActualHeight - referenceIconButton.ActualHeight) <= 0.5d,
+                $"SplitButton must keep button parity under a token override: {splitButton.ActualHeight}/{splitIconButton.ActualHeight} vs {referenceButton.ActualHeight}/{referenceIconButton.ActualHeight}");
+
+            app.Resources.MergedDictionaries.Remove(overrides);
+            Flush();
+            RequireHeight("Label", label, 28d);
+            RequireHeight("SplitButtonDefault.Small", splitSmall, 20d);
+
+            // 按钮族与 Tag 的字号来自 TextFontSize 令牌，Label 等按继承取宿主字号；宿主通常两者一起放大。
+            // 这里同时放大令牌与宿主字号，验证非固定高度的控件随内容增高，而不是被写入的死高度裁切。
+            var fontOverrides = new ResourceDictionary { ["TextFontSize"] = 24d };
+            window.FontSize = 24d;
+            app.Resources.MergedDictionaries.Add(fontOverrides);
+            Flush();
+            Require(label.ActualHeight > 28.5d,
+                "the Label must grow with a larger font instead of being clipped: " + label.ActualHeight);
+            Require(tag.ActualHeight > 28.5d,
+                "the Tag must grow with a larger font instead of being clipped: " + tag.ActualHeight);
+            Require(Math.Abs(splitButton.ActualHeight - referenceButton.ActualHeight) <= 0.5d
+                    && splitButton.ActualHeight > 28.5d,
+                $"the SplitButton must follow the button at a larger font: {splitButton.ActualHeight} vs {referenceButton.ActualHeight}");
+            Console.WriteLine($"  control heights (font 24): label={label.ActualHeight} tag={tag.ActualHeight} split={splitButton.ActualHeight} button={referenceButton.ActualHeight}");
+
+            app.Resources.MergedDictionaries.Remove(fontOverrides);
+            window.FontSize = hostFontSize;
+            Flush();
+            RequireHeight("Label", label, 28d);
+            RequireHeight("Tag", tag, 28d);
+            RequireHeight("SplitButton", splitButton, 28d);
+            Console.WriteLine("PASS control token sizing (Label/Tag/SplitButton/Pagination/GroupBox follow the dynamic control height, Small stays 20).");
+        }
+        finally { window.Close(); }
+    }
+
+    /// <summary>
+    /// 验证 Card：页脚不再画上分隔线；头部左右标题插槽复用既有 hc:EdgeElement.LeftContent /
+    /// RightContent，为空时不占位；有插槽时标题仍相对整个 header 居中（两侧不等宽不偏移、不重叠），
+    /// 插槽内按钮可命中并触发 Click；同时覆盖 HeaderTemplate 旧契约、Header 决定整行可见性的约定，
+    /// 以及左对齐标题（SimpleCard 约定）不被插槽布局带偏。命名结构为
+    /// PART_Header / PART_HeaderContent / PART_HeaderLeftContent / PART_HeaderRightContent。
+    /// </summary>
+    private static void VerifyCardHeaderSlots(Application app)
+    {
+        var cardStyle = (Style)app.FindResource(typeof(Hc.Card));
+
+        Button IconButton(string tag)
+        {
+            var button = new Button { Content = tag, Width = 28d, Height = 28d, Tag = tag, ToolTip = tag };
+            System.Windows.Automation.AutomationProperties.SetName(button, tag);
+            return button;
+        }
+
+        Hc.Card MakeCard(object? header) => new()
+        {
+            Style = cardStyle,
+            Header = header,
+            Width = 300d,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Content = new TextBlock { Text = "body" }
+        };
+
+        var plainCard = MakeCard("标题");
+        var asymmetricCard = MakeCard("标题");
+        Hc.EdgeElement.SetLeftContent(asymmetricCard, IconButton("left"));
+        var rightPanel = new StackPanel { Orientation = Orientation.Horizontal };
+        rightPanel.Children.Add(IconButton("right1"));
+        rightPanel.Children.Add(IconButton("right2"));
+        Hc.EdgeElement.SetRightContent(asymmetricCard, rightPanel);
+        var symmetricCard = MakeCard("标题");
+        Hc.EdgeElement.SetLeftContent(symmetricCard, IconButton("left"));
+        Hc.EdgeElement.SetRightContent(symmetricCard, IconButton("right"));
+        var leftOnlyCard = MakeCard("标题");
+        var leftOnlyButton = IconButton("left");
+        Hc.EdgeElement.SetLeftContent(leftOnlyCard, leftOnlyButton);
+        var nullHeaderCard = MakeCard(null);
+        Hc.EdgeElement.SetLeftContent(nullHeaderCard, IconButton("left"));
+        var emptyHeaderCard = MakeCard(string.Empty);
+        Hc.EdgeElement.SetLeftContent(emptyHeaderCard, IconButton("left"));
+        Hc.EdgeElement.SetRightContent(emptyHeaderCard, IconButton("right"));
+        var leftAlignedCard = MakeCard("标题");
+        Hc.TitleElement.SetHorizontalAlignment(leftAlignedCard, HorizontalAlignment.Left);
+        var templatedCard = MakeCard("标题");
+        templatedCard.HeaderTemplate = (DataTemplate)System.Windows.Markup.XamlReader.Parse(
+            "<DataTemplate xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><TextBlock Text=\"{Binding}\" FontWeight=\"Bold\"/></DataTemplate>");
+        var footerCard = MakeCard("标题");
+        footerCard.Footer = "页脚";
+
+        // 极窄（160）+ 不等宽插槽：标题必须被省略/裁剪在中央列内，且不与插槽重叠
+        var narrowCard = MakeCard("很长的卡片标题文本用于触发字符省略显示效果");
+        narrowCard.Width = 160d;
+        Hc.EdgeElement.SetLeftContent(narrowCard, IconButton("left"));
+        var narrowRightPanel = new StackPanel { Orientation = Orientation.Horizontal };
+        narrowRightPanel.Children.Add(IconButton("right1"));
+        narrowRightPanel.Children.Add(IconButton("right2"));
+        Hc.EdgeElement.SetRightContent(narrowCard, narrowRightPanel);
+        // 两张插槽宽度不同的卡片：共享尺寸必须逐卡隔离（A 需 56，B 只需 28）
+        var shareCardA = MakeCard("标题");
+        Hc.EdgeElement.SetLeftContent(shareCardA, IconButton("left"));
+        var shareCardARight = new StackPanel { Orientation = Orientation.Horizontal };
+        shareCardARight.Children.Add(IconButton("right1"));
+        shareCardARight.Children.Add(IconButton("right2"));
+        Hc.EdgeElement.SetRightContent(shareCardA, shareCardARight);
+        var shareCardB = MakeCard("标题");
+        Hc.EdgeElement.SetLeftContent(shareCardB, IconButton("left"));
+        Hc.EdgeElement.SetRightContent(shareCardB, IconButton("right"));
+
+        var panel = new StackPanel();
+        foreach (var card in new[]
+                 {
+                     plainCard, asymmetricCard, symmetricCard, leftOnlyCard, nullHeaderCard, emptyHeaderCard,
+                     leftAlignedCard, templatedCard, footerCard, narrowCard, shareCardA, shareCardB
+                 })
+            panel.Children.Add(card);
+        var window = new Window
+        {
+            Content = panel, Width = 420, Height = 900,
+            Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false
+        };
+        void Flush()
+        {
+            app.Dispatcher.Invoke(() => { }, DispatcherPriority.DataBind);
+            window.UpdateLayout();
+        }
+
+        Border HeaderOf(Hc.Card card) => card.Template?.FindName("PART_Header", card) as Border
+            ?? throw new InvalidOperationException("Card template lacks PART_Header.");
+        ContentPresenter PresenterOf(Hc.Card card) => card.Template?.FindName("PART_HeaderContent", card) as ContentPresenter
+            ?? throw new InvalidOperationException("Card template lacks PART_HeaderContent.");
+        ContentControl LeftHostOf(Hc.Card card) => card.Template?.FindName("PART_HeaderLeftContent", card) as ContentControl
+            ?? throw new InvalidOperationException("Card template lacks PART_HeaderLeftContent.");
+        ContentControl RightHostOf(Hc.Card card) => card.Template?.FindName("PART_HeaderRightContent", card) as ContentControl
+            ?? throw new InvalidOperationException("Card template lacks PART_HeaderRightContent.");
+        Grid HeaderGridOf(Hc.Card card) => HeaderOf(card).Child as Grid
+            ?? throw new InvalidOperationException("PART_Header must host the header grid.");
+        ColumnDefinition SideColumnOf(Hc.Card card, int index) => HeaderGridOf(card).ColumnDefinitions[index];
+        Border MiddlePanelOf(Hc.Card card) => HeaderGridOf(card).Children.OfType<Border>().First(panel => Grid.GetColumn(panel) == 1);
+        static Rect BoundsOf(FrameworkElement element, FrameworkElement ancestor) =>
+            element.TransformToAncestor(ancestor).TransformBounds(new Rect(element.RenderSize));
+        static bool IsWithin(DependencyObject? node, DependencyObject ancestor)
+        {
+            for (var current = node; current is not null; current = VisualTreeHelper.GetParent(current))
+                if (ReferenceEquals(current, ancestor)) return true;
+            return false;
+        }
+
+        TextBlock TitleOf(Hc.Card card) => FindDescendant<TextBlock>(PresenterOf(card))
+            ?? throw new InvalidOperationException("Card header presenter lacks a title TextBlock.");
+
+        Rect RequireTitleCentered(string name, Hc.Card card)
+        {
+            var header = HeaderOf(card);
+            var bounds = BoundsOf(TitleOf(card), header);
+            var center = bounds.X + bounds.Width / 2d;
+            var expected = (header.Padding.Left + header.ActualWidth - header.Padding.Right) / 2d;
+            Require(Math.Abs(center - expected) <= 0.5d,
+                $"{name}: the card title must stay centered in the whole header: {center} vs {expected}");
+            return bounds;
+        }
+
+        void RequireNoOverlap(string name, Hc.Card card)
+        {
+            var header = HeaderOf(card);
+            // 极窄时标题的实际可见区域被中央列裁剪，按可见区域比较才是真实渲染结果。
+            var title = Rect.Intersect(BoundsOf(TitleOf(card), header), BoundsOf(MiddlePanelOf(card), header));
+            var leftHost = LeftHostOf(card);
+            var rightHost = RightHostOf(card);
+            if (leftHost.Visibility == Visibility.Visible)
+            {
+                var left = BoundsOf(leftHost, header);
+                Require(left.Right <= title.Left + 0.5d,
+                    $"{name}: the left header slot must not overlap the visible title: {left.Right} vs {title.Left}");
+            }
+            if (rightHost.Visibility == Visibility.Visible)
+            {
+                var right = BoundsOf(rightHost, header);
+                Require(right.Left >= title.Right - 0.5d,
+                    $"{name}: the right header slot must not overlap the visible title: {right.Left} vs {title.Right}");
+            }
+        }
+
+        try
+        {
+            window.Show();
+            Flush();
+
+            Require(HeaderOf(plainCard).Child is Grid,
+                "PART_Header must host the slot grid and the title must move to PART_HeaderContent.");
+            Require(PresenterOf(plainCard).ContentSource == "Header",
+                "PART_HeaderContent must keep consuming Header.");
+
+            // 无插槽：两侧宿主折叠且两侧列零宽 —— 不占位
+            Require(LeftHostOf(plainCard).Visibility == Visibility.Collapsed
+                    && LeftHostOf(plainCard).ActualWidth <= 0.5d
+                    && RightHostOf(plainCard).Visibility == Visibility.Collapsed
+                    && RightHostOf(plainCard).ActualWidth <= 0.5d
+                    && SideColumnOf(plainCard, 0).ActualWidth <= 0.5d
+                    && SideColumnOf(plainCard, 2).ActualWidth <= 0.5d,
+                "a card without header slots must not reserve any space beside the title.");
+            RequireTitleCentered("no slots", plainCard);
+
+            // 不等宽插槽：两侧列共享 CardHeaderSide 恒等宽 -> 标题整体居中且不重叠
+            Require(LeftHostOf(asymmetricCard).Visibility == Visibility.Visible
+                    && RightHostOf(asymmetricCard).Visibility == Visibility.Visible,
+                "header slots must be visible when their content is set.");
+            var asymmetricSide = SideColumnOf(asymmetricCard, 0).ActualWidth;
+            Require(Math.Abs(asymmetricSide - SideColumnOf(asymmetricCard, 2).ActualWidth) <= 0.5d
+                    && asymmetricSide >= 55.5d,
+                $"header side columns must share CardHeaderSide: {asymmetricSide} vs {SideColumnOf(asymmetricCard, 2).ActualWidth}");
+            var asymmetricTitle = RequireTitleCentered("asymmetric slots", asymmetricCard);
+            RequireNoOverlap("asymmetric slots", asymmetricCard);
+            var symmetricTitle = RequireTitleCentered("symmetric slots", symmetricCard);
+            Require(Math.Abs((asymmetricTitle.X + asymmetricTitle.Width / 2d) - (symmetricTitle.X + symmetricTitle.Width / 2d)) <= 0.5d,
+                $"the card title center must not depend on the slot widths: {asymmetricTitle.X} vs {symmetricTitle.X}");
+
+            // 单侧插槽：另一侧宿主仍折叠零宽，但其列镜像等宽以保证标题整体居中
+            Require(RightHostOf(leftOnlyCard).Visibility == Visibility.Collapsed
+                    && RightHostOf(leftOnlyCard).ActualWidth <= 0.5d,
+                "an empty right header slot host must stay collapsed.");
+            Require(Math.Abs(SideColumnOf(leftOnlyCard, 2).ActualWidth - SideColumnOf(leftOnlyCard, 0).ActualWidth) <= 0.5d,
+                $"the opposite header column must mirror the filled side: {SideColumnOf(leftOnlyCard, 2).ActualWidth} vs {SideColumnOf(leftOnlyCard, 0).ActualWidth}");
+            RequireTitleCentered("left only", leftOnlyCard);
+            RequireNoOverlap("left only", leftOnlyCard);
+
+            // 逐卡隔离：不同卡片各自维护自己的共享尺寸（A 需 56、B 只需 28）
+            Require(Math.Abs(SideColumnOf(shareCardA, 0).ActualWidth - 56d) <= 0.5d
+                    && Math.Abs(SideColumnOf(shareCardB, 0).ActualWidth - 28d) <= 0.5d,
+                $"shared column size must stay scoped per card: {SideColumnOf(shareCardA, 0).ActualWidth} vs {SideColumnOf(shareCardB, 0).ActualWidth}");
+            RequireTitleCentered("shared scope A", shareCardA);
+            RequireTitleCentered("shared scope B", shareCardB);
+
+            // 极窄 160 + 不等宽插槽：标题省略并裁在中央列内，仍整体居中且不与插槽重叠
+            var narrowHeader = HeaderOf(narrowCard);
+            var narrowTitle = TitleOf(narrowCard);
+            var narrowTitleBounds = BoundsOf(narrowTitle, narrowHeader);
+            var narrowMiddlePanel = MiddlePanelOf(narrowCard);
+            var narrowMiddle = narrowMiddlePanel.ActualWidth;
+            var narrowCenter = narrowTitleBounds.X + narrowTitleBounds.Width / 2d;
+            var narrowExpected = (narrowHeader.Padding.Left + narrowHeader.ActualWidth - narrowHeader.Padding.Right) / 2d;
+            Console.WriteLine($"  narrow card (width 160): header={narrowHeader.ActualWidth} pad={narrowHeader.Padding} side={SideColumnOf(narrowCard, 0).ActualWidth}/{SideColumnOf(narrowCard, 2).ActualWidth} middle={narrowMiddle} titleBounds={narrowTitleBounds} titleWidth={narrowTitle.ActualWidth} trim={narrowTitle.TextTrimming} visible={Rect.Intersect(narrowTitleBounds, BoundsOf(narrowMiddlePanel, narrowHeader))}");
+            Require(narrowMiddlePanel.ClipToBounds,
+                "the middle header panel must clip a title that is wider than its column.");
+            Require(narrowTitle.TextTrimming == TextTrimming.CharacterEllipsis,
+                "a long header title must use character ellipsis inside the header.");
+            // 可见区域必须落在中央列内且相对整个 header 居中（插槽不与可见标题重叠）
+            var narrowVisible = Rect.Intersect(narrowTitleBounds, BoundsOf(narrowMiddlePanel, narrowHeader));
+            var narrowVisibleCenter = narrowVisible.X + narrowVisible.Width / 2d;
+            Require(narrowMiddle > 0d && narrowVisible.Width <= narrowMiddle + 0.5d,
+                $"a narrow title must stay inside the middle column: {narrowVisible.Width} vs {narrowMiddle}");
+            Require(Math.Abs(narrowVisibleCenter - narrowExpected) <= 0.5d,
+                $"narrow 160: the visible title must stay centered in the whole header: {narrowVisibleCenter} vs {narrowExpected}");
+            // 省略号自身有最小宽度，允许极小溢出，但必须被中央列裁掉（只裁剪、不重叠）
+            Require(narrowTitleBounds.Width <= narrowMiddle + 8d,
+                $"a narrow title may only overflow the middle column by the ellipsis minimum: {narrowTitleBounds.Width} vs {narrowMiddle}");
+            RequireNoOverlap("narrow 160", narrowCard);
+            var narrowMiddleBounds = BoundsOf(narrowMiddlePanel, narrowHeader);
+            Require(narrowMiddleBounds.X >= narrowHeader.Padding.Left + SideColumnOf(narrowCard, 0).ActualWidth - 0.5d
+                    && narrowMiddleBounds.Right <= narrowHeader.ActualWidth - narrowHeader.Padding.Right - SideColumnOf(narrowCard, 2).ActualWidth + 0.5d,
+                $"the middle panel must sit between the two shared side columns: {narrowMiddleBounds}");
+
+            // 插槽内按钮：保留 ToolTip/Automation 名称、可命中、可触发 Click
+            Require((string?)leftOnlyButton.ToolTip == "left" && leftOnlyButton.ActualWidth > 0d,
+                "header slot content must keep its ToolTip and layout.");
+            var clicked = 0;
+            leftOnlyButton.Click += (_, _) => clicked++;
+            leftOnlyButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, leftOnlyButton));
+            Require(clicked == 1, "header slot buttons must raise Click.");
+            var buttonCenter = leftOnlyButton.TransformToAncestor(window)
+                .Transform(new Point(leftOnlyButton.ActualWidth / 2d, leftOnlyButton.ActualHeight / 2d));
+            var hit = VisualTreeHelper.HitTest(window, buttonCenter)?.VisualHit;
+            Require(IsWithin(hit, leftOnlyButton),
+                "header slot buttons must be hit-testable (title must not cover them): " + hit?.GetType().Name);
+
+            // Header 为空：整行（含插槽）不显示；Header 为空字符串（非 null）时头部与插槽显示、标题不占位
+            Require(HeaderOf(nullHeaderCard).Visibility == Visibility.Collapsed
+                    && !LeftHostOf(nullHeaderCard).IsVisible,
+                "a null Header must collapse the whole header row including its slots.");
+            Require(HeaderOf(emptyHeaderCard).Visibility == Visibility.Visible
+                    && LeftHostOf(emptyHeaderCard).Visibility == Visibility.Visible
+                    && RightHostOf(emptyHeaderCard).Visibility == Visibility.Visible,
+                "an empty (non-null) Header must keep the header row and its slots visible.");
+            Require(BoundsOf(PresenterOf(emptyHeaderCard), HeaderOf(emptyHeaderCard)).Width <= 0.5d,
+                "an empty Header must not reserve space in the middle of the header.");
+
+            // 旧契约：左对齐标题（SimpleCard）不被插槽布局带偏、HeaderTemplate 仍生效
+            var leftAlignedHeader = HeaderOf(leftAlignedCard);
+            var leftAlignedBounds = BoundsOf(TitleOf(leftAlignedCard), leftAlignedHeader);
+            Require(Math.Abs(leftAlignedBounds.X - leftAlignedHeader.Padding.Left) <= 1d,
+                $"a left aligned title must hug the header padding: {leftAlignedBounds.X} vs {leftAlignedHeader.Padding.Left}");
+            Require(ReferenceEquals(PresenterOf(templatedCard).ContentTemplate, templatedCard.HeaderTemplate),
+                "PART_HeaderContent must keep consuming HeaderTemplate.");
+            Require(TitleOf(templatedCard).Text == "标题",
+                "HeaderTemplate content must render inside PART_HeaderContent.");
+
+            // 页脚：不再画上分隔线、不消费分隔线画刷，保留外框圆角；头部下分隔线保持
+            var footer = footerCard.Template?.FindName("PART_Footer", footerCard) as Border
+                ?? throw new InvalidOperationException("Card template lacks PART_Footer.");
+            Require(footer.Visibility == Visibility.Visible, "the card footer must be visible when Footer is set.");
+            Require(footer.BorderThickness == new Thickness(0),
+                "the card footer must not draw a separator line: " + footer.BorderThickness);
+            Require(footer.BorderBrush is null, "the card footer must not consume the separator brush.");
+            Require(footer.CornerRadius.BottomLeft > 0d && footer.CornerRadius.BottomRight > 0d
+                    && footer.CornerRadius.TopLeft <= 0d && footer.CornerRadius.TopRight <= 0d,
+                "the card footer must keep the outer corner radius: " + footer.CornerRadius);
+            Require(HeaderOf(footerCard).BorderThickness.Bottom > 0d,
+                "the card header must keep its bottom separator: " + HeaderOf(footerCard).BorderThickness);
+
+            Console.WriteLine($"  card header slots: plainCenter={RequireTitleCentered("plain", plainCard).X + RequireTitleCentered("plain", plainCard).Width / 2d} asymmetricCenter={asymmetricTitle.X + asymmetricTitle.Width / 2d} symmetricCenter={symmetricTitle.X + symmetricTitle.Width / 2d} footerBorder={footer.BorderThickness} footerRadius={footer.CornerRadius}");
+            Console.WriteLine("PASS card header slots (EdgeElement.LeftContent/RightContent, centered title, no overlap, clickable content, footer without separator).");
         }
         finally { window.Close(); }
     }

@@ -1,4 +1,4 @@
-﻿# 构建与二进制接入
+# 构建与二进制接入
 
 ## 日常 WPF 构建
 
@@ -19,7 +19,7 @@ Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优�
 
 Demo 标题和关于窗口的版本读取入口程序集 `HandyControlDemo.dll` 的文件版本；确认控件库更新时，还应核对 Demo 输出目录中的 `HandyControl.dll` 与库输出的版本或哈希，不能仅凭标题判断。
 
-需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.9.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
+需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.18.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
 
 产物目录：
 
@@ -161,10 +161,74 @@ Demo 的 PropertyGrid 页面有排序开关及枚举描述示例；CalendarWithC
 
 其余仍为 `StaticResource` 的尺寸/圆角消费点（Border、Calendar、CheckBox、RadioButton、Slider、Badge、DataGrid 等）不在本轮范围，需要时按同一方式逐项迁移。
 
+### 3.6.18：非按钮/输入控件的令牌消费扩展
+
+按钮族与输入类之外，`Label`、`Tag`、`SplitButton`、`Pagination` 页码按钮、`GroupBox` 标题、`PinBox` 项、`Menu`/`ContextMenu` 菜单项与 `ChatBubble` 的高度/尺寸此前写死为 `StaticResource`，运行时改令牌或放大字号都不生效。3.6.18 把这些消费点改为动态令牌 + 内容定高，未新增全局参数：
+
+| 控件 | 消费的令牌 | 变化 |
+| --- | --- | --- |
+| `Label`、`Tag` | `DefaultControlHeight`（`MinHeight`）、`DefaultControlPadding`、`DefaultCornerRadius` | 固定 `Height=28` 改为 `MinHeight`，字号高于令牌时随内容增高；`Height` 为 `Auto` |
+| `SplitButton` | `ButtonMinHeight`（`MinHeight`）、`DefaultControlPadding`、`DefaultCornerRadius`、`DefaultIconSize`（图标框） | 固定 28 改为按钮族同一规则；补 `hc:IconElement.Width`/`Height` 默认方框，1024 级几何在 `Height=Auto` 下不再撑开按钮 |
+| `Pagination` 页码按钮 | `ButtonMinHeight`（`MinHeight`） | 与左右箭头按钮、跳转数字框共用同一令牌（令牌 36/48 时不再只有页码按钮是 28） |
+| `GroupBox` | `DefaultControlHeight`（`hc:TitleElement.MinHeight`/`MinWidth`） | 标题最小尺寸随令牌变化 |
+| `PinBox` | `DefaultControlHeight`（`ItemWidth`/`ItemHeight`） | 项尺寸随令牌变化 |
+| `Menu`、`ContextMenu` | `DefaultControlHeight`（`hc:MenuAttach.ItemMinHeight`）、`DefaultControlPadding`、`DefaultCornerRadius` | 菜单项最小高度随令牌变化 |
+| `Menu.Small` | `SmallControlHeight` | 由 `DefaultControlHeight`(28) 改为 `SmallControlHeight`(20)，与 `ContextMenu.Small` 一致，`SmallControlHeight` 令牌此前无消费点 |
+| `ChatBubble` | `DefaultControlHeight`（`MinHeight`） | 最小高度随令牌变化 |
+
+Small 变体规则（沿用 HC-M010 的既有约定）：基类改为动态 `MinHeight` 后，`.Small` 只写 `Height=20` 会被继承的 `MinHeight` 压回 28，必须同时给 `MinHeight=20`。3.6.18 为 `Label*.Small`（6 个）与 `SplitButton*.Small`（6 个）补齐 `MinHeight=20`；`SplitButton*.Small` 另补 `hc:IconElement.Width=12` 与既有 `Height=12` 对齐，避免默认方框把箭头/图标缩小。方形图标控件（`ButtonIcon*`、`SplitButton`）的图标方框统一取 `DefaultIconSize`。
+
+大字号下 `SplitButton` 与同规格普通按钮逐项等高的实测（150% DPI）：默认 `28/28`，字号 24 时 `43.33/43.33`；带图标的按钮因 1 DIP 边框在 150% 下的设备像素取整为 `28.67`，与同规格普通图标按钮一致。
+
+
 颜色方面有两条实测结论，接入方需要遵守：
 
 - 覆盖 `Themes/Basic/Colors/Colors*.xaml` 的 `Color` 键**不能**让 `Basic/Brushes.xaml` 中已解析的画刷在运行时变色。这些画刷虽然在首次解析时是活的 `DynamicResource`，但之后不会因新增合并字典而重新求值（`WpfSmoke` 的运行时令牌覆盖断言即针对该行为）。
 - 因此运行时改配色必须由上层**提供同名实体画刷**：`PrimaryTextBrush`、`SecondaryTextBrush`、`ThirdlyTextBrush`、`TextIconBrush`、`BorderBrush`、`SecondaryBorderBrush`、`BackgroundBrush`、`RegionBrush`、`SecondaryRegionBrush`、`LightPrimaryBrush`、`DarkPrimaryBrush`、`AccentBrush`、`DarkAccentBrush` 用 `SolidColorBrush`；`PrimaryBrush` 与 `TitleBrush` 必须保持 `LinearGradientBrush`，以免破坏依赖渐变类型的动画。控件属性上的 `DynamicResource`（如 `Foreground="{DynamicResource PrimaryTextBrush}"`）会正常随字典替换更新。
+
+## Card 头部标题插槽与页脚
+
+Card 头部左右可以放图标按钮：复用既有附加属性 `hc:EdgeElement.LeftContent` / `hc:EdgeElement.RightContent`，没有新增属性、没有新增全局实时参数、没有新增转换器。
+
+```xml
+<hc:Card Header="标题">
+  <hc:EdgeElement.LeftContent>
+    <Button Style="{StaticResource ButtonIcon}" ToolTip="刷新" AutomationProperties.Name="刷新"
+            hc:IconElement.Geometry="{StaticResource SearchGeometry}" Command="{Binding RefreshCmd}"/>
+  </hc:EdgeElement.LeftContent>
+  <hc:EdgeElement.RightContent>
+    <StackPanel Orientation="Horizontal">
+      <Button Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource StarGeometry}"/>
+      <Button Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteGeometry}"/>
+    </StackPanel>
+  </hc:EdgeElement.RightContent>
+  正文
+</hc:Card>
+```
+
+模板命名结构（下游若按名取模板部件请以此为准）：
+
+```text
+PART_Header (Border, ClipToBounds=True)
+└─ Grid（三列 Auto,*,Auto；Grid.IsSharedSizeScope=True，左右两列 SharedSizeGroup=CardHeaderSide，逐卡隔离）
+   ├─ col0  PART_HeaderLeftContent  (ContentControl)  ← HorizontalAlignment=Left，内容为空时 Collapsed 零宽
+   ├─ col1  PART_HeaderContentPanel (Border, ClipToBounds=True)
+   │        └─ PART_HeaderContent (ContentPresenter)  ← 承载 Header / HeaderTemplate / HeaderTemplateSelector / HeaderStringFormat，
+   │                                                    MaxWidth 绑中央面板 ActualWidth，对齐取 hc:TitleElement.HorizontalAlignment，字号/前景取 hc:TitleElement.*
+   └─ col2  PART_HeaderRightContent (ContentControl)  ← HorizontalAlignment=Right，内容为空时 Collapsed 零宽
+PART_Footer (Border)   ← 不再消费 SeparatorBorderThicknessTop / SeparatorColorBrush
+```
+
+契约与边界：
+
+- 居中：左右两个 Auto 列共享 `CardHeaderSide` 恒等宽（单侧插槽时另一侧列也镜像同宽），因此**两侧插槽宽度是否相等都不影响标题位置**，标题始终相对整个 header 居中。实测（卡宽 300、`CardHeaderPadding` 16/16）无插槽 / 不等宽插槽 / 等宽插槽三种情况标题中心同为 148.67。共享尺寸的作用域是每张卡片自己的 Grid，两张插槽宽度不同的卡片互不影响（A 保持 56、B 保持 28）。
+- 空插槽：每个插槽宿主 `Visibility` 绑定自身内容，为空时 `Collapsed` 且零宽，不占位、不留空。
+- 可见性：`PART_Header` 仍由 `Header` 是否为空决定。`Header` 为 `null` 时整行（含插槽）折叠；需要"只有插槽、没有标题"的头部时把 `Header` 设为空字符串（非 null），此时插槽正常显示、标题不占位。若希望"只设插槽就自动显示头部"，需要新增一个布尔组合转换器，本版未加。
+- 对齐：无插槽时标题按 `TitleElement.HorizontalAlignment` 贴边，`SimpleCard` 这类左对齐样式行为不变；有插槽时标题在中央列内对齐，即使设为 `Left` 也从插槽右侧开始，**不会与插槽重叠**（标题与插槽分属不同 Grid 列，几何上互不相交）。
+- 窄宽：标题在中央列内按字符省略，并叠加 `PART_HeaderContentPanel` 与 `PART_Header` 的 `ClipToBounds`。宽度不足时只裁剪头部、不产生重叠：实测卡宽 160、左 1 / 右 2 不等宽插槽时两侧列 56/56、中央列 13.33，标题 `TextTrimming=CharacterEllipsis`、可见区 13.33 落在中央列内且相对整个 header 居中，`HitTest` 仍能命中插槽按钮。
+- 标题省略：中央列 `ContentPresenter` 内加了一层隐式 `TextBlock` 样式 `TextTrimming=CharacterEllipsis`，不改写 `HeaderTemplate` / `HeaderTemplateSelector` / `HeaderStringFormat`；自定义模板里的 `TextBlock` 也按该隐式样式省略，非 `TextBlock` 内容由 `ClipToBounds` 兜底。
+- 页脚：`PART_Footer` 去掉了上分隔线（不再消费 `SeparatorBorderThicknessTop` 与 `SeparatorColorBrush`），保留内边距、背景、前景与底部外框圆角；头部下分隔线（`SeparatorBorderThicknessBottom` + `SeparatorColorBrush`）不变。
+- 插槽内容继承卡片前景色（不继承标题前景），按钮等自带样式的前景不受影响。
 
 ## 自动运行验证
 
@@ -188,6 +252,12 @@ if ($LASTEXITCODE -ne 0) { throw 'WPF smoke failed' }
 每种皮肤还执行“数字框高度”实际布局检查：默认字号下 `TextBox`、`ComboBox` 与三种模板的 `NumericUpDown` 必须同为 28，上下按钮 `MinHeight=0` 且不超过数字框一半；把宿主窗口字号改为 24 后四者必须同步增高到同一值（实测 30.67）且数字框既不裁切也不翻倍，恢复字号后回到 28。
 
 每种皮肤还执行“PropertyGrid 工具栏高度”与“按钮组项尺寸”实际布局检查：前者用真实 `hc:PropertyGrid` 的工具栏，在 10 组 `DefaultControlHeight` × 宿主字号组合下断言搜索框不低于令牌、字号高于令牌时搜索框必须长于令牌（不得被裁切）、两个排序按钮与搜索框实际高度差 ≤ 0.5；后者断言同一按钮组内 RadioButton/Button/ToggleButton 三类项在令牌 28/36/48 下都实际等于令牌。
+
+每种皮肤还执行“控件令牌尺寸”检查：`Label`、`Tag`、`SplitButton`（含带 1024 级 `DeleteGeometry` 的变体）、`Pagination` 页码按钮与 `GroupBox` 标题在默认令牌下与同规格普通按钮等高（实测 28；带图标时两者同为 28.67），运行时覆盖 `ButtonMinHeight`/`DefaultControlHeight` 为 44 时同时变为 44，`LabelDefault.Small`/`SplitButtonDefault.Small` 保持 20，且 `SplitButton` 的图标框不超过 `DefaultIconSize`；把 `TextFontSize` 与宿主字号放大到 24 时 `Label`/`Tag`/`SplitButton` 随内容增高（实测 43.33/40.67/43.33，`SplitButton` 与同规格普通按钮逐项相等），移除覆盖后回到 28。反向验证：把 `LabelBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight`，冒烟在 “Label must consume the dynamic control height 44: 28” 失败；把 `SplitButtonBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight` 并去掉图标方框，冒烟在 “an icon SplitButton must match an icon button: 28 vs 28.666666666666668” 失败。
+
+每种皮肤还执行“card header slots”检查：`PART_Header.Child` 必须是 Grid、`PART_HeaderContent` 仍是 `ContentSource=Header`；头部为三列 `Auto,* ,Auto` 且两侧列 `SharedSizeGroup=CardHeaderSide` 恒等宽；无插槽时两侧插槽 `Collapsed` 且零宽；不等宽插槽（左 1 按钮 / 右 2 按钮）与等宽插槽下标题中心一致（实测三种情况同为 148.67）且与插槽不重叠；单侧插槽时另一侧宿主折叠但其列镜像等宽；两张插槽宽度不同的卡片共享尺寸逐卡隔离（实测 A 56 / B 28）；卡宽 160 + 不等宽插槽时标题 `TextTrimming=CharacterEllipsis`、可见区落在中央列内且居中不重叠（实测两侧 56/56、中央 13.33、可见区 13.33）；插槽按钮保留 ToolTip 与 Automation 名称、可命中（`HitTest` 命中按钮本身）并触发 `Click`；`Header=null` 时整行折叠，`Header=""` 时头部与插槽可见且标题零宽；左对齐标题仍贴内边距左缘；`HeaderTemplate` 继续生效；页脚 `BorderThickness=0,0,0,0`、`BorderBrush=null`、底部圆角保留（实测 `0,0,6,6`），头部下分隔线保留。反向验证：去掉两侧列的 `SharedSizeGroup` → 失败于 `header side columns must share CardHeaderSide: 28 vs 56`；恢复页脚 `BorderThickness`/`BorderBrush` → 失败于 `the card footer must not draw a separator line: 0,1,0,0`。
+
+传入已构建的 Demo DLL 路径时，除三个时钟相关页面外还加载编译后的 `CardDemo`（冒烟不启动 Demo App，会先显式补上 Demo 的 `Locator` 资源）：断言插槽卡片存在、按钮带 ToolTip/Automation 名称、标题在带插槽时仍居中，并触发按钮 `Click` 检查页面处理器生效（实测反馈文本变为 `Header slot clicks: Search`）。
 
 程序还验证 PropertyGrid 排序边界、枚举描述/回写/只读、排序时编辑器实例保持，以及 CalendarWithClock/DateTimePicker 时钟切换、待确认时间、旧事件解绑、列表编辑、确认关闭、模板更换和最终 DLL 的 ListClock 标题布局。
 

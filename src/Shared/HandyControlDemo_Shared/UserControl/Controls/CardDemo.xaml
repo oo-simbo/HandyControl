@@ -6,29 +6,67 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:data="clr-namespace:HandyControlDemo.Data">
     <hc:TransitioningContentControl>
-        <ListBox Margin="32" hc:ScrollViewer.IsInertiaEnabled="True" BorderThickness="0" Style="{StaticResource WrapPanelHorizontalListBox}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}" ItemsSource="{Binding DataList}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="data:CardModel">
-                    <hc:Card MaxWidth="240" BorderThickness="0" Effect="{StaticResource EffectShadow2}" Margin="8" Footer="{Binding Footer}">
-                        <!--<hc:Card.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockLargeBold}" Text="{Binding}" Margin="10"/>
-                            </DataTemplate>
-                        </hc:Card.HeaderTemplate>-->
-                        <Border CornerRadius="4,4,0,0" Style="{StaticResource BorderClip}">
-                            <Image Width="240" Height="240" Source="{Binding Content}" Stretch="Uniform"/>
-                        </Border>
-                        <hc:Card.FooterTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="10">
-                                    <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{StaticResource TextBlockLargeBold}" Text="{Binding DataContext.Header,RelativeSource={RelativeSource AncestorType=hc:Card}}" HorizontalAlignment="Left"/>
-                                    <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{StaticResource TextBlockDefault}" Text="{Binding}" Margin="0,6,0,0" HorizontalAlignment="Left"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </hc:Card.FooterTemplate>
+        <hc:ScrollViewer IsInertiaEnabled="True">
+            <StackPanel Margin="32">
+                <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockTitle}" Text="Card header slots"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,6,0,0" Style="{StaticResource TextBlockDefault}"
+                           Text="Header 两侧的图标按钮来自 hc:EdgeElement.LeftContent / RightContent：为空时不占位，标题始终相对整个 header 居中。"/>
+                <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                    <hc:Card Width="380" Margin="0,0,16,0" VerticalAlignment="Top" Header="Header with icon buttons">
+                        <hc:EdgeElement.LeftContent>
+                            <Button Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}"
+                                    hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                                    ToolTip="Search" AutomationProperties.Name="Search card"
+                                    Tag="Search" Click="HeaderSlotButtonOnClick"/>
+                        </hc:EdgeElement.LeftContent>
+                        <hc:EdgeElement.RightContent>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}"
+                                        hc:IconElement.Geometry="{StaticResource StarGeometry}"
+                                        ToolTip="Favorite" AutomationProperties.Name="Favorite card"
+                                        Tag="Favorite" Click="HeaderSlotButtonOnClick"/>
+                                <Button Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}"
+                                        hc:IconElement.Geometry="{StaticResource DeleteGeometry}"
+                                        ToolTip="Delete" AutomationProperties.Name="Delete card"
+                                        Tag="Delete" Click="HeaderSlotButtonOnClick"/>
+                            </StackPanel>
+                        </hc:EdgeElement.RightContent>
+                        <TextBlock Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
+                                   Text="Left slot has one icon button and the right slot has two, so the two sides are not equally wide; the title still stays centered in the whole header."/>
                     </hc:Card>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>   
+                    <hc:Card Width="380" VerticalAlignment="Top" Header="Header without slots">
+                        <TextBlock Style="{StaticResource TextBlockDefault}" TextWrapping="Wrap"
+                                   Text="No header slots and no footer separator line: nothing is reserved beside the title."/>
+                    </hc:Card>
+                </StackPanel>
+                <TextBlock x:Name="HeaderSlotActionText" Margin="0,10,0,0" HorizontalAlignment="Left"
+                           Style="{StaticResource TextBlockDefault}" Text="Header slot clicks: -"/>
+                <TextBlock Margin="0,24,0,0" HorizontalAlignment="Left" Style="{StaticResource TextBlockTitle}" Text="Card"/>
+                <ListBox Margin="0,12,0,0" hc:ScrollViewer.IsInertiaEnabled="True" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{StaticResource WrapPanelHorizontalListBox}" ItemsPanel="{StaticResource FluidMoveBehaviorWrapPanelItemsPanelTemplate}" ItemsSource="{Binding DataList}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="data:CardModel">
+                            <hc:Card MaxWidth="240" BorderThickness="0" Effect="{StaticResource EffectShadow2}" Margin="8" Footer="{Binding Footer}">
+                                <!--<hc:Card.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockLargeBold}" Text="{Binding}" Margin="10"/>
+                                    </DataTemplate>
+                                </hc:Card.HeaderTemplate>-->
+                                <Border CornerRadius="4,4,0,0" Style="{StaticResource BorderClip}">
+                                    <Image Width="240" Height="240" Source="{Binding Content}" Stretch="Uniform"/>
+                                </Border>
+                                <hc:Card.FooterTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="10">
+                                            <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{StaticResource TextBlockLargeBold}" Text="{Binding DataContext.Header,RelativeSource={RelativeSource AncestorType=hc:Card}}" HorizontalAlignment="Left"/>
+                                            <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{StaticResource TextBlockDefault}" Text="{Binding}" Margin="0,6,0,0" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </hc:Card.FooterTemplate>
+                            </hc:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </hc:ScrollViewer>
     </hc:TransitioningContentControl>
 </UserControl>

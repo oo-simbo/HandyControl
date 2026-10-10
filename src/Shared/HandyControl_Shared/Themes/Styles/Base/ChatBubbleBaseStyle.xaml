@@ -134,7 +134,7 @@
         <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="Margin" Value="10"/>
-        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
         <Setter Property="Template" Value="{StaticResource ChatBubbleStringBaseTemplate}"/>
         <Setter Property="IsRead" Value="{Binding IsSelected,RelativeSource={RelativeSource Self}}"/>
         <Setter Property="MaxWidth" Value="280"/>

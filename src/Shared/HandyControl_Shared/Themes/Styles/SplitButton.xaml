@@ -17,7 +17,9 @@
 
     <Style x:Key="SplitButtonDefault.Small" BasedOn="{StaticResource SplitButtonDefault}" TargetType="hc:SplitButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -29,7 +31,9 @@
 
     <Style x:Key="SplitButtonPrimary.Small"  BasedOn="{StaticResource SplitButtonPrimary}" TargetType="hc:SplitButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -39,7 +43,9 @@
 
     <Style x:Key="SplitButtonSuccess.Small"  BasedOn="{StaticResource SplitButtonSuccess}" TargetType="hc:SplitButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -49,7 +55,9 @@
 
     <Style x:Key="SplitButtonInfo.Small"  BasedOn="{StaticResource SplitButtonInfo}" TargetType="hc:SplitButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -59,7 +67,9 @@
 
     <Style x:Key="SplitButtonWarning.Small"  BasedOn="{StaticResource SplitButtonWarning}" TargetType="hc:SplitButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 
@@ -69,7 +79,9 @@
 
     <Style x:Key="SplitButtonDanger.Small"  BasedOn="{StaticResource SplitButtonDanger}" TargetType="hc:SplitButton">
         <Setter Property="Height" Value="20"/>
+        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="Padding" Value="6,1"/>
+        <Setter Property="hc:IconElement.Width" Value="12"/>
         <Setter Property="hc:IconElement.Height" Value="12"/>
     </Style>
 

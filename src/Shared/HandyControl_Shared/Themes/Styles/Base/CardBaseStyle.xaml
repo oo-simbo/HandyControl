@@ -9,6 +9,13 @@
         <Setter Property="Padding" Value="{DynamicResource CardPadding}"/>
         <Setter Property="Foreground" Value="{DynamicResource CardForegroundBrush}"/>
         <Setter Property="Focusable" Value="False"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="hc:TitleElement.HorizontalAlignment" Value="Center"/>
+        <Setter Property="hc:TitleElement.Padding" Value="{DynamicResource CardHeaderPadding}"/>
+        <Setter Property="hc:TitleElement.FontSize" Value="{DynamicResource CardHeaderFontSize}"/>
+        <Setter Property="hc:TitleElement.Background" Value="{DynamicResource CardHeaderBackgroundBrush}"/>
+        <Setter Property="hc:TitleElement.Foreground" Value="{DynamicResource CardHeaderForegroundBrush}"/>
         <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource CardCornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -20,11 +27,32 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Border Padding="{StaticResource CardHeaderPadding}" BorderThickness="{DynamicResource SeparatorBorderThicknessBottom}" Visibility="{TemplateBinding Header, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{DynamicResource SeparatorColorBrush}">
-                                <ContentPresenter ContentSource="Header" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" ContentStringFormat="{TemplateBinding HeaderStringFormat}"/>
+                            <Border x:Name="PART_Header" Padding="{Binding Path=(hc:TitleElement.Padding),RelativeSource={RelativeSource TemplatedParent}}" Background="{Binding Path=(hc:TitleElement.Background),RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource CornerRadiusSplitConverter},ConverterParameter='1,1,0,0'}" BorderThickness="{DynamicResource SeparatorBorderThicknessBottom}" Visibility="{TemplateBinding Header, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{DynamicResource SeparatorColorBrush}" ClipToBounds="True">
+                                <Grid Grid.IsSharedSizeScope="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="CardHeaderSide"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="CardHeaderSide"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--  中央列：两侧 Auto 列共享 CardHeaderSide（作用域在本 Grid，逐卡隔离），两列恒等宽 => 标题相对整个 header 居中；
+                                         标题按字符省略并把宽度上限绑到中央列，外层 ClipToBounds 兜底任意 HeaderTemplate：极窄时被裁剪在中央列内，绝不与插槽重叠。  -->
+                                    <Border x:Name="PART_HeaderContentPanel" Grid.Column="1" ClipToBounds="True">
+                                        <ContentPresenter x:Name="PART_HeaderContent" MaxWidth="{Binding ActualWidth, ElementName=PART_HeaderContentPanel}" HorizontalAlignment="{Binding Path=(hc:TitleElement.HorizontalAlignment),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" TextElement.FontSize="{Binding Path=(hc:TitleElement.FontSize),RelativeSource={RelativeSource TemplatedParent}}" TextElement.FontWeight="SemiBold" TextElement.Foreground="{Binding Path=(hc:TitleElement.Foreground),RelativeSource={RelativeSource TemplatedParent}}" ContentSource="Header" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" ContentStringFormat="{TemplateBinding HeaderStringFormat}">
+                                        <ContentPresenter.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                            </Style>
+                                        </ContentPresenter.Resources>
+                                        </ContentPresenter>
+                                    </Border>
+                                    <!--  标题插槽：复用既有 hc:EdgeElement.LeftContent / RightContent；宿主为空时 Collapsed 不占位。  -->
+                                    <ContentControl x:Name="PART_HeaderLeftContent" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Path=(hc:EdgeElement.LeftContent),RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding Path=(hc:EdgeElement.LeftContent),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource Object2VisibilityConverter}}"/>
+                                    <ContentControl x:Name="PART_HeaderRightContent" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding Path=(hc:EdgeElement.RightContent),RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding Path=(hc:EdgeElement.RightContent),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource Object2VisibilityConverter}}"/>
+                                </Grid>
                             </Border>
-                            <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
-                            <Border Grid.Row="2" Padding="{StaticResource CardFooterPadding}" BorderThickness="{DynamicResource SeparatorBorderThicknessTop}"  Visibility="{TemplateBinding Footer, Converter={StaticResource Object2VisibilityConverter}}" BorderBrush="{DynamicResource SeparatorColorBrush}">
+                            <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!--  页脚不再画上分隔线（去掉 BorderThickness 与 SeparatorColorBrush 消费）；保留页脚内边距、背景、前景与外框圆角。  -->
+                            <Border x:Name="PART_Footer" Grid.Row="2" Padding="{DynamicResource CardFooterPadding}" Background="{DynamicResource CardFooterBackgroundBrush}" TextElement.Foreground="{DynamicResource CardFooterForegroundBrush}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource CornerRadiusSplitConverter},ConverterParameter='0,0,1,1'}" Visibility="{TemplateBinding Footer, Converter={StaticResource Object2VisibilityConverter}}">
                                 <ContentPresenter ContentSource="Footer" ContentTemplate="{TemplateBinding FooterTemplate}" ContentTemplateSelector="{TemplateBinding FooterTemplateSelector}" ContentStringFormat="{TemplateBinding FooterStringFormat}"/>
                             </Border>
                         </Grid>

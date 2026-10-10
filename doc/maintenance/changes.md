@@ -1,4 +1,68 @@
 # 修改与验证台账
+## 2026-10-10 / 3.6.18 最终集成验证
+
+本节为3.6.18最终状态；下方阶段记录中的“尚未同步下游”等描述保留为历史。主DLL SHA256为 A5738CF711C202B0657F250549F08015A223DBA2D6B6373CC1B1A1B948CDAB56，Ultron仓库及最新JuLink.Test.UI.Wpf Release输出完全一致。主DLL、英文卫星和XML已整批同步（不分发PDB）。
+
+最终实现使用三列逐卡共享尺寸，窄卡160 DIP下标题省略且不与插槽重叠；早期两列叠放方案已替换。EdgeElement.LeftContent/RightContent现在由Card头部消费，历史无消费点列表不再适用于这两个属性。
+
+验证：HC库+Demo完整构建0错误、2206条既有警告；hc-3.6.18-cardfix-smoke.log三皮肤及编译CardDemo全部通过。Ultron完整服务回归398/398通过、0失败/跳过；最新JuLink.Test.UI.Wpf Release构建0警告/0错误。实际程序沿用本地配置及既有服务链，150%桌面缩放下确认Card左右按钮与居中标题，UIA调用“查看卡片信息”后显示“标题操作：查看信息”；系统设置卡片标题字号16→20立即改变已创建卡片标题尺寸，并恢复16及撤销。100%/200%桌面缩放未新增人工验收。
+
+发布使用版本v3.6.18；提交、远端分支和最终发布结果统一记录于JAX需求总台账。
+## 2026-10-10 / 3.6.18 追加：Card 页脚去线与标题插槽（本地已验证，未提交）
+
+- 页脚去线：`CardBaseStyle` 的 `PART_Footer` 去掉 `BorderThickness="{DynamicResource SeparatorBorderThicknessTop}"` 与 `BorderBrush="{DynamicResource SeparatorColorBrush}"`，不再消费分隔线资源；保留 `CardFooterPadding`、`CardFooterBackgroundBrush`、`CardFooterForegroundBrush` 与 `CornerRadiusSplitConverter('0,0,1,1')` 外框圆角。头部下分隔线（`SeparatorBorderThicknessBottom` + `SeparatorColorBrush`）不变。
+- 标题插槽：复用既有附加属性 `hc:EdgeElement.LeftContent` / `RightContent` 作为 Card 头部左右插槽；未新增属性、未新增全局实时参数、未引入新转换器。
+  - 模板结构：`PART_Header`(Border，`ClipToBounds=True`) → Grid（三列 `Auto,* ,Auto`；`Grid.IsSharedSizeScope=True`，两侧 Auto 列同 `SharedSizeGroup="CardHeaderSide"`，作用域即本 Grid → **逐卡隔离**）；中央列放 `PART_HeaderContentPanel`(Border，`ClipToBounds=True`) 包 `PART_HeaderContent`(ContentPresenter，仍承载 Header/HeaderTemplate/HeaderTemplateSelector/HeaderStringFormat 与 `hc:TitleElement.HorizontalAlignment/FontSize/Foreground`，`MaxWidth` 绑中央面板 `ActualWidth`)；`PART_HeaderLeftContent`(ContentControl，col0，Left)、`PART_HeaderRightContent`(ContentControl，col2，Right)。标题与插槽分属不同 Grid 列，几何上不再存在“跨列重叠”层。
+  - 居中契约：两侧 Auto 列共享 `CardHeaderSide` 恒等宽（单侧插槽时另一侧列镜像同宽），**两侧插槽宽度是否相等都不影响标题位置**，标题始终相对整个 header 居中。实测（卡宽 300、`CardHeaderPadding` 16/16）无插槽 / 不等宽插槽（左 1 按钮、右 2 按钮）/ 等宽插槽三种情况标题中心同为 148.67；两张插槽宽度不同的卡片（A 需 56、B 只需 28）各自保持 56 / 28，共享尺寸逐卡隔离。
+  - 空插槽：插槽宿主 `Visibility` 绑定自身内容（`Object2VisibilityConverter`），为空时 `Collapsed` 且零宽 → 不占位。
+  - 可见性（旧契约不变）：`PART_Header` 仍由 `Header` 是否为空决定。`Header` 为 null 时整行（含插槽）折叠；需要“只有插槽没有标题”的头部时把 `Header` 设为空字符串（非 null），此时插槽正常显示、标题不占位。**该行为已明确并测试**；“只设插槽即自动显示头部”需要新增一个布尔组合转换器，本轮未加。
+  - 窄宽避让：中央列 `ContentPresenter` 内的隐式 `TextBlock` 样式设 `TextTrimming=CharacterEllipsis`，不改写 `HeaderTemplate`/`HeaderTemplateSelector`/`HeaderStringFormat`；`MaxWidth` 绑中央列并叠加 `PART_HeaderContentPanel` 与 `PART_Header` 的 `ClipToBounds` 兜底任意模板。宽度不足只裁剪头部、绝不重叠：实测卡宽 160、左 1 / 右 2 不等宽插槽时两侧列 56/56、中央列 13.33，标题 `TextTrimming=CharacterEllipsis`、可见区 13.33 落在中央列内且相对整个 header 居中，`HitTest` 仍命中插槽按钮。无插槽时标题按 `TitleElement.HorizontalAlignment` 贴边（`SimpleCard` 左对齐不变）；有插槽时标题在中央列内左对齐也只是从插槽右侧开始，不与插槽重叠。
+- Demo：`CardDemo.xaml` 增加两张示例卡（`Header` + 左 1/右 2 个图标按钮，按钮带 `ToolTip`/`AutomationProperties.Name`，点击回写 `HeaderSlotActionText`；另一张无插槽对照），页面改为 `TransitioningContentControl > hc:ScrollViewer > StackPanel` 并保留下方原图片卡片列表；`CardDemo.xaml.cs` 增加 `HeaderSlotButtonOnClick`。
+- WpfSmoke 新增：
+  - 每种皮肤「card header slots」检查：结构（`PART_Header.Child` 为 Grid、`PART_HeaderContent` 仍 `ContentSource=Header`）、三列 `Auto,* ,Auto` 且两侧 `SharedSizeGroup=CardHeaderSide` 等宽、空插槽零宽不占位、不等宽/等宽插槽标题中心一致且与插槽不重叠、单侧插槽另一侧列镜像等宽、两张不等宽卡片共享尺寸逐卡隔离（A 56 / B 28）、卡宽 160 + 不等宽插槽时标题 `TextTrimming=CharacterEllipsis` 且可见区落在中央列内不重叠、插槽按钮保留 ToolTip/Automation 名称且可命中并触发 `Click`、`Header=null` 整行折叠、`Header=""` 头部与插槽可见且标题零宽、左对齐标题仍贴内边距左缘、`HeaderTemplate` 继续生效、页脚 `BorderThickness=0,0,0,0`/`BorderBrush=null`/底部圆角 `0,0,6,6`、头部下分隔线保留。
+  - 传 Demo 路径时「compiled CardDemo page」：显式补 Demo 的 `Locator` 资源后加载编译后的 `CardDemo`，断言插槽卡片存在、按钮带 ToolTip/Automation 名称、带插槽时标题仍居中、点击走到页面处理器（实测反馈文本变为 `Header slot clicks: Search`）。
+- 验证：库+Demo Release 全量重编译 0 错误、2206 条既有警告；三皮肤冒烟退出码 0，含上述两项检查与全部既有检查。
+- 反向验证：去掉两侧列的 `SharedSizeGroup`（或 `Grid.IsSharedSizeScope`）→ 失败于 `header side columns must share CardHeaderSide: 28 vs 56`，证明“两列恒定等宽 → 标题整体居中”这一居中止抗确实被断言覆盖；恢复页脚 `BorderThickness`/`BorderBrush` → 失败于 `the card footer must not draw a separator line: 0,1,0,0`。两次均恢复后复验通过。
+- 产物（工作区未提交构建，版本仍 3.6.18，FileVersion `3.6.18`）：主程序集 SHA256 `A5738CF711C202B0657F250549F08015A223DBA2D6B6373CC1B1A1B948CDAB56`（Demo 输出同名 DLL 哈希一致）；英文卫星 `E126EFF73C6F197BF9A01E95F8875BDB37132666218B3AF334983AE6B19C6431`；XML `0F249FA36A70D1AF422E52D0B5F605DFD9841842CB6D3DFA08B49E8930D43820`（无 API/注释变化）。日志：`artifacts/hc-3.6.18-cardfix-build.log`、`hc-3.6.18-cardfix-smoke.log`、`hc-3.6.18-card-neg1/2/3-*.log`；改动前样式备份 `artifacts/negative-check-card-3.6.18/`。
+- 下游（Ultron，仅只读核查，未修改/未构建）：`CardAppearanceTests.CardVariants_UpdateActualHeaderFooterAndContent` 需同步两处 —— (1) `((ContentPresenter)header.Child)` 改为 `card.Template.FindName("PART_HeaderContent", card)`（`PART_Header.Child` 现为 Grid）；(2) 删除 `footer.BorderThickness == (0,2,0,0)` 断言（页脚不再消费 `SeparatorBorderThickness` 上边）。`header.BorderThickness=(0,0,0,3)`、header/footer 内边距、`CornerRadius`、配色、`CardHeaderFontSize`、左对齐/居中公式均不变；Ultron `SimpleCard`（左对齐、默认不放插槽）无需改动，也不需要新增显示开关。
+- 边界/未验证：未修改或构建 Ultron/JAX；未做 100%/200% DPI 与真实鼠标键盘人工验收（`Click` 通过 `RaiseEvent` + 命中测试验证）；`Header=""` 的“只有插槽”用法为文档化约定。
+
+## 2026-10-10 / 3.6.18 非按钮/输入控件高度与令牌动态化（本地已验证，未提交）
+
+- 范围：把按钮族、输入类之外的固定高度与静态令牌消费点改为动态令牌 + 内容定高，不新增全局参数、不改公开 API/模板契约。
+- 固定高度（缺陷：字号放大被裁切、运行时改令牌不生效）：
+  - `LabelBaseStyle`：`Height=StaticResource DefaultControlHeight` → `MinHeight=DynamicResource DefaultControlHeight`；`Padding`/`CornerRadius` 改动态（`DefaultControlPadding`/`DefaultCornerRadius`）。
+  - `TagBaseStyle`：同上（`MinHeight` 动态、`Padding` 动态、`TagContainer` 圆角动态）。
+  - `SplitButtonBaseStyle`：固定 `Height=28` → `Height=Auto` + 动态 `MinHeight=ButtonMinHeight`，并新增 `hc:IconElement.Width`/`Height=DefaultIconSize` 默认方框，避免模板内 `Stretch=Uniform` 的图标 `Path` 在无高度约束下按 1024 级几何原始坐标测量（同 HC-M010 根因）。
+  - `Pagination` 页码按钮：`Height=StaticResource DefaultControlHeight` → `MinHeight=DynamicResource ButtonMinHeight`，与同一行的左右箭头按钮、跳转 `NumericUpDown` 统一令牌（此前令牌 36/48 时只有页码按钮仍是 28）。
+- 实时资源（静态令牌 → 动态令牌，默认值不变）：`GroupBox` 的 `hc:TitleElement.MinHeight`/`MinWidth`、`PinBox` 的 `ItemWidth`/`ItemHeight`、`Menu`/`ContextMenu` 的 `hc:MenuAttach.ItemMinHeight`/`ItemPadding` 与圆角、`ChatBubble` 的 `MinHeight`、`Pagination`/`SplitButton` 的圆角。
+- 资源消费缺陷：`SmallControlHeight`(20) 原先无任何消费点，且 `Menu.Small` 把项最小高度写成 `DefaultControlHeight`(28)（与 `ContextMenu.Small` 的 20 矛盾、“Small”不生效）→ `Menu.Small` 改用 `{DynamicResource SmallControlHeight}`。
+- Small 变体规则（HC-M010 既有约定）：基类改为动态 `MinHeight` 后，`.Small` 只写 `Height=20` 会被继承的 `MinHeight` 压回 28 → 为 `Label*.Small`（6 个）补 `MinHeight=20`；为 `SplitButton*.Small`（6 个）补 `MinHeight=20` 与 `hc:IconElement.Width=12`。
+- 版本：`src/Directory.Build.Props` 3.6.17 → 3.6.18；`Themes/Theme.xaml` 由既有 XamlCombine PreBuild 生成（相对上一版 +67/−32，含 3.6.17 卡片改动），未手改。
+- 验证：
+  - 库+Demo Release 全量重编译（`--no-incremental`）：0 错误、2206 条既有警告（与 3.6.16/3.6.17 基线一致，无新增、无 XAML 警告）。
+  - WpfSmoke 三皮肤（SkinDefault/SkinDark/SkinViolet）退出码 0，新增「控件令牌尺寸」检查：默认 `Label=28 / Tag=28 / SplitButton=28 / 普通按钮=28 / 页码按钮=28 / GroupBox 标题 MinHeight=28 / LabelDefault.Small=20 / SplitButtonDefault.Small=20`；令牌覆盖 `ButtonMinHeight`+`DefaultControlHeight=44` 时上述控件同时为 44（Small 保持 20）；`TextFontSize` 与宿主字号 24 时 `Label=43.33 / Tag=40.67 / SplitButton=43.33 = 普通按钮`；带 1024 级 `DeleteGeometry` 的 `SplitButton` 与同规格普通图标按钮同为 28.67 且图标框 ≤ 20。既有 PropertyGrid/Clock/数字框/图标/扁平化/工具栏/按钮组以及编译后 Demo 页面、Frame 检查全部通过。
+  - 反向验证：`LabelBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight` → 失败于 `Label must consume the dynamic control height 44: 28`；`SplitButtonBaseStyle` 改回固定高度并去掉图标方框 → 失败于 `an icon SplitButton must match an icon button: 28 vs 28.666666666666668`。两次均恢复后复验通过。
+- 产物（工作区未提交构建，`Version`/`FileVersion`/`AssemblyVersion`=3.6.18）：
+  - 主程序集 `src/Net_GE45/HandyControl_Net_GE45/bin/Release/net10.0-windows/HandyControl.dll`，SHA256 `925C4C3B40833BA1DF17BAB4D42B1CF4DDA4A2CE4EB94FB2AB66D253BED285E4`；Demo 输出同名 DLL 哈希一致。
+  - 英文卫星 `.../net10.0-windows/en/HandyControl.resources.dll`，SHA256 `E126EFF73C6F197BF9A01E95F8875BDB37132666218B3AF334983AE6B19C6431`。
+  - XML `.../net10.0-windows/HandyControl.xml`，SHA256 `0F249FA36A70D1AF422E52D0B5F605DFD9841842CB6D3DFA08B49E8930D43820`（本轮无 API/注释变化，与 3.6.16 相同；判版本不能只凭 XML）。
+  - 日志：`artifacts/hc-3.6.18-build.log`、`hc-3.6.18-smoke.log`、`hc-3.6.18-negative-build.log`、`hc-3.6.18-negative-smoke.log`、`hc-3.6.18-negative2-build.log`、`hc-3.6.18-negative2-smoke.log`；反向验证前的样式备份在 `artifacts/negative-check-3.6.18/`。
+- 已识别未修（登记备查）：
+  - `hc:InfoElement.MaxContentHeight`（默认 `PositiveInfinity`）在本库样式与上游官方库均无消费点，是无效公开属性；接入需在 69 处已绑定 `MinContentHeight`+`ContentHeight` 的模板行同时绑 `MaxHeight`，范围过大且无消费方，暂不修。
+  - 同样在样式中无消费点的附加属性：`hc:TitleElement.Title`、`hc:InfoElement.RegexPattern`、`hc:EdgeElement.TopContent`/`BottomContent`/`RightContent`、`hc:GridAttach.Name`/`RowName`/`ColumnName` 等。
+  - `Styles/MessageBox.xaml` 的无装饰透传 Border（3.6.16 起登记）；`Badge` 圆点 10×10/圆角 5 与 `Growl`/`MessageBox` 内局部按钮、图标尺寸为硬编码设计值（控件本身无对应尺寸属性）。
+- 边界/未验证项：未修改 Ultron/JAX、未分发下游 DLL（Ultron 的 76 个 XAML 未引用 `Label`/`Tag`/`SplitButton`/`Pagination`/`Menu.Small`，本轮无下游回归需求）；未做 100%/200% DPI 人工验收与真实键盘鼠标/输入法交互；`Menu.Small` 语义变化（菜单项最小高度 28→20）无本地消费方。仓库**未提交、未推送**，提交与远端由统一总账记录。
+- 进程：构建期间 `HandyControlDemo`(PID 45200) 仍运行于 Debug 输出目录，未锁定 Release 产物，构建与产物读取均无文件占用。
+
+## 2026-10-10 / 3.6.17 Card 标题居中及参数资源（本地已验证）
+
+- CardBaseStyle默认标题居中、SemiBold，复用TitleElement.HorizontalAlignment/Padding/FontSize/Background/Foreground，保留Header/Footer模板、选择器和格式化契约。正文遵从Horizontal/VerticalContentAlignment。
+- CardPadding默认16，CardHeaderPadding/CardFooterPadding默认16,10,16,10，CardHeaderFontSize默认16，CardCornerRadius默认6。新增CardHeaderBackgroundBrush/ForegroundBrush、CardFooterBackgroundBrush/ForegroundBrush，缺省使用SecondaryRegionColor/PrimaryTextColor。标题/页脚边距与配色动态解析；分隔线继续用Separator资源；圆角复用既有CornerRadiusSplitConverter。
+- Header/Footer为空时不占位；下游SimpleCard复用同一模板，避免旧标题模板叠加Padding。源码只有一个Card基础样式，四种Header/Footer组合不是四套模板。
+- src/Directory.Build.Props统一升3.6.17；Theme.xaml由既有XamlCombine构建生成，未手改。
+- 库+Demo Release：0错误、2206既有警告；既有WpfSmoke三皮肤及编译Demo/Frame检查全部通过。日志artifacts/hc-3.6.17-build.log、hc-3.6.17-smoke.log。下游Ultron完整服务测试398/398通过，包含五组卡片真实布局/实时参数回归。
+- 主DLL、英文卫星、XML同批同步Ultron现有Dlls目录。主DLL SHA256=7B71FD9FDD7525E8A3B391B81B3BD170FAB5B4E6086A0BB0F786BBAF3C5DABCE，与JuLink.Test.UI.Wpf Release输出一致。未提交/推送。
 
 ## 2026-10-09 / 3.6.16 模板冗余单子包装精简（本地已验证，未提交）
 

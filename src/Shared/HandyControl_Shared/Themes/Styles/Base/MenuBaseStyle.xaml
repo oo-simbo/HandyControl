@@ -13,7 +13,7 @@
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
         <Setter Property="Margin" Value="0,0,0,2" />
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuItem">
@@ -192,15 +192,15 @@
     </Style>
 
     <Style x:Key="MenuBaseStyle" TargetType="Menu">
-        <Setter Property="hc:MenuAttach.ItemPadding" Value="{StaticResource DefaultControlPadding}" />
-        <Setter Property="hc:MenuAttach.ItemMinHeight" Value="{StaticResource DefaultControlHeight}" />
+        <Setter Property="hc:MenuAttach.ItemPadding" Value="{DynamicResource DefaultControlPadding}" />
+        <Setter Property="hc:MenuAttach.ItemMinHeight" Value="{DynamicResource DefaultControlHeight}" />
         <Setter Property="hc:MenuAttach.PopupVerticalOffset" Value="-9" />
         <Setter Property="hc:MenuAttach.PopupHorizontalOffset" Value="10" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Menu">

@@ -6,12 +6,12 @@
     <Style x:Key="TagBaseStyle" BasedOn="{StaticResource BaseStyle}" TargetType="hc:Tag">
         <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="Padding" Value="{StaticResource DefaultControlPadding}"/>
+        <Setter Property="Padding" Value="{DynamicResource DefaultControlPadding}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="{StaticResource DefaultControlHeight}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource DefaultControlHeight}"/>
         <Setter Property="hc:TitleElement.Foreground" Value="{DynamicResource TextIconBrush}"/>
         <Setter Property="ShowCloseButton" Value="{Binding Path=(hc:TagContainer.ShowCloseButton), RelativeSource={RelativeSource AncestorType=hc:TagContainer}}" />
         <Setter Property="FocusVisualStyle">
@@ -68,7 +68,7 @@
     </Style>
 
     <Style x:Key="TagContainerBaseStyle" TargetType="hc:TagContainer" BasedOn="{StaticResource BaseStyle}">
-        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}"/>
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource DefaultCornerRadius}"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource TagBaseStyle}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>

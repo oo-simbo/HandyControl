@@ -30,15 +30,16 @@
     <Thickness x:Key="ButtonPadding">10,5,10,5</Thickness>
     <Thickness x:Key="InputPadding">8,0,8,0</Thickness>
     <Thickness x:Key="RegionPadding">6</Thickness>
-    <Thickness x:Key="CardPadding">0</Thickness>
-    <Thickness x:Key="CardHeaderPadding">0</Thickness>
-    <Thickness x:Key="CardFooterPadding">0</Thickness>
+    <Thickness x:Key="CardPadding">16</Thickness>
+    <Thickness x:Key="CardHeaderPadding">16,10,16,10</Thickness>
+    <Thickness x:Key="CardFooterPadding">16,10,16,10</Thickness>
+    <sys:Double x:Key="CardHeaderFontSize">16</sys:Double>
     <Thickness x:Key="PopupPadding">10,15,10,15</Thickness>
     <Thickness x:Key="DataCellPadding">8,4,8,4</Thickness>
     <CornerRadius x:Key="ButtonCornerRadius">4</CornerRadius>
     <CornerRadius x:Key="InputCornerRadius">4</CornerRadius>
     <CornerRadius x:Key="RegionCornerRadius">4</CornerRadius>
-    <CornerRadius x:Key="CardCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="CardCornerRadius">6</CornerRadius>
     <CornerRadius x:Key="PopupCornerRadius">4</CornerRadius>
 
     <!--  静态布局默认值：编译模板已捕获本字典值，不承诺外部同名键覆盖。调用方通过 BasedOn 样式设置 Padding、IconElement、TitleElement 等现有属性；模板私有布局需定制模板。  -->
