@@ -416,3 +416,18 @@ PropertyGridBaseStyle唯一根Border命名PART_Border，继续TemplateBinding背
 Release库/Demo构建0错误（2206条既有警告），三皮肤完整WpfSmoke通过。Ultron381/381服务回归通过，包含原生PropertyGrid/ConfigPropertyGrid/集合编辑器、动态资源更新、局部覆盖及96/144/192 DPI圆角描边采样。最新JuLink.Test.UI.Wpf Release构建0警告0错误；系统设置真实页面已验证移除外围Border后的单层外框。
 
 主DLL SHA256：02CAB11887B1BB23E6B60ED140E53A3C76E0D72CBCCEEE76E2358B7416EB4CBE。主DLL、英文卫星/XML已同步Ultron，生成XML移除了编译器GeneratedInternalTypeHelper文档，不涉及公共API删除。证据位于Ultron artifacts/hc-3615-border-build.log、hc-3615-border-smoke.log、propertygrid-border-final.log、propertygrid-border-results/propertygrid-border-final.trx、propertygrid-border-ui-build.log、propertygrid-border-system.png。未推送。
+
+### 2026-10-10 3.6.19 PropertyGrid颜色编辑器按钮遮挡与名称列宽修复（本地已验证）
+
+- 现象与根因：`PropertyGridDemo` 颜色/画刷行的常用色编辑器最右“当前颜色”按钮被裁、点不到。根因是 `ColorPalette` 控件根写死 `MinWidth=288`（常用色块各 `MinWidth=16`+`Margin=2`），放进较窄的编辑列时色板被撑到 288 并溢出，最右按钮被外层裁剪。实测编译后 `PropertyGridDemo`：色板 288 对编辑列 264.67，按钮 `x=204..288` 右侧 23.3 DIP 越过槽位。
+- 最小修复（仅 HC，不新增全局参数）：
+  - `Controls/ColorPicker/ColorPalette.xaml`：去掉根 `MinWidth=288`；常用色/当前颜色仍为 `*`+`Auto` 两列，色板随宿主收缩；当前颜色按钮 `MinWidth=84`→`MaxWidth=64`、`Margin=4,2,0,2`、`Padding=5,0`，`HexText` 加 `TextTrimming=CharacterEllipsis`。
+  - `ColorPalette.xaml.cs`：常用色块 `MinWidth` 16→6、`Margin` 2→1（色块可缩不溢出）；`UpdatePreview` 把完整 `#RRGGBB`/`#AARRGGBB` 写入按钮 `ToolTip`（Automation 名称原有），省略显示不影响全文。
+  - `Themes/Basic/Sizes.xaml`：`PropertyGridMaxTitleWidth` 200→180（`MinTitleWidth` 仍 120）。
+  - `PropertyGridDemo.xaml`：显式宽 `MinTitleWidth=200 / MaxTitleWidth=260` → `120 / 180`。
+  - `Theme.xaml` 由既有 PreBuild/XamlCombine 生成，仅同步名称列宽一行。
+- 验证：先加冒烟检查并在修复前构建上取失败证据，再修复后通过。Release 控件库/Demo 构建 0 错误、2206 条既有警告；三皮肤完整 WpfSmoke 通过（含编译 Demo 与 Frame 回归）。
+  - 修复前失败证据（`artifacts/hc-3619-color-before.log`、`hc-3619-color-before-demo.log`）：`palette(160dp): palette=288 swatches=0,0,200,182.67 current=204,2,84,178.67` → `palette width 160: the palette must shrink to its slot instead of overflowing: 288`；Demo：`palette=288 slot=264.67 button=204,2,84,40` → `Brush: the color palette must fit its editor slot: 288 vs 264.67`。
+  - 修复后（`artifacts/hc-3619-color-smoke.log`）：160/220/320 色板实测 160/220/320（160 时色块区 `0..98`、按钮 `102..160`、按钮宽 58），`#80123456` 全文保留在 HexText/ToolTip/Automation；`palette popup commit: #80123456 -> #80112233`；Demo 两个颜色编辑器 `palette=298 slot=298`，按钮右缘 298 落在槽内与视口（985.33）内。
+- 二进制（未提交/未推送，未分发下游）：主DLL SHA256 `C7E4A2EF024E3E2899B4500302502048AE1BA9A242B7FB2B7EE3BFF92E5ACDDD`；英文卫星 `9A61B822658088482D4007874777D79723695C171589D8937F0008E4832BB6AA`；XML `0F249FA36A70D1AF422E52D0B5F605DFD9841842CB6D3DFA08B49E8930D43820`（公共 API 未变）。FileVersion `3.6.19`。
+- 契约与边界：`CurrentColor`/`Swatches`/`HexText` 命名与 `_pickerPopup` 字段保持不变，下游 `JuLink.Test` 的 ColorPalette 旧测试（弹层关闭回写、常用色写回、#AARRGGBB 保留）继续适用；100%/200% DPI 与真实鼠标点击未人工验收。下一项：按需连同下游 3.6.18/3.6.19 一起分发并更新 JAX 总台账。

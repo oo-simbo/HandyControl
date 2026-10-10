@@ -56,7 +56,8 @@ internal static partial class Program
                 VerifyButtonGroupItems(app);
                 VerifyControlTokenSizing(app);
                 VerifyCardHeaderSlots(app);
-                Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl, runtime design-token override, button icon sizing, numeric spinner height, PropertyGrid toolbar height, button group item sizing, control token sizing, card header slots.");
+                VerifyColorPalette(app);
+                Console.WriteLine($"PASS {skin}: PropertyGrid ordering/enum editor, ClockType switching, NumericUpDown binding, template replacement, limits, WindowChrome, Growl, runtime design-token override, button icon sizing, numeric spinner height, PropertyGrid toolbar height, button group item sizing, control token sizing, card header slots, color palette shrinking.");
             }
             if (args.Length == 1)
             {
@@ -423,6 +424,7 @@ internal static partial class Program
         }
         VerifyPropertyGridDemoScrolling(app, assembly);
         VerifyCardDemoPage(app, assembly);
+        VerifyPropertyGridDemoColorEditor(app, assembly);
     }
 
     /// <summary>

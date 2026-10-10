@@ -19,7 +19,7 @@ Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优�
 
 Demo 标题和关于窗口的版本读取入口程序集 `HandyControlDemo.dll` 的文件版本；确认控件库更新时，还应核对 Demo 输出目录中的 `HandyControl.dll` 与库输出的版本或哈希，不能仅凭标题判断。
 
-需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.18.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
+需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.19.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
 
 产物目录：
 
@@ -230,6 +230,18 @@ PART_Footer (Border)   ← 不再消费 SeparatorBorderThicknessTop / SeparatorC
 - 页脚：`PART_Footer` 去掉了上分隔线（不再消费 `SeparatorBorderThicknessTop` 与 `SeparatorColorBrush`），保留内边距、背景、前景与底部外框圆角；头部下分隔线（`SeparatorBorderThicknessBottom` + `SeparatorColorBrush`）不变。
 - 插槽内容继承卡片前景色（不继承标题前景），按钮等自带样式的前景不受影响。
 
+## ColorPalette 收缩与 PropertyGrid 名称列宽
+
+`ColorPalette`（`PropertyGrid` 里颜色/画刷属性的常用色编辑器）此前在控件根上写死 `MinWidth=288`。放进窄编辑列时它会被撑到 288 并溢出，最右的“当前颜色”按钮被外层裁剪、点不到。3.6.19 去掉硬最小宽，改为可收缩布局，未新增任何全局参数：
+
+- 根 `UserControl` 不再设 `MinWidth`；布局仍为两列 `*`（常用色 `UniformGrid`）+ `Auto`（当前颜色按钮），色板随宿主宽度收缩。
+- 常用色块 `MinWidth` 16→6、`Margin` 2→1：色块可缩小但不会把色板撑出编辑列。
+- 当前颜色按钮由 `MinWidth=84` 改为 `MaxWidth=64`（更短、按内容自适应），`Margin=4,2,0,2`、`Padding=5,0`，文本 `TextTrimming=CharacterEllipsis`。可见文本可被省略，完整 `#RRGGBB`/`#AARRGGBB` 仍保留在按钮 `ToolTip` 与 `AutomationProperties.Name`。
+- 实测：宿主宽 160/220/320 时色板实测 160/220/320，当前颜色按钮右缘都在色板内（160 时色块区 `0..98`、按钮 `102..160`）；编译后的 `PropertyGridDemo` 两个颜色编辑器色板与编辑列同为 298、按钮右缘 298 落在槽内与视口内。
+- 弹层契约不变：`CurrentColor`/`Swatches`/`HexText` 命名、`_pickerPopup` 字段、点击常用色即时写回、点击当前颜色按钮打开完整取色器并在关闭时回写颜色都保留，下游据此编写的旧测试继续可用。
+
+`PropertyGrid` 名称列宽的库默认值同步收紧：`PropertyGridMaxTitleWidth` 由 200 降为 180（`PropertyGridMinTitleWidth` 仍 120），`PropertyGridDemo` 的显式宽由 `MinTitleWidth=200 / MaxTitleWidth=260` 改为 `120 / 180`。名称列宽算法与 `MinTitleWidth`/`MaxTitleWidth` 运行时配置机制不变。
+
 ## 自动运行验证
 
 [WpfSmoke](verification/WpfSmoke/Program.cs) 是无需额外测试 NuGet 包的 STA 控制台冒烟程序，直接引用库的 **Release DLL**，模拟下游二进制接入，而不是 ProjectReference。
@@ -256,6 +268,10 @@ if ($LASTEXITCODE -ne 0) { throw 'WPF smoke failed' }
 每种皮肤还执行“控件令牌尺寸”检查：`Label`、`Tag`、`SplitButton`（含带 1024 级 `DeleteGeometry` 的变体）、`Pagination` 页码按钮与 `GroupBox` 标题在默认令牌下与同规格普通按钮等高（实测 28；带图标时两者同为 28.67），运行时覆盖 `ButtonMinHeight`/`DefaultControlHeight` 为 44 时同时变为 44，`LabelDefault.Small`/`SplitButtonDefault.Small` 保持 20，且 `SplitButton` 的图标框不超过 `DefaultIconSize`；把 `TextFontSize` 与宿主字号放大到 24 时 `Label`/`Tag`/`SplitButton` 随内容增高（实测 43.33/40.67/43.33，`SplitButton` 与同规格普通按钮逐项相等），移除覆盖后回到 28。反向验证：把 `LabelBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight`，冒烟在 “Label must consume the dynamic control height 44: 28” 失败；把 `SplitButtonBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight` 并去掉图标方框，冒烟在 “an icon SplitButton must match an icon button: 28 vs 28.666666666666668” 失败。
 
 每种皮肤还执行“card header slots”检查：`PART_Header.Child` 必须是 Grid、`PART_HeaderContent` 仍是 `ContentSource=Header`；头部为三列 `Auto,* ,Auto` 且两侧列 `SharedSizeGroup=CardHeaderSide` 恒等宽；无插槽时两侧插槽 `Collapsed` 且零宽；不等宽插槽（左 1 按钮 / 右 2 按钮）与等宽插槽下标题中心一致（实测三种情况同为 148.67）且与插槽不重叠；单侧插槽时另一侧宿主折叠但其列镜像等宽；两张插槽宽度不同的卡片共享尺寸逐卡隔离（实测 A 56 / B 28）；卡宽 160 + 不等宽插槽时标题 `TextTrimming=CharacterEllipsis`、可见区落在中央列内且居中不重叠（实测两侧 56/56、中央 13.33、可见区 13.33）；插槽按钮保留 ToolTip 与 Automation 名称、可命中（`HitTest` 命中按钮本身）并触发 `Click`；`Header=null` 时整行折叠，`Header=""` 时头部与插槽可见且标题零宽；左对齐标题仍贴内边距左缘；`HeaderTemplate` 继续生效；页脚 `BorderThickness=0,0,0,0`、`BorderBrush=null`、底部圆角保留（实测 `0,0,6,6`），头部下分隔线保留。反向验证：去掉两侧列的 `SharedSizeGroup` → 失败于 `header side columns must share CardHeaderSide: 28 vs 56`；恢复页脚 `BorderThickness`/`BorderBrush` → 失败于 `the card footer must not draw a separator line: 0,1,0,0`。
+
+每种皮肤还执行“color palette”检查：把 `ColorPalette` 放进 160/220/320 DIP 的窄宿主，断言色板收敛到宿主宽度（修复前实测被撑到 288）、色块可缩但不溢出、当前颜色按钮完整落在色板内且不被任何祖先布局裁切（`LayoutInformation.GetLayoutClip`）；`#80123456` 全文保留在 `HexText`、`ToolTip` 与 Automation 名称里；点击当前颜色按钮打开 `_pickerPopup`、设置 `picker.SelectedBrush` 后关闭弹层必须回写 `SelectedBrush`（下游旧测试契约）。反向验证：恢复控件根 `MinWidth=288` → 失败于 `palette width 160: the palette must shrink to its slot instead of overflowing: 288`。
+
+传入已构建的 Demo DLL 路径时，还断言编译后 `PropertyGridDemo` 的两个颜色编辑器（`Color`/`Brush`）色板不超过编辑列、当前颜色按钮落在编辑列与 Demo 视口内（修复前实测色板 288 对编辑列 264.67）。
 
 传入已构建的 Demo DLL 路径时，除三个时钟相关页面外还加载编译后的 `CardDemo`（冒烟不启动 Demo App，会先显式补上 Demo 的 `Locator` 资源）：断言插槽卡片存在、按钮带 ToolTip/Automation 名称、标题在带插槽时仍居中，并触发按钮 `Click` 检查页面处理器生效（实测反馈文本变为 `Header slot clicks: Search`）。
 

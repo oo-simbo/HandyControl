@@ -43,7 +43,7 @@ public partial class ColorPalette : UserControl
             var button = new Button
             {
                 Background = brush, Tag = brush, ToolTip = hex,
-                Height = 18, MinWidth = 16, Margin = new Thickness(2),
+                Height = 18, MinWidth = 6, Margin = new Thickness(1),
                 Style = (Style) Resources["SwatchStyle"]
             };
             AutomationProperties.SetName(button, hex);
@@ -66,6 +66,8 @@ public partial class ColorPalette : UserControl
         var luminance = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) * alpha + 255 * (1 - alpha);
         HexText.Foreground = luminance > 150 ? Brushes.Black : Brushes.White;
         HexText.Text = hex;
+        // 按钮变窄后可见文本会被省略，完整 #RRGGBB / #AARRGGBB 保留在 ToolTip 与 Automation 名称里。
+        CurrentColor.ToolTip = hex + " ColorPicker";
         AutomationProperties.SetName(CurrentColor, hex + " ColorPicker");
     }
 

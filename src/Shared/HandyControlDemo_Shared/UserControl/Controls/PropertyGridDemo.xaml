@@ -14,7 +14,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel>
                     <CheckBox x:Name="CustomOrder" Content="CategoryOrder / PropertyOrder" IsChecked="True" Margin="0,0,0,12"/>
-                    <hc:PropertyGrid Width="500" MinTitleWidth="200" MaxTitleWidth="260" SelectedObject="{Binding DemoModel}">
+                    <hc:PropertyGrid Width="500" MinTitleWidth="120" MaxTitleWidth="180" SelectedObject="{Binding DemoModel}">
                         <hc:PropertyGrid.Style>
                             <Style TargetType="hc:PropertyGrid" BasedOn="{StaticResource {x:Type hc:PropertyGrid}}">
                                 <Style.Triggers>

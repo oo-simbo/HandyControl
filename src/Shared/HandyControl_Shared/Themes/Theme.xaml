@@ -140,7 +140,7 @@
 	<Thickness x:Key="PropertyGridSortButtonGroupMargin">0,0,6,0</Thickness>
 	<Thickness x:Key="PropertyGridTitlePadding">0,0,10,0</Thickness>
 	<system:Double x:Key="PropertyGridMinTitleWidth">120</system:Double>
-	<system:Double x:Key="PropertyGridMaxTitleWidth">200</system:Double>
+	<system:Double x:Key="PropertyGridMaxTitleWidth">180</system:Double>
 	<system:Double x:Key="ExpanderArrowSize">12</system:Double>
 	<GridLength x:Key="ExpanderArrowColumnWidth">30</GridLength>
 	<Thickness x:Key="ExpanderHeaderPadding">10,0,0,0</Thickness>
