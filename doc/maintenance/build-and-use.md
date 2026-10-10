@@ -19,7 +19,7 @@ Demo 项目引用库及 DemoCode，会一起构建。当前仅维护 WPF，优�
 
 Demo 标题和关于窗口的版本读取入口程序集 `HandyControlDemo.dll` 的文件版本；确认控件库更新时，还应核对 Demo 输出目录中的 `HandyControl.dll` 与库输出的版本或哈希，不能仅凭标题判断。
 
-需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.21.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
+需要完整重编译时添加 `--no-incremental`。第一次构建需要 NuGet 源可用；不要在尚未还原时使用 `--no-restore`。现行维护版本为 `3.6.22.0`，由 `src/Directory.Build.Props` 统一设置 `Version`、`FileVersion` 和 `AssemblyVersion`。
 
 产物目录：
 
@@ -227,7 +227,7 @@ PART_Footer (Border)   ← 不再消费 SeparatorBorderThicknessTop / SeparatorC
 - 对齐：无插槽时标题按 `TitleElement.HorizontalAlignment` 贴边，`SimpleCard` 这类左对齐样式行为不变；有插槽时标题在中央列内对齐，即使设为 `Left` 也从插槽右侧开始，**不会与插槽重叠**（标题与插槽分属不同 Grid 列，几何上互不相交）。
 - 窄宽：标题在中央列内按字符省略，并叠加 `PART_HeaderContentPanel` 与 `PART_Header` 的 `ClipToBounds`。宽度不足时只裁剪头部、不产生重叠：实测卡宽 160、左 1 / 右 2 不等宽插槽时两侧列 56/56、中央列 13.33，标题 `TextTrimming=CharacterEllipsis`、可见区 13.33 落在中央列内且相对整个 header 居中，`HitTest` 仍能命中插槽按钮。
 - 标题省略：中央列 `ContentPresenter` 内加了一层隐式 `TextBlock` 样式 `TextTrimming=CharacterEllipsis`，不改写 `HeaderTemplate` / `HeaderTemplateSelector` / `HeaderStringFormat`；自定义模板里的 `TextBlock` 也按该隐式样式省略，非 `TextBlock` 内容由 `ClipToBounds` 兜底。
-- 页脚：`PART_Footer` 去掉了上分隔线（不再消费 `SeparatorBorderThicknessTop` 与 `SeparatorColorBrush`），保留内边距、背景、前景与底部外框圆角；头部下分隔线（`SeparatorBorderThicknessBottom` + `SeparatorColorBrush`）不变。
+- 页脚：`PART_Footer` 去掉了上分隔线（不再消费 `SeparatorBorderThicknessTop` 与 `SeparatorColorBrush`），保留内边距、背景、前景与底部外框圆角；3.6.22起标题下分隔线也移除，不再消费分隔线资源。
 - 插槽内容继承卡片前景色（不继承标题前景），按钮等自带样式的前景不受影响。
 
 ## ColorPalette 收缩与 PropertyGrid 名称列宽
@@ -267,7 +267,7 @@ if ($LASTEXITCODE -ne 0) { throw 'WPF smoke failed' }
 
 每种皮肤还执行“控件令牌尺寸”检查：`Label`、`Tag`、`SplitButton`（含带 1024 级 `DeleteGeometry` 的变体）、`Pagination` 页码按钮与 `GroupBox` 标题在默认令牌下与同规格普通按钮等高（实测 28；带图标时两者同为 28.67），运行时覆盖 `ButtonMinHeight`/`DefaultControlHeight` 为 44 时同时变为 44，`LabelDefault.Small`/`SplitButtonDefault.Small` 保持 20，且 `SplitButton` 的图标框不超过 `DefaultIconSize`；把 `TextFontSize` 与宿主字号放大到 24 时 `Label`/`Tag`/`SplitButton` 随内容增高（实测 43.33/40.67/43.33，`SplitButton` 与同规格普通按钮逐项相等），移除覆盖后回到 28。反向验证：把 `LabelBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight`，冒烟在 “Label must consume the dynamic control height 44: 28” 失败；把 `SplitButtonBaseStyle` 改回固定 `Height=StaticResource DefaultControlHeight` 并去掉图标方框，冒烟在 “an icon SplitButton must match an icon button: 28 vs 28.666666666666668” 失败。
 
-每种皮肤还执行“card header slots”检查：`PART_Header.Child` 必须是 Grid、`PART_HeaderContent` 仍是 `ContentSource=Header`；头部为三列 `Auto,* ,Auto` 且两侧列 `SharedSizeGroup=CardHeaderSide` 恒等宽；无插槽时两侧插槽 `Collapsed` 且零宽；不等宽插槽（左 1 按钮 / 右 2 按钮）与等宽插槽下标题中心一致（实测三种情况同为 148.67）且与插槽不重叠；单侧插槽时另一侧宿主折叠但其列镜像等宽；两张插槽宽度不同的卡片共享尺寸逐卡隔离（实测 A 56 / B 28）；卡宽 160 + 不等宽插槽时标题 `TextTrimming=CharacterEllipsis`、可见区落在中央列内且居中不重叠（实测两侧 56/56、中央 13.33、可见区 13.33）；插槽按钮保留 ToolTip 与 Automation 名称、可命中（`HitTest` 命中按钮本身）并触发 `Click`；`Header=null` 时整行折叠，`Header=""` 时头部与插槽可见且标题零宽；左对齐标题仍贴内边距左缘；`HeaderTemplate` 继续生效；页脚 `BorderThickness=0,0,0,0`、`BorderBrush=null`、底部圆角保留（实测 `0,0,6,6`），头部下分隔线保留。反向验证：去掉两侧列的 `SharedSizeGroup` → 失败于 `header side columns must share CardHeaderSide: 28 vs 56`；恢复页脚 `BorderThickness`/`BorderBrush` → 失败于 `the card footer must not draw a separator line: 0,1,0,0`。
+每种皮肤还执行“card header slots”检查：`PART_Header.Child` 必须是 Grid、`PART_HeaderContent` 仍是 `ContentSource=Header`；头部为三列 `Auto,* ,Auto` 且两侧列 `SharedSizeGroup=CardHeaderSide` 恒等宽；无插槽时两侧插槽 `Collapsed` 且零宽；不等宽插槽（左 1 按钮 / 右 2 按钮）与等宽插槽下标题中心一致（实测三种情况同为 148.67）且与插槽不重叠；单侧插槽时另一侧宿主折叠但其列镜像等宽；两张插槽宽度不同的卡片共享尺寸逐卡隔离（实测 A 56 / B 28）；卡宽 160 + 不等宽插槽时标题 `TextTrimming=CharacterEllipsis`、可见区落在中央列内且居中不重叠（实测两侧 56/56、中央 13.33、可见区 13.33）；插槽按钮保留 ToolTip 与 Automation 名称、可命中（`HitTest` 命中按钮本身）并触发 `Click`；`Header=null` 时整行折叠，`Header=""` 时头部与插槽可见且标题零宽；左对齐标题仍贴内边距左缘；`HeaderTemplate` 继续生效；页脚 `BorderThickness=0,0,0,0`、`BorderBrush=null`、底部圆角保留（实测 `0,0,6,6`），3.6.22起头部下分隔线移除。反向验证：去掉两侧列的 `SharedSizeGroup` → 失败于 `header side columns must share CardHeaderSide: 28 vs 56`；恢复页脚 `BorderThickness`/`BorderBrush` → 失败于 `the card footer must not draw a separator line: 0,1,0,0`。
 
 每种皮肤还执行“color palette”检查：把 `ColorPalette` 放进 160/220/320 DIP 的窄宿主，断言色板收敛到宿主宽度（修复前实测被撑到 288）、色块可缩但不溢出、当前颜色按钮完整落在色板内且不被任何祖先布局裁切（`LayoutInformation.GetLayoutClip`）；`#80123456` 全文保留在 `HexText`、`ToolTip` 与 Automation 名称里；点击当前颜色按钮打开 `_pickerPopup`、设置 `picker.SelectedBrush` 后关闭弹层必须回写 `SelectedBrush`（下游旧测试契约）。反向验证：恢复控件根 `MinWidth=288` → 失败于 `palette width 160: the palette must shrink to its slot instead of overflowing: 288`。
 
@@ -314,3 +314,9 @@ HC资源和PropertyGridDemo名称列默认100–200 DIP；Ultron模型、渲染�
 仅PropertyGrid内部ButtonGroup新增专用模板：组外框动态绑定InputBorderThickness/InputBorderBrush/InputCornerRadius，最小高度InputMinHeight。内部两RadioButton清除描边、圆角、负边距和独立MinHeight，原命令、高亮、工具栏隐藏行为保持。外框内容层复用BorderClip裁剪，独立描边层不参与命中且置顶，防止高亮背景覆盖圆角内缘；通用ButtonGroup不改。
 
 回归按实际外框与搜索框同高、按钮填满ItemsPresenter验证，避免150%布局取整引起的名义边框厚度相加误差。库/Demo构建0错误、2206既有警告，三皮肤完整冒烟通过；Ultron411项回归通过，包含动态四向/零边框、颜色和非对称圆角及按钮类参数隔离。
+
+## 3.6.22 标准基线版本
+
+本版作为当前维护分支的标准基线，附注标签v3.6.22。Card标题与正文之间不再绘制分隔线，PART_Header不消费SeparatorBorderThicknessBottom/SeparatorColorBrush；外框、背景、内边距、居中标题及两侧插槽不变。保留3.6.21排序组输入框样式联动、68 DIP当前颜色按钮、100–200 DIP名称列默认范围。目标net10.0-windows。
+
+验证：库与Demo Release构建0错误、2206既有警告，三皮肤完整WpfSmoke通过；Ultron411/411回归通过，JuLink.Test.UI.Wpf构建0警告/0错误。主DLL SHA256 8BF09CE41E507D3C3B9F954B2559032C77771237D45863A2E51617EFDC8C7375。发布通过提交和附注标签定位源码，不运行旧Cake/Squirrel/NuGet发布流水线。

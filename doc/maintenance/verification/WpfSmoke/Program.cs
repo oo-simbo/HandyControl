@@ -1527,7 +1527,7 @@ internal static partial class Program
             Require(TitleOf(templatedCard).Text == "标题",
                 "HeaderTemplate content must render inside PART_HeaderContent.");
 
-            // 页脚：不再画上分隔线、不消费分隔线画刷，保留外框圆角；头部下分隔线保持
+            // 页脚：不再画上分隔线、不消费分隔线画刷，保留外框圆角；头部同样不绘制分隔线
             var footer = footerCard.Template?.FindName("PART_Footer", footerCard) as Border
                 ?? throw new InvalidOperationException("Card template lacks PART_Footer.");
             Require(footer.Visibility == Visibility.Visible, "the card footer must be visible when Footer is set.");
@@ -1537,8 +1537,8 @@ internal static partial class Program
             Require(footer.CornerRadius.BottomLeft > 0d && footer.CornerRadius.BottomRight > 0d
                     && footer.CornerRadius.TopLeft <= 0d && footer.CornerRadius.TopRight <= 0d,
                 "the card footer must keep the outer corner radius: " + footer.CornerRadius);
-            Require(HeaderOf(footerCard).BorderThickness.Bottom > 0d,
-                "the card header must keep its bottom separator: " + HeaderOf(footerCard).BorderThickness);
+            Require(HeaderOf(footerCard).BorderThickness == new Thickness(0) && HeaderOf(footerCard).BorderBrush is null,
+                "the card header must not draw or consume a separator: " + HeaderOf(footerCard).BorderThickness);
 
             Console.WriteLine($"  card header slots: plainCenter={RequireTitleCentered("plain", plainCard).X + RequireTitleCentered("plain", plainCard).Width / 2d} asymmetricCenter={asymmetricTitle.X + asymmetricTitle.Width / 2d} symmetricCenter={symmetricTitle.X + symmetricTitle.Width / 2d} footerBorder={footer.BorderThickness} footerRadius={footer.CornerRadius}");
             Console.WriteLine("PASS card header slots (EdgeElement.LeftContent/RightContent, centered title, no overlap, clickable content, footer without separator).");
