@@ -10478,11 +10478,22 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 							<DockPanel LastChildFill="True" Margin="{StaticResource PropertyGridToolbarMargin}">
-								<hc:ButtonGroup Margin="{StaticResource PropertyGridSortButtonGroupMargin}" VerticalAlignment="Stretch" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
-									<RadioButton Command="interactivity:ControlCommands.SortByCategory" IsChecked="True">
+								<hc:ButtonGroup x:Name="PART_SortButtonGroup" Margin="{StaticResource PropertyGridSortButtonGroupMargin}" VerticalAlignment="Stretch" MinHeight="{DynamicResource InputMinHeight}" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="{DynamicResource InputBorderThickness}" hc:BorderElement.CornerRadius="{DynamicResource InputCornerRadius}" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
+									<hc:ButtonGroup.Template>
+										<ControlTemplate TargetType="hc:ButtonGroup">
+											<Grid>
+												<Border BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource BorderClip}">
+													<ItemsPresenter />
+												</Border>
+												<!-- 描边置于按钮填充上层，圆角内缘不能被选中/悬停背景覆盖。 -->
+												<Border x:Name="PART_SortBorder" IsHitTestVisible="False" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" />
+											</Grid>
+										</ControlTemplate>
+									</hc:ButtonGroup.Template>
+									<RadioButton Command="interactivity:ControlCommands.SortByCategory" IsChecked="True" BorderThickness="0" Margin="0" MinHeight="0" hc:BorderElement.CornerRadius="0">
 										<Rectangle Width="{DynamicResource DefaultIconSize}" Height="{DynamicResource DefaultIconSize}" Fill="{StaticResource SortByCategoryDrawingBrush}" />
 									</RadioButton>
-									<RadioButton Command="interactivity:ControlCommands.SortByName">
+									<RadioButton Command="interactivity:ControlCommands.SortByName" BorderThickness="0" Margin="0" MinHeight="0" hc:BorderElement.CornerRadius="0">
 										<Rectangle Width="{DynamicResource DefaultIconSize}" Height="{DynamicResource DefaultIconSize}" Fill="{StaticResource SortByNameDrawingBrush}" />
 									</RadioButton>
 								</hc:ButtonGroup>

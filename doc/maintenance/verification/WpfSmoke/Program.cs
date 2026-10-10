@@ -1073,7 +1073,7 @@ internal static partial class Program
                 }
                 foreach (var sortButton in sortButtons)
                 {
-                    Require(Math.Abs(sortButton.ActualHeight - searchBar.ActualHeight) <= 0.5d,
+                    Require(Math.Abs(group.ActualHeight - searchBar.ActualHeight) <= 0.5d && Math.Abs(sortButton.ActualHeight - FindDescendant<ItemsPresenter>(group)!.ActualHeight) <= 0.5d,
                         $"{label}: sort button {sortButton.ActualHeight} must match the search bar {searchBar.ActualHeight}");
                 }
                 app.Resources.MergedDictionaries.Remove(overrides);
@@ -1083,7 +1083,7 @@ internal static partial class Program
             Flush();
             foreach (var sortButton in sortButtons)
             {
-                Require(Math.Abs(searchBar.ActualHeight - 28d) <= 0.5d && Math.Abs(sortButton.ActualHeight - 28d) <= 0.5d,
+                Require(Math.Abs(searchBar.ActualHeight - 28d) <= 0.5d && Math.Abs(group.ActualHeight - 28d) <= 0.5d,
                     $"Restoring the baseline must return both to ButtonMinHeight: search={searchBar.ActualHeight} sort={sortButton.ActualHeight}");
             }
             Console.WriteLine("PASS PropertyGrid toolbar height (sort buttons and search bar share the dynamic control height).");

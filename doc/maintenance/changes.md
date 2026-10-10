@@ -1,4 +1,9 @@
 # 修改与验证台账
+## 2026-10-10 / 3.6.21 属性网格排序组外框
+
+- 排序组外框复用输入框动态颜色/粗细/圆角，内部按钮不重复描边，保留排序命令与高亮。复用BorderClip并将非命中描边层置顶，修复大圆角内缘被按钮填充覆盖。通用ButtonGroup不变，未新增全局实时参数。
+- Theme.xaml由构建生成；库+Demo Release 0错误、2206既有警告；三皮肤完整WpfSmoke通过。Ultron411/411回归通过，既有验证入口构建0警告/0错误。日志在Ultron artifacts/hc-3.6.21-build.log、hc-3.6.21-smoke.log、appearance-refactor-tests.log、appearance-refactor-ui-build.log。
+- 主DLL SHA256 89280D7F38A6C04B6E01D57F8277375C303CC4D77BA7786918755429E5211007，主DLL/XML/英文卫星同批同步Ultron；提交及网络状态见JAX总台账。
 ## 2026-10-10 / 3.6.20 当前颜色按钮对齐与名称列默认值
 
 - 最终约定：当前颜色按钮固定68 DIP，4 DIP间距，颜色网格占剩余宽度；名称列默认100–200 DIP。替代3.6.19按内容测量按钮宽度与120–180默认值，不改变用户已保存配置。
