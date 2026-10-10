@@ -448,3 +448,13 @@ Release库/Demo构建0错误（2206条既有警告），三皮肤完整WpfSmoke�
   - 修复后（`artifacts/hc-3619-color-smoke.log`）：160/220/320 色板实测 160/220/320（160 时色块区 `0..98`、按钮 `102..160`、按钮宽 58），`#80123456` 全文保留在 HexText/ToolTip/Automation；`palette popup commit: #80123456 -> #80112233`；Demo 两个颜色编辑器 `palette=298 slot=298`，按钮右缘 298 落在槽内与视口（985.33）内。
 - 二进制（未提交/未推送，未分发下游）：主DLL SHA256 `C7E4A2EF024E3E2899B4500302502048AE1BA9A242B7FB2B7EE3BFF92E5ACDDD`；英文卫星 `9A61B822658088482D4007874777D79723695C171589D8937F0008E4832BB6AA`；XML `0F249FA36A70D1AF422E52D0B5F605DFD9841842CB6D3DFA08B49E8930D43820`（公共 API 未变）。FileVersion `3.6.19`。
 - 契约与边界：`CurrentColor`/`Swatches`/`HexText` 命名与 `_pickerPopup` 字段保持不变，下游 `JuLink.Test` 的 ColorPalette 旧测试（弹层关闭回写、常用色写回、#AARRGGBB 保留）继续适用；100%/200% DPI 与真实鼠标点击未人工验收。下一项：按需连同下游 3.6.18/3.6.19 一起分发并更新 JAX 总台账。
+### 2026-10-10 3.6.23 ColorPicker HEX底部间距与分隔线
+
+个人修复，基于3.6.22。Ultron全局InputMinHeight会把HEX/RGBA输入撑高，ColorPicker固定110 DIP中间区域的标签随之下移；内部色块分隔线复用BorderBrush也会受宿主描边颜色污染。
+
+模板局部MinHeight=28保留HC原生实际尺寸，InfoElement.MinContentHeight=28防止扩展输入模板被全局最小内容高度撑开；模式按钮同样隔离ButtonMinHeight。保留原始Height声明与整体230×294 DIP。色块分隔线使用皮肤专用ColorPickerSeparatorBrush，浅/紫#E0E0E0、深#3F3F46，仍1 DIP。不新增业务设置字段或复制产品模板。
+
+库/Demo Release构建0错误、2206条既有警告，三皮肤完整WpfSmoke通过。Ultron颜色编辑9/9回归通过，覆盖浅深主题、全局40/64高度、HEX/RGBA切换、颜色/Alpha写回；现有JuLink.Test.UI.Wpf构建0警告0错误，150%缩放真实系统设置取色器截图通过。证据：Ultron artifacts/hc-3.6.23-build.log、hc-3.6.23-smoke.log、colorpicker-spacing-tests.log、colorpicker-spacing/colorpicker.trx、colorpicker-spacing-ui.png。主DLL SHA256 F248D465334E3FC857174B4FEC1220393A29FA3D8A098031598F8CA5FCE13848；同批主DLL/英文卫星/XML已同步Ultron。其它DPI未人工验收；本次本地验证，尚未提交/推送/打标签。回退需同时恢复3.6.22模板、三皮肤资源及下游二进制。
+### 2026-10-10 3.6.23 发布复核
+
+按用户要求提交推送HC、Ultron与W001。最新源码重新构建库/Demo：0错误、2206项既有警告，9.43秒；三皮肤WpfSmoke全部通过。Theme.xaml由构建生成。同批主DLL/XML/英文卫星再次同步Ultron，主DLL SHA256为3BC0B66C8B0D9CCA954A5B800FA395E948CED5F8E8519D608EFFB370133914A7，本次新构建哈希替代前述本地构建值。Ultron完整412/412通过；W001完整260/260通过。证据位于Ultron artifacts/hc-3.6.23-release-build.log、hc-3.6.23-release-smoke.log、release-3.6.23-tests.log。版本3.6.23；提交和推送结果在下游交付台账回填。

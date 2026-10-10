@@ -29,6 +29,8 @@
     <Color x:Key="TextIconColor">White</Color>
 
     <Color x:Key="BorderColor">#3f3f46</Color>
+    <!-- ColorPicker 内部分隔线保留皮肤原色，不跟随宿主通用边框配置。 -->
+    <SolidColorBrush x:Key="ColorPickerSeparatorBrush" Color="#3f3f46"/>
     <Color x:Key="SecondaryBorderColor">#555555</Color>
     <Color x:Key="BackgroundColor">#eeeeee</Color>
     <Color x:Key="RegionColor">#1c1c1c</Color>
